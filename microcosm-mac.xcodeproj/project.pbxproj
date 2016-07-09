@@ -1,0 +1,318 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C6EAB1791D30C2FB0038C772 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */; };
+		C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB17A1D30C2FB0038C772 /* ViewController.swift */; };
+		C6EAB17D1D30C2FB0038C772 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */; };
+		C6EAB1801D30C2FB0038C772 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17E1D30C2FB0038C772 /* Main.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C6EAB18B1D30C3270038C772 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6EAB1871D30C3270038C772 /* swissEphCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C68AD5A01D30BFFC00795AA3;
+			remoteInfo = swissEphCocoa;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C6EAB1751D30C2FB0038C772 /* microcosm-mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "microcosm-mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C6EAB17A1D30C2FB0038C772 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C6EAB17F1D30C2FB0038C772 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C6EAB1811D30C2FB0038C772 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6EAB1871D30C3270038C772 /* swissEphCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = swissEphCocoa.xcodeproj; path = ../swissEphCocoa/swissEphCocoa.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C6EAB1721D30C2FB0038C772 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C6EAB16C1D30C2FB0038C772 = {
+			isa = PBXGroup;
+			children = (
+				C6EAB1871D30C3270038C772 /* swissEphCocoa.xcodeproj */,
+				C6EAB1771D30C2FB0038C772 /* microcosm-mac */,
+				C6EAB1761D30C2FB0038C772 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C6EAB1761D30C2FB0038C772 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C6EAB1751D30C2FB0038C772 /* microcosm-mac.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C6EAB1771D30C2FB0038C772 /* microcosm-mac */ = {
+			isa = PBXGroup;
+			children = (
+				C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */,
+				C6EAB17A1D30C2FB0038C772 /* ViewController.swift */,
+				C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */,
+				C6EAB17E1D30C2FB0038C772 /* Main.storyboard */,
+				C6EAB1811D30C2FB0038C772 /* Info.plist */,
+			);
+			path = "microcosm-mac";
+			sourceTree = "<group>";
+		};
+		C6EAB1881D30C3270038C772 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C6EAB18C1D30C3270038C772 /* libswissEphCocoa.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C6EAB1741D30C2FB0038C772 /* microcosm-mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6EAB1841D30C2FB0038C772 /* Build configuration list for PBXNativeTarget "microcosm-mac" */;
+			buildPhases = (
+				C6EAB1711D30C2FB0038C772 /* Sources */,
+				C6EAB1721D30C2FB0038C772 /* Frameworks */,
+				C6EAB1731D30C2FB0038C772 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "microcosm-mac";
+			productName = "microcosm-mac";
+			productReference = C6EAB1751D30C2FB0038C772 /* microcosm-mac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C6EAB16D1D30C2FB0038C772 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Yuji Ogata";
+				TargetAttributes = {
+					C6EAB1741D30C2FB0038C772 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = C6EAB1701D30C2FB0038C772 /* Build configuration list for PBXProject "microcosm-mac" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C6EAB16C1D30C2FB0038C772;
+			productRefGroup = C6EAB1761D30C2FB0038C772 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C6EAB1881D30C3270038C772 /* Products */;
+					ProjectRef = C6EAB1871D30C3270038C772 /* swissEphCocoa.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				C6EAB1741D30C2FB0038C772 /* microcosm-mac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C6EAB18C1D30C3270038C772 /* libswissEphCocoa.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libswissEphCocoa.a;
+			remoteRef = C6EAB18B1D30C3270038C772 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C6EAB1731D30C2FB0038C772 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6EAB17D1D30C2FB0038C772 /* Assets.xcassets in Resources */,
+				C6EAB1801D30C2FB0038C772 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C6EAB1711D30C2FB0038C772 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */,
+				C6EAB1791D30C2FB0038C772 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C6EAB17E1D30C2FB0038C772 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C6EAB17F1D30C2FB0038C772 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C6EAB1821D30C2FB0038C772 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C6EAB1831D30C2FB0038C772 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C6EAB1851D30C2FB0038C772 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "microcosm-mac/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ogatism.microcosm-mac";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C6EAB1861D30C2FB0038C772 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "microcosm-mac/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ogatism.microcosm-mac";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C6EAB1701D30C2FB0038C772 /* Build configuration list for PBXProject "microcosm-mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6EAB1821D30C2FB0038C772 /* Debug */,
+				C6EAB1831D30C2FB0038C772 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6EAB1841D30C2FB0038C772 /* Build configuration list for PBXNativeTarget "microcosm-mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6EAB1851D30C2FB0038C772 /* Debug */,
+				C6EAB1861D30C2FB0038C772 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C6EAB16D1D30C2FB0038C772 /* Project object */;
+}
