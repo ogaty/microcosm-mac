@@ -8,13 +8,20 @@
 
 import Cocoa
 
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    var swiss : SwissEph
+    
+    override init() {
+        swiss = SwissEph()
+        super.init()
+    }
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
+        swiss.aaa()
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

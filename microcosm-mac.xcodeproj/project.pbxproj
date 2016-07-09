@@ -7,30 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C6EAB1791D30C2FB0038C772 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */; };
+		C6EAB1791D30C2FB0038C772 /* I.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1781D30C2FB0038C772 /* I.swift */; };
 		C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB17A1D30C2FB0038C772 /* ViewController.swift */; };
 		C6EAB17D1D30C2FB0038C772 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */; };
 		C6EAB1801D30C2FB0038C772 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17E1D30C2FB0038C772 /* Main.storyboard */; };
+		C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1971D3150D00038C772 /* SwissEph.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		C6EAB18B1D30C3270038C772 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C6EAB1871D30C3270038C772 /* swissEphCocoa.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C68AD5A01D30BFFC00795AA3;
-			remoteInfo = swissEphCocoa;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		C6EAB1751D30C2FB0038C772 /* microcosm-mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "microcosm-mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C6EAB1781D30C2FB0038C772 /* I.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = I.swift; sourceTree = "<group>"; };
 		C6EAB17A1D30C2FB0038C772 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6EAB17F1D30C2FB0038C772 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C6EAB1811D30C2FB0038C772 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C6EAB1871D30C3270038C772 /* swissEphCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = swissEphCocoa.xcodeproj; path = ../swissEphCocoa/swissEphCocoa.xcodeproj; sourceTree = "<group>"; };
+		C6EAB1921D30E8990038C772 /* microcosm-mac-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microcosm-mac-Bridging-Header.h"; sourceTree = "<group>"; };
+		C6EAB1971D3150D00038C772 /* SwissEph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissEph.swift; path = SwissEph/SwissEph.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,9 +39,9 @@
 		C6EAB16C1D30C2FB0038C772 = {
 			isa = PBXGroup;
 			children = (
-				C6EAB1871D30C3270038C772 /* swissEphCocoa.xcodeproj */,
 				C6EAB1771D30C2FB0038C772 /* microcosm-mac */,
 				C6EAB1761D30C2FB0038C772 /* Products */,
+				C6EAB1921D30E8990038C772 /* microcosm-mac-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,21 +56,14 @@
 		C6EAB1771D30C2FB0038C772 /* microcosm-mac */ = {
 			isa = PBXGroup;
 			children = (
-				C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */,
+				C6EAB1781D30C2FB0038C772 /* I.swift */,
 				C6EAB17A1D30C2FB0038C772 /* ViewController.swift */,
 				C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */,
 				C6EAB17E1D30C2FB0038C772 /* Main.storyboard */,
 				C6EAB1811D30C2FB0038C772 /* Info.plist */,
+				C6EAB1971D3150D00038C772 /* SwissEph.swift */,
 			);
 			path = "microcosm-mac";
-			sourceTree = "<group>";
-		};
-		C6EAB1881D30C3270038C772 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C6EAB18C1D30C3270038C772 /* libswissEphCocoa.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,28 +112,12 @@
 			mainGroup = C6EAB16C1D30C2FB0038C772;
 			productRefGroup = C6EAB1761D30C2FB0038C772 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = C6EAB1881D30C3270038C772 /* Products */;
-					ProjectRef = C6EAB1871D30C3270038C772 /* swissEphCocoa.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				C6EAB1741D30C2FB0038C772 /* microcosm-mac */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		C6EAB18C1D30C3270038C772 /* libswissEphCocoa.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libswissEphCocoa.a;
-			remoteRef = C6EAB18B1D30C3270038C772 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C6EAB1731D30C2FB0038C772 /* Resources */ = {
@@ -167,8 +136,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */,
 				C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */,
-				C6EAB1791D30C2FB0038C772 /* AppDelegate.swift in Sources */,
+				C6EAB1791D30C2FB0038C772 /* I.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,11 +242,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "microcosm-mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ogatism.microcosm-mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "microcosm-mac-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -284,11 +257,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "microcosm-mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ogatism.microcosm-mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "microcosm-mac-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -311,6 +286,7 @@
 				C6EAB1861D30C2FB0038C772 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
