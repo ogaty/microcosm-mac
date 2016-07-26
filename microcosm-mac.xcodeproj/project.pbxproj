@@ -12,6 +12,9 @@
 		C6EAB17D1D30C2FB0038C772 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */; };
 		C6EAB1801D30C2FB0038C772 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17E1D30C2FB0038C772 /* Main.storyboard */; };
 		C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1971D3150D00038C772 /* SwissEph.swift */; };
+		C6EAB19A1D478AEF0038C772 /* SavePositions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1991D478AEF0038C772 /* SavePositions.swift */; };
+		C6EAB19C1D4790900038C772 /* SweData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB19B1D4790900038C772 /* SweData.swift */; };
+		C6EAB19E1D47951E0038C772 /* SweRet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB19D1D47951E0038C772 /* SweRet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +26,9 @@
 		C6EAB1811D30C2FB0038C772 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6EAB1921D30E8990038C772 /* microcosm-mac-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microcosm-mac-Bridging-Header.h"; sourceTree = "<group>"; };
 		C6EAB1971D3150D00038C772 /* SwissEph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissEph.swift; path = SwissEph/SwissEph.swift; sourceTree = "<group>"; };
+		C6EAB1991D478AEF0038C772 /* SavePositions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavePositions.swift; sourceTree = "<group>"; };
+		C6EAB19B1D4790900038C772 /* SweData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweData.swift; sourceTree = "<group>"; };
+		C6EAB19D1D47951E0038C772 /* SweRet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweRet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,9 @@
 				C6EAB17E1D30C2FB0038C772 /* Main.storyboard */,
 				C6EAB1811D30C2FB0038C772 /* Info.plist */,
 				C6EAB1971D3150D00038C772 /* SwissEph.swift */,
+				C6EAB1991D478AEF0038C772 /* SavePositions.swift */,
+				C6EAB19B1D4790900038C772 /* SweData.swift */,
+				C6EAB19D1D47951E0038C772 /* SweRet.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -137,7 +146,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */,
+				C6EAB19A1D478AEF0038C772 /* SavePositions.swift in Sources */,
 				C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */,
+				C6EAB19E1D47951E0038C772 /* SweRet.swift in Sources */,
+				C6EAB19C1D4790900038C772 /* SweData.swift in Sources */,
 				C6EAB1791D30C2FB0038C772 /* I.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
