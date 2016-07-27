@@ -10,10 +10,13 @@ import Cocoa
 
 class PlanData: NSObject {
     var x:[Double] = [0, 0, 0, 0, 0, 0]
+    var xpmret:[Double] = [0, 0, 0, 0, 0, 0]
     var xreturn:[Double] = [0,0,0,0,0,0,
                             0,0,0,0,0,0,
                             0,0,0,0,0,0,
                             0,0,0,0,0,0]
+    var xflgs: Int = 0
+    var teval: Double = 0
     
     override init() {
         

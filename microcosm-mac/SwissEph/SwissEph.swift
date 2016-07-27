@@ -48,6 +48,7 @@ let SE_NPLANETS = 21
 
 let SEI_SUN = 0
 let SEI_MOON = 1
+let SEI_ANYBODY = 11      /* any asteroid */
 let SEI_EARTH = 0
 let SEI_NPLANETS = 18
 
@@ -455,7 +456,8 @@ class SwissEph: NSObject {
         var do_earth: Bool = false
         var do_sunbary: Bool = false
         var do_moon: Bool = false
-        var speedf2: Int
+        var xpm: [Double] = [0, 0, 0, 0, 0, 0]
+        var i: Int
 
         /* xps (barycentric sun) may be necessary because some planets on sweph
          * file are heliocentric, other ones are barycentric. without xps,
@@ -475,7 +477,6 @@ class SwissEph: NSObject {
         if (do_save || ipli == SEI_MOON || ipli == SEI_EARTH) {
             do_moon = true
         }
-        speedf2 = iflag & SEFLG_SPEED
         /* barycentric sun */
         if (do_sunbary) {
             // 後回し
@@ -483,18 +484,16 @@ class SwissEph: NSObject {
         
         /* moon */
         if (do_moon) {
-//            speedf1 = pmdp->xflgs & SEFLG_SPEED;
-//            if (tjd == pmdp->teval
-//                && pmdp->iephe == SEFLG_SWIEPH
-//                && (!speedf2 || speedf1)) {
-//              for i in 0..<6 {
-            //xpm[i] = pmdp->x[i];
-            //}
-//            } else {
-//                retc = sweph(tjd, SEI_MOON, SEI_FILE_MOON, iflag, NULL, do_save, xpm, serr);
-//                if (retc == ERR)
-//                return(retc);
-//                /* if moon file doesn't exist, take moshier moon */
+            if (tjd == swed.pldat[SEI_MOON].teval) {
+                for i in 0..<6 {
+                    xpm[i] = swed.pldat[SEI_MOON].x[i]
+                }
+            } else {
+                let retc: SweRet = sweph(tjd, ipli: SEI_MOON, ifno: SEI_FILE_MOON, iflag: iflag, do_save: do_save)
+                if (retc.iflag == ERR) {
+                    return retc
+                }
+                /* if moon file doesn't exist, take moshier moon */
 //                if (swed.fidat[SEI_FILE_MOON].fptr == NULL) {
 //                    if (serr != NULL && strlen(serr) + 35 < AS_MAXCH)
 //                    strcat(serr, " \nusing Moshier eph. for moon; ");
@@ -502,25 +501,16 @@ class SwissEph: NSObject {
 //                    if (retc != OK)
 //                    return(retc);
 //                }
-//           }
-//            if (xpmret != NULL)
-//            for (i = 0; i <= 5; i++)
-//            xpmret[i] = xpm[i];
+           }
+            for i in 0..<6 {
+                swed.pldat[SEI_MOON].xpmret[i] = xpm[i]
+            }
         }
         if (do_earth) {
         }
         if (ipli == SEI_MOON) {
-//            for (i = 0; i <= 5; i++) {
-                //            xp[i] = xpm[i];
-//            }
         } else if (ipli == SEI_EARTH) {
-//            for (i = 0; i <= 5; i++) {
-//                xp[i] = xpe[i];
-//            }
         } else if (ipli == SEI_SUN) {
-//            for (i = 0; i <= 5; i++) {
-//                xp[i] = xps[i];
-//            }
         } else {
             /* planet */
             // todo
@@ -528,6 +518,58 @@ class SwissEph: NSObject {
         
         ret.iflag = 0
         return ret
+    }
+
+    /*
+     * this function looks for an ephemeris file,
+     * opens it, if not yet open,
+     * reads constants, if not yet read,
+     * computes a planet, if not yet computed
+     * attention: asteroids are heliocentric
+     *            other planets barycentric
+     *
+     * tjd          julian date
+     * ipli         SEI_ planet number
+     * ifno         ephemeris file number
+     * xsunb        INPUT (!) array of 6 doubles containing barycentric sun
+     *              (must be given with asteroids)
+     * do_save      boolean: save result in save area
+     * xp           return array of 6 doubles for planet's position
+     * serr         error string
+     */
+    func sweph(tjd: Double, ipli: Int, ifno: Int, iflag: Int, do_save: Bool) -> SweRet
+    {
+        let ret:SweRet = SweRet()
+        var ipl:Int = 0
+        var xx:[Double] = [0, 0, 0, 0, 0, 0]
+        
+        if (ipli > SE_AST_OFFSET) {
+            ipl = SEI_ANYBODY
+        }
+        let pdp: PlanData = swed.pldat[ipl]
+        if (do_save) {
+//            xp = pdp->x;
+        }
+        else {
+//            xp = xx
+        }
+
+        /* if planet has already been computed for this date, return.
+         * if speed flag has been turned on, recompute planet */
+        /*
+        speedf1 = pdp->xflgs & SEFLG_SPEED;
+        speedf2 = iflag & SEFLG_SPEED;
+        if (tjd == pdp->teval
+            && pdp->iephe == SEFLG_SWIEPH
+            && (!speedf2 || speedf1)
+            && ipl < SEI_ANYBODY) {
+            if (xpret != NULL)
+            for (i = 0; i <= 5; i++)
+            xpret[i] = pdp->x[i];
+            return(OK);
+         }
+         */
+         return ret
     }
 
     /* closes all open files, frees space of planetary data,
