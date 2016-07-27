@@ -12,6 +12,7 @@ class SweRet: NSObject {
     var iflag: Int = 0
     var xx: [Double] = [0, 0, 0, 0, 0, 0]
     var serr: String = ""
+    var deltat: Double = 0
     
     override init() {
         
