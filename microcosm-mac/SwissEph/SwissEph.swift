@@ -72,9 +72,13 @@ let SEI_FILE_MOON = 1
 
 let DO_SAVE = true
 
+let SE_GREG_CAL = true
+
 let DEGTORAD = 0.0174532925199433
 
 class SwissEph: NSObject {
+
+    var swe_date: SweDate
     
     var swed: SweData // struct swe_data
     var swe_ret: SweRet // 戻り値用
@@ -84,6 +88,7 @@ class SwissEph: NSObject {
     var fileHandle: NSFileHandle? // FiilePointer
 
     override init() {
+        swe_date = SweDate()
         swed = SweData()
         swe_ret = SweRet()
         sd_idx = 0
@@ -620,11 +625,11 @@ class SwissEph: NSObject {
      */
     func swi_gen_filename(tjd:Double, ipli:Int) -> String {
         var ret: String
-        var gregflag: Bool
-        var sgn: Int
-        var icty: Int = 0
+        var gregflag: Bool // グレゴリオかどうか
+        var sgn: Int // 符号、BC(-1) or AD(1)
+        var icty: Int = 0 // century
         var jyear: Int = 0
-        let ncties: Int = 6
+        let ncties: Int = 6 // 一つのse1ファイルに入っているcenturyの数
 
         switch(ipli) {
         case SEI_MOON:
@@ -691,14 +696,16 @@ class SwissEph: NSObject {
 
         /* century of tjd */
         /* if tjd > 1600 then gregorian calendar */
+        let swe_ret: SweRet
         if (tjd >= 2305447.5) {
             gregflag = true
-//            swe_revjul(tjd, gregflag, &jyear, &jmon, &jday, &jut);
+            swe_ret = swe_date.swe_revjul(tjd, gregflag: gregflag)
             /* else julian calendar */
         } else {
             gregflag = false
-//            swe_revjul(tjd, gregflag, &jyear, &jmon, &jday, &jut);
+            swe_ret = swe_date.swe_revjul(tjd, gregflag: gregflag)
         }
+        jyear = swe_ret.date.year
         /* start century of file containing tjd */
         if (jyear < 0) {
             sgn = -1

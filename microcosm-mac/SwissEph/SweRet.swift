@@ -13,6 +13,8 @@ class SweRet: NSObject {
     var xx: [Double] = [0, 0, 0, 0, 0, 0]
     var serr: String = ""
     var deltat: Double = 0
+    var date: NSDateComponents = NSDateComponents()
+    var jut: Double
     
     override init() {
         
