@@ -46,10 +46,26 @@ let SE_MEAN_APOG = 12
 let SE_OSCU_APOG = 13
 let SE_NPLANETS = 21
 
+let SEI_EMB = 0
+let SEI_EARTH = 0
 let SEI_SUN = 0
 let SEI_MOON = 1
+let SEI_MERCURY = 2
+let SEI_VENUS = 3
+let SEI_MARS = 4
+let SEI_JUPITER = 5
+let SEI_SATURN = 6
+let SEI_URANUS = 7
+let SEI_NEPTUNE = 8
+let SEI_PLUTO = 9
+let SEI_SUNBARY = 10      /* barycentric sun */
 let SEI_ANYBODY = 11      /* any asteroid */
-let SEI_EARTH = 0
+let SEI_CHIRON = 12
+let SEI_PHOLUS = 13
+let SEI_CERES = 14
+let SEI_PALLAS = 15
+let SEI_JUNO = 16
+let SEI_VESTA = 17
 let SEI_NPLANETS = 18
 
 let SEI_FILE_MOON = 1
@@ -64,21 +80,18 @@ class SwissEph: NSObject {
     var swe_ret: SweRet // 戻り値用
     var sd_idx : Int // sdポインタのindex
     var xs_idx : Int // xsポインタのindex
+    var fileName: String
+    var fileHandle: NSFileHandle? // FiilePointer
 
     override init() {
         swed = SweData()
         swe_ret = SweRet()
         sd_idx = 0
         xs_idx = 0
+        fileName = ""
+        fileHandle = nil
     }
     
-    func aaa() -> Void {
-        let filePath = NSBundle.mainBundle().pathForResource("/path/to/data.csv", ofType: "json")
-        let fileHandle : NSFileHandle! = NSFileHandle(forReadingAtPath: filePath!)
-        let data : NSData = fileHandle.readDataToEndOfFile()
-        
-    }
-
     // tjd : Julian day, Universal time
     // ipl : body number(SUN, MOON, etc)
     // iflag : setting flags
@@ -569,9 +582,158 @@ class SwissEph: NSObject {
             return(OK);
          }
          */
-         return ret
+        if (fileHandle != nil) {
+            /* if tjd is beyond file range, close old file.
+             * if new asteroid, close old file. */
+//            if (tjd < fdp->tfstart || tjd > fdp->tfend
+//                || (ipl == SEI_ANYBODY && ipli != pdp->ibdy)) {
+//                fclose(fdp->fptr);
+//                fdp->fptr = NULL;
+//                if (pdp->refep != NULL)
+//                free((void *) pdp->refep);
+//                pdp->refep = NULL;
+//                if (pdp->segp != NULL)
+//                free((void *) pdp->segp);
+//                pdp->segp = NULL;
+//            }
+        }
+        if (fileHandle == nil) {
+            fileName = swi_gen_filename(tjd, ipli: ipli)
+//            fileHandle = swi_fopen(ifno, s, swed.ephepath)
+        }
+        return ret
     }
 
+    /* SWISSEPH
+     * generates name of ephemeris file
+     * file name looks as follows:
+     * swephpl.m30, where
+     *
+     * "sweph"                      "swiss ephemeris"
+     * "pl","mo","as"               planet, moon, or asteroid
+     * "m"  or "_"                  BC or AD
+     *
+     * "30"                         start century
+     * tjd          = ephemeris file for which julian day
+     * ipli         = number of planet
+     * fname        = ephemeris file name
+     */
+    func swi_gen_filename(tjd:Double, ipli:Int) -> String {
+        var ret: String
+        var gregflag: Bool
+        var sgn: Int
+        var icty: Int = 0
+        var jyear: Int = 0
+        let ncties: Int = 6
+
+        switch(ipli) {
+        case SEI_MOON:
+            ret = "semo"
+            break
+        case SEI_EMB:
+            ret = "sepl"
+            break
+        case SEI_MERCURY:
+            ret = "sepl"
+            break
+        case SEI_VENUS:
+            ret = "sepl"
+            break
+        case SEI_MARS:
+            ret = "sepl"
+            break
+        case SEI_JUPITER:
+            ret = "sepl"
+            break
+        case SEI_SATURN:
+            ret = "sepl"
+            break
+        case SEI_URANUS:
+            ret = "sepl"
+            break
+        case SEI_NEPTUNE:
+            ret = "sepl"
+            break
+        case SEI_PLUTO:
+            ret = "sepl"
+            break
+        case SEI_SUNBARY:
+            ret = "sepl"
+            break
+        case SEI_CERES:
+            ret = "seas"
+            break;
+        case SEI_PALLAS:
+            ret = "seas"
+            break;
+        case SEI_JUNO:
+            ret = "seas"
+            break;
+        case SEI_VESTA:
+            ret = "seas"
+            break;
+        case SEI_CHIRON:
+            ret = "seas"
+            break;
+        case SEI_PHOLUS:
+            ret = "seas"
+            break;
+        default:    /* asteroid */
+            let num1: Double = double_t(ipli - SE_AST_OFFSET) / 1000
+            let num1Str: String = num1.description
+            let num2: Int = ipli - SE_AST_OFFSET
+            let num2Str: String = num2.description
+            ret = "ast" + num1Str + "/se" + num2Str + ".se1"
+            return ret
+            /* asteroids: only one file 3000 bc - 3000 ad */
+            /* break; */
+        }
+
+        /* century of tjd */
+        /* if tjd > 1600 then gregorian calendar */
+        if (tjd >= 2305447.5) {
+            gregflag = true
+//            swe_revjul(tjd, gregflag, &jyear, &jmon, &jday, &jut);
+            /* else julian calendar */
+        } else {
+            gregflag = false
+//            swe_revjul(tjd, gregflag, &jyear, &jmon, &jday, &jut);
+        }
+        /* start century of file containing tjd */
+        if (jyear < 0) {
+            sgn = -1
+        }
+        else {
+            sgn = 1
+        }
+        icty = jyear / 100
+        if (sgn < 0 && jyear % 100 != 0) {
+            icty -= 1
+        }
+        while(icty % ncties != 0) {
+            icty = icty - 1
+        }
+        /* B.C. or A.D. */
+        if (icty < 0) {
+            ret = ret + "m"
+        }
+        else {
+            ret = ret + "_"
+        }
+        icty = abs(icty)
+        ret = ret + icty.description + ".se1"
+
+        return ret
+    }
+
+    func swi_fopen() -> NSFileHandle {
+        fileHandle = NSFileHandle(forReadingAtPath: fileName)
+//        let data : NSData = fileHandle.readDataToEndOfFile()
+        
+        return fileHandle!
+    }
+    
+    
     /* closes all open files, frees space of planetary data,
      * deletes memory of all computed positions
      */
