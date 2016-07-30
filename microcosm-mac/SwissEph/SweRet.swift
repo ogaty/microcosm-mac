@@ -14,9 +14,6 @@ class SweRet: NSObject {
     var serr: String = ""
     var deltat: Double = 0
     var date: NSDateComponents = NSDateComponents()
-    var jut: Double
+    var jut: Double = 0
     
-    override init() {
-        
-    }
 }

@@ -68,13 +68,24 @@ let SEI_JUNO = 16
 let SEI_VESTA = 17
 let SEI_NPLANETS = 18
 
+let SEI_FILE_PLANET = 0
 let SEI_FILE_MOON = 1
+let SEI_FILE_MAIN_AST = 2
+let SEI_FILE_ANY_AST = 3
+let SEI_FILE_FIXSTAR = 4
+
+let SEI_FILE_BIGNDIAN = 0
+let SEI_FILE_LITENDIAN = 1
+
+let SEI_NEPHFILES = 7
 
 let DO_SAVE = true
 
 let SE_GREG_CAL = true
 
 let DEGTORAD = 0.0174532925199433
+
+let AS_MAXCH = 256
 
 class SwissEph: NSObject {
 
@@ -604,8 +615,157 @@ class SwissEph: NSObject {
         }
         if (fileHandle == nil) {
             fileName = swi_gen_filename(tjd, ipli: ipli)
-//            fileHandle = swi_fopen(ifno, s, swed.ephepath)
+            fileHandle = swi_fopen(ifno, filename: fileName, ephepath: swed.ephepath)
         }
+        
+        read_const(ifno)
+        return ret
+    }
+
+    /* SWISSEPH
+     * reads constants on ephemeris file
+     * ifno         file #
+     * serr         error string
+     */
+    func read_const(ifno: Int) -> SweRet
+    {
+        let ret: SweRet = SweRet()
+        let data : NSData = fileHandle!.readDataToEndOfFile()
+        let fdp = swed.fidat[ifno]
+        var index: Int
+        
+        var aBuffer = Array<Int8>(count: data.length, repeatedValue: 0)
+        data.getBytes(&aBuffer, length: data.length)
+        if (aBuffer[0] != 83 || aBuffer[1] != 87 || aBuffer[2] != 73 || aBuffer[3] != 83 || aBuffer[4] != 83) { // SWISS
+            ret.serr = "file damage."
+        }
+        var i: Int = 0
+        var lfCnt: Int = 0
+        // validate面倒なのでlf３回カウントまで進める
+        while (aBuffer[i] != 10 && lfCnt < 3) {
+            i = i + 1
+            if (aBuffer[i] == 10) {
+                lfCnt = lfCnt + 1
+            }
+        }
+        index = i + 1
+        
+        /****************************************
+         * orbital elements, if single asteroid *
+         ****************************************/
+        if (ifno == SEI_FILE_ANY_AST) {
+            // 後でいいや
+        }
+        
+        // 本来は検証すべきだけどIntelなんだから
+        // let _fendian:Int = SEI_FILE_LITENDIAN
+        
+        /**********************************************************
+         * DE number of JPL ephemeris which this file is based on *
+         **********************************************************/
+        var tmp: Int = Int(aBuffer[index]) << 24
+        tmp = tmp + Int(aBuffer[index + 1]) << 16
+        tmp = tmp + Int(aBuffer[index + 2]) << 8
+        tmp = tmp + Int(aBuffer[index + 3])
+
+        swed.fidat[ifno].sweph_denum = tmp
+        index = index + 4
+        
+        tmp = Int(aBuffer[index]) << 56
+        tmp = tmp + Int(aBuffer[index + 1]) << 48
+        tmp = tmp + Int(aBuffer[index + 2]) << 40
+        tmp = tmp + Int(aBuffer[index + 3]) << 32
+        tmp = tmp + Int(aBuffer[index + 4]) << 24
+        tmp = tmp + Int(aBuffer[index + 5]) << 16
+        tmp = tmp + Int(aBuffer[index + 6]) << 8
+        tmp = tmp + Int(aBuffer[index + 7])
+        swed.fidat[ifno].tfstart = tmp
+        index = index + 8
+
+        tmp = Int(aBuffer[index]) << 56
+        tmp = tmp + Int(aBuffer[index + 1]) << 48
+        tmp = tmp + Int(aBuffer[index + 2]) << 40
+        tmp = tmp + Int(aBuffer[index + 3]) << 32
+        tmp = tmp + Int(aBuffer[index + 4]) << 24
+        tmp = tmp + Int(aBuffer[index + 5]) << 16
+        tmp = tmp + Int(aBuffer[index + 6]) << 8
+        tmp = tmp + Int(aBuffer[index + 7])
+        swed.fidat[ifno].tfend = tmp
+        index = index + 8
+
+        /*************************************
+         * how many planets are in file?     *
+         *************************************/
+        tmp = Int(aBuffer[index]) << 8
+        tmp = tmp + Int(aBuffer[index + 1])
+        index = index + 2
+
+        var nplan = tmp
+        var nbytes_ipl:Int = 0
+        if (nplan > 256) {
+            nbytes_ipl = 4
+            nplan = nplan % 256
+        } else {
+            nbytes_ipl = 2
+        }
+        
+        /* which ones?                       */
+        if (nbytes_ipl == 4) {
+            tmp = Int(aBuffer[index]) << 24
+            tmp = tmp + Int(aBuffer[index + 1]) << 16
+            tmp = tmp + Int(aBuffer[index + 2]) << 8
+            tmp = tmp + Int(aBuffer[index + 3])
+            index = index + 4
+        } else {
+            tmp = Int(aBuffer[index]) << 8
+            tmp = tmp + Int(aBuffer[index + 1])
+            index = index + 2
+        }
+        swed.fidat[ifno].ipl = tmp
+        
+        if (ifno == SEI_FILE_ANY_AST) {
+        }
+        
+        /*************************************
+         * check CRC                         *
+         *************************************/
+        /* read CRC from file */
+        // ここらへん本家だと整合性チェックとかしててめんどい。。。
+        // 一旦飛ばす。
+        // tmp = Int(aBuffer[index]) << 24
+        // tmp = tmp + Int(aBuffer[index + 1]) << 16
+        // tmp = tmp + Int(aBuffer[index + 2]) << 8
+        // tmp = tmp + Int(aBuffer[index + 3])
+        
+        // let ulng:Int = tmp
+
+        /*************************************
+         * read general constants            *
+         *************************************/
+        /* clight, aunit, helgravconst, ratme, sunradius
+         * these constants are currently not in use */
+        // 8 * 5 = 40バイト
+        tmp = 0
+        var doubles: [Double] = []
+        for cnt in 0..<5 {
+            for j in 0..<7 {
+                tmp = tmp + Int(aBuffer[index + cnt * 5 + j])
+            }
+            doubles[cnt] = Double(tmp)
+            tmp = 0
+        }
+        index = index + 40
+
+        /*************************************
+         * read constants of planets         *
+         *************************************/
+        
+        return ret
+    }
+    
+    func do_fread() -> SweRet {
+        let ret: SweRet = SweRet()
+        
         return ret
     }
 
@@ -733,9 +893,8 @@ class SwissEph: NSObject {
         return ret
     }
 
-    func swi_fopen() -> NSFileHandle {
-        fileHandle = NSFileHandle(forReadingAtPath: fileName)
-//        let data : NSData = fileHandle.readDataToEndOfFile()
+    func swi_fopen(ifno:Int, filename: String, ephepath: String) -> NSFileHandle {
+        fileHandle = NSFileHandle(forReadingAtPath: ephepath + fileName)
         
         return fileHandle!
     }
