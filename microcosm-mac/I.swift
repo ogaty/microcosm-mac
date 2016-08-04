@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
-        swiss.swe_calc_ut(10000, ipl: 1, iflag: 1)
+        swiss.swe_calc_ut(2457605.0919465744, ipl: 1, iflag: 1)
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

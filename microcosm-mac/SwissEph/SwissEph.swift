@@ -568,7 +568,7 @@ class SwissEph: NSObject {
      */
     func sweph(tjd: Double, ipli: Int, ifno: Int, iflag: Int, do_save: Bool) -> SweRet
     {
-        let ret:SweRet = SweRet()
+        var ret:SweRet = SweRet()
         var ipl:Int = 0
         var xx:[Double] = [0, 0, 0, 0, 0, 0]
         
@@ -618,7 +618,112 @@ class SwissEph: NSObject {
             fileHandle = swi_fopen(ifno, filename: fileName, ephepath: swed.ephepath)
         }
         
-        read_const(ifno)
+        ret = read_const(ifno)
+        if (ret.iflag == ERR) {
+            return ret
+        }
+
+        /* if first ephemeris file (J-3000), it might start a mars period
+         * after -3000. if last ephemeris file (J3000), it might end a
+         * 4000-day-period before 3000. */
+//        if (tjd < fdp->tfstart || tjd > fdp->tfend) {
+//            if (serr != NULL) {
+//                if (tjd < fdp->tfstart)
+//                sprintf(s, "jd %f < Swiss Eph. lower limit %f;",
+//                tjd, fdp->tfstart);
+//                else
+//                sprintf(s, "jd %f > Swiss Eph. upper limit %f;",
+//                tjd, fdp->tfend);
+//                if (strlen(serr) + strlen(s) < AS_MAXCH)
+//                strcat(serr, s);
+//            }
+//            return(NOT_AVAILABLE);
+//        }
+
+        /******************************
+         * get planet's position
+         ******************************/
+        /* get new segment, if necessary */
+//        if (pdp->segp == NULL || tjd < pdp->tseg0 || tjd > pdp->tseg1) {
+//            retc = get_new_segment(tjd, ipl, ifno, serr);
+//            if (retc != OK)
+//            return(retc);
+            /* rotate cheby coeffs back to equatorial system.
+             * if necessary, add reference orbit. */
+//            if (pdp->iflg & SEI_FLG_ROTATE)
+//            rot_back(ipl); /**/
+//            else
+//            pdp->neval = pdp->ncoe;
+//        }
+        /* evaluate chebyshew polynomial for tjd */
+//        t = (tjd - pdp->tseg0) / pdp->dseg;
+//        t = t * 2 - 1;
+
+        /* speed is needed, if
+         * 1. true position is being computed before applying light-time etc.
+         *    this is the position saved in pdp->x.
+         *    in this case, speed is needed for light-time correction.
+         * 2. the speed flag has been specified.
+         */
+//        need_speed = (do_save || (iflag & SEFLG_SPEED));
+//        for (i = 0; i <= 2; i++) {
+//            xp[i]  = swi_echeb (t, pdp->segp+(i*pdp->ncoe), pdp->neval);
+//            if (need_speed)
+//            xp[i+3] = swi_edcheb(t, pdp->segp+(i*pdp->ncoe), pdp->neval) / pdp->dseg * 2;
+//            else
+//            xp[i+3] = 0;      /* von Alois als billiger fix, evtl. illegal */
+//        }
+
+        /* if planet wanted is barycentric sun and must be computed
+         * from heliocentric earth and barycentric earth: the
+         * computation above gives heliocentric earth, therefore we
+         * have to compute barycentric earth and subtract heliocentric
+         * earth from it. this may be necessary with calls from
+         * sweplan() and from app_pos_etc_sun() (light-time). */
+//        if (ipl == SEI_SUNBARY && (pdp->iflg & SEI_FLG_EMBHEL)) {
+            /* sweph() calls sweph() !!! for EMB.
+             * Attention: a new calculation must be forced in any case.
+             * Otherwise EARTH (instead of EMB) will possibly taken from
+             * save area.
+             * to force new computation, set pedp->teval = 0 and restore it
+             * after call of sweph(EMB).
+             */
+//            tsv = pedp->teval;
+//            pedp->teval = 0;
+//            retc = sweph(tjd, SEI_EMB, ifno, iflag | SEFLG_SPEED, NULL, NO_SAVE, xemb, serr);
+//            if (retc != OK)
+//            return(retc);
+//            pedp->teval = tsv;
+//            for (i = 0; i <= 2; i++)
+//            xp[i] = xemb[i] - xp[i];
+//            if (need_speed)
+//            for (i = 3; i <= 5; i++)
+//            xp[i] = xemb[i] - xp[i];
+//        }
+        /* asteroids are heliocentric.
+         * if JPL or SWISSEPH, convert to barycentric */
+//        if ((iflag & SEFLG_JPLEPH) || (iflag & SEFLG_SWIEPH)) {
+//            if (ipl >= SEI_ANYBODY) {
+//                for (i = 0; i <= 2; i++)
+//                xp[i] += xsunb[i];
+//                if (need_speed)
+//                for (i = 3; i <= 5; i++)
+//                xp[i] += xsunb[i];
+//            }
+//        }
+
+//       if (do_save) {
+//            pdp->teval = tjd;
+//            pdp->xflgs = -1;    /* do new computation of light-time etc. */
+//            if (ifno == SEI_FILE_PLANET || ifno == SEI_FILE_MOON)
+//            pdp->iephe = SEFLG_SWIEPH;/**/
+//            else
+//            pdp->iephe = psdp->iephe;
+//        }
+//        if (xpret != NULL)
+//        for (i = 0; i <= 5; i++)
+//        xpret[i] = xp[i];
+
         return ret
     }
 
@@ -633,6 +738,8 @@ class SwissEph: NSObject {
         let data : NSData = fileHandle!.readDataToEndOfFile()
         let fdp = swed.fidat[ifno]
         var index: Int
+        var ipli: Int
+        var pdp_idx: Int
         
         var aBuffer = Array<Int8>(count: data.length, repeatedValue: 0)
         data.getBytes(&aBuffer, length: data.length)
@@ -746,19 +853,95 @@ class SwissEph: NSObject {
          * these constants are currently not in use */
         // 8 * 5 = 40バイト
         tmp = 0
-        var doubles: [Double] = []
+        var doubles: [Double] = [Double]()
         for cnt in 0..<5 {
             for j in 0..<7 {
                 tmp = tmp + Int(aBuffer[index + cnt * 5 + j])
             }
-            doubles[cnt] = Double(tmp)
+            doubles.append(Double(tmp))
             tmp = 0
         }
         index = index + 40
 
+        swed.gcdat.clight = doubles[0]
+        swed.gcdat.aunit = doubles[1]
+        swed.gcdat.helgravconst = doubles[2]
+        swed.gcdat.ratme = doubles[3]
+        swed.gcdat.sunradius = doubles[4]
         /*************************************
          * read constants of planets         *
          *************************************/
+//        for kpl in 0..<fdp->npl {
+        for kpl in 0..<10 {
+            /* get SEI_ planet number */
+            ipli = fdp.ipl
+            if (ipli >= SE_AST_OFFSET) {
+                pdp_idx = SEI_ANYBODY
+            }
+            else {
+                pdp_idx = ipli
+            }
+//            pdp->ibdy = ipli;
+            /* file position of planet's index */
+//            retc = do_fread((void *) &pdp->lndx0, 4, 1, 4, fp, SEI_CURR_FPOS,            freord, fendian, ifno, serr);
+//            if (retc != OK) {
+//                goto return_error;
+//            }
+            /* flags: helio/geocentric, rotation, reference ellipse */
+//            retc = do_fread((void *) &pdp->iflg, 1, 1, sizeof(int32), fp,                            SEI_CURR_FPOS, freord, fendian, ifno, serr);
+//            if (retc != OK) {
+//                goto return_error;
+//            }
+            /* number of chebyshew coefficients / segment  */
+            /* = interpolation order +1                    */
+//            retc = do_fread((void *) &pdp->ncoe, 1, 1, sizeof(int), fp,            SEI_CURR_FPOS, freord, fendian, ifno, serr);
+//            if (retc != OK) {
+//                goto return_error;
+//            }
+            /* rmax = normalisation factor */
+//            retc = do_fread((void *) &lng, 4, 1, 4, fp, SEI_CURR_FPOS, freord,            fendian, ifno, serr);
+//            if (retc != OK) {
+//                goto return_error;
+//            }
+//            pdp->rmax = lng / 1000.0;
+            /* start and end epoch of planetary ephemeris,   */
+            /* segment length, and orbital elements          */
+//            retc = do_fread((void *) doubles, 8, 10, 8, fp, SEI_CURR_FPOS, freord,                            fendian, ifno, serr);
+//            if (retc != OK) {
+//                goto return_error;
+//            }
+//            pdp->tfstart  = doubles[0];
+//            pdp->tfend    = doubles[1];
+//            pdp->dseg     = doubles[2];
+//            pdp->nndx     = (int32) ((doubles[1] - doubles[0] + 0.1) /doubles[2]);
+//            pdp->telem    = doubles[3];
+//            pdp->prot     = doubles[4];
+//            pdp->dprot    = doubles[5];
+//            pdp->qrot     = doubles[6];
+//            pdp->dqrot    = doubles[7];
+//            pdp->peri     = doubles[8];
+//            pdp->dperi    = doubles[9];
+            /* alloc space for chebyshew coefficients */
+            /* if reference ellipse is used, read its coefficients */
+//            if (pdp->iflg & SEI_FLG_ELLIPSE) {
+//                if (pdp->refep != NULL) { /* if switch to other eph. file */
+//                    free((void *) pdp->refep);
+//                    pdp->refep = NULL;    /* 2015-may-5 */
+//                    if (pdp->segp != NULL) {
+//                        free((void *) pdp->segp);     /* array of coefficients of */
+//                        pdp->segp = NULL;     /* ephemeris segment        */
+//                    }
+//                }
+//                pdp->refep = (double *) malloc((size_t) pdp->ncoe * 2 * 8);
+//                retc = do_fread((void *) pdp->refep, 8, 2*pdp->ncoe, 8, fp,
+//                SEI_CURR_FPOS, freord, fendian, ifno, serr);
+//                if (retc != OK) {
+//                    free(pdp->refep);  /* 2015-may-5 */
+//                    pdp->refep = NULL;  /* 2015-may-5 */
+//                    goto return_error;
+//                }
+//            }/**/
+        }
         
         return ret
     }
@@ -888,13 +1071,14 @@ class SwissEph: NSObject {
             ret = ret + "_"
         }
         icty = abs(icty)
-        ret = ret + icty.description + ".se1"
+        ret = ret + icty.description
 
         return ret
     }
 
     func swi_fopen(ifno:Int, filename: String, ephepath: String) -> NSFileHandle {
-        fileHandle = NSFileHandle(forReadingAtPath: ephepath + fileName)
+        let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "se1")
+        fileHandle = NSFileHandle(forReadingAtPath: path!)
         
         return fileHandle!
     }

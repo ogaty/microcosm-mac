@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		C6E9FDB31D4C8030008FDE6B /* GenConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E9FDB21D4C8030008FDE6B /* GenConst.swift */; };
+		C6E9FDBD1D538A23008FDE6B /* seas_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */; };
+		C6E9FDBE1D538A23008FDE6B /* semo_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */; };
+		C6E9FDBF1D538A23008FDE6B /* sepl_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBC1D538A23008FDE6B /* sepl_18.se1 */; };
 		C6EAB1791D30C2FB0038C772 /* I.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1781D30C2FB0038C772 /* I.swift */; };
 		C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB17A1D30C2FB0038C772 /* ViewController.swift */; };
 		C6EAB17D1D30C2FB0038C772 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */; };
@@ -23,6 +26,9 @@
 
 /* Begin PBXFileReference section */
 		C6E9FDB21D4C8030008FDE6B /* GenConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenConst.swift; path = SwissEph/GenConst.swift; sourceTree = "<group>"; };
+		C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = seas_18.se1; sourceTree = "<group>"; };
+		C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = semo_18.se1; sourceTree = "<group>"; };
+		C6E9FDBC1D538A23008FDE6B /* sepl_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sepl_18.se1; sourceTree = "<group>"; };
 		C6EAB1751D30C2FB0038C772 /* microcosm-mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "microcosm-mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6EAB1781D30C2FB0038C772 /* I.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = I.swift; sourceTree = "<group>"; };
 		C6EAB17A1D30C2FB0038C772 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +76,9 @@
 		C6EAB1771D30C2FB0038C772 /* microcosm-mac */ = {
 			isa = PBXGroup;
 			children = (
+				C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */,
+				C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */,
+				C6E9FDBC1D538A23008FDE6B /* sepl_18.se1 */,
 				C6FA05BF1D48F068002F5BA3 /* SweRet.swift */,
 				C6FA05BD1D48F059002F5BA3 /* SweData.swift */,
 				C6FA05BB1D48F047002F5BA3 /* SavePositions.swift */,
@@ -145,8 +154,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6E9FDBD1D538A23008FDE6B /* seas_18.se1 in Resources */,
 				C6EAB17D1D30C2FB0038C772 /* Assets.xcassets in Resources */,
+				C6E9FDBE1D538A23008FDE6B /* semo_18.se1 in Resources */,
 				C6EAB1801D30C2FB0038C772 /* Main.storyboard in Resources */,
+				C6E9FDBF1D538A23008FDE6B /* sepl_18.se1 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
