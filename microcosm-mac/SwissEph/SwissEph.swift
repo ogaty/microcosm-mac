@@ -854,6 +854,7 @@ class SwissEph: NSObject {
         // 8 * 5 = 40バイト
         tmp = 0
         var doubles: [Double] = [Double]()
+        /*
         for cnt in 0..<5 {
             for j in 0..<7 {
                 tmp = tmp + Int(aBuffer[index + cnt * 5 + j])
@@ -862,6 +863,92 @@ class SwissEph: NSObject {
             tmp = 0
         }
         index = index + 40
+         */
+        let aaa: Int8 = aBuffer[index]
+        let bbb: Int8 = aBuffer[index + 1]
+        let ccc: Int8 = aBuffer[index + 2]
+        let ddd: Int8 = aBuffer[index + 3]
+        let eee: Int8 = aBuffer[index + 4]
+        let fff: Int8 = aBuffer[index + 5]
+        let ggg: Int8 = aBuffer[index + 6]
+        let hhh: Int8 = aBuffer[index + 7]
+        var zzz: Double = 0
+        tmp = (Int)(bbb & 0x0f)
+        let aaaTmp1: Int = (Int)(aaa)
+        let bbbTmp1: Int = (Int)(bbb)
+        let bbbTmp: Int = tmp << 48
+        let cccTmp1: Int = (Int)(ccc)
+        let cccTmp2: Int = cccTmp1 << 40
+        let dddTmp1: Int = (Int)(ddd)
+        let dddTmp2: Int = dddTmp1 << 32
+        let eeeTmp1: Int = (Int)(eee)
+        let eeeTmp2: Int = eeeTmp1 << 24
+        let fffTmp1: Int = (Int)(fff)
+        let fffTmp2: Int = fffTmp1 << 24
+        let gggTmp1: Int = (Int)(ggg)
+        let gggTmp2: Int = gggTmp1 << 24
+        let hhhTmp1: Int = (Int)(hhh)
+//        zzz = bbbTmp + cccTmp2 + dddTmp2 + eeeTmp2  + fffTmp2 + gggTmp2 + hhhTmp1
+        zzz = (Double)(bbbTmp + cccTmp2 + dddTmp2 + eeeTmp2 + fffTmp2 + gggTmp2 + hhhTmp1)
+
+        let sign: Int = aaaTmp1 & 0x80
+        let x1: Int = ((aaaTmp1 & 0x7f) << 4) + ((bbbTmp1 & 0xf0) >> 4) - 1023
+        
+        
+        zzz = pow2(2, b: (Double)(x1))
+        var dbl: Double = 0.5
+        var mask: Int = 0x08
+        for i in (0..<3).reverse() {
+            zzz += dbl * (Double)((bbbTmp1 & mask) >> i)
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            zzz += dbl * (Double)((cccTmp1 & mask) >> i)
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            zzz += dbl * (Double)((dddTmp1 & mask) >> i)
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            zzz += dbl * (Double)((eeeTmp1 & mask) >> i)
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            zzz += dbl * (Double)((fffTmp1 & mask) >> i)
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            zzz += dbl * (Double)((gggTmp1 & mask) >> i)
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            zzz += dbl * (Double)((hhhTmp1 & mask) >> i)
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        if (sign == 1) {
+            zzz = zzz * -1
+        }
+        
+        doubles[0] = zzz
+        doubles[1] = zzz
+        doubles[2] = zzz
+        doubles[3] = zzz
+        doubles[4] = zzz
 
         swed.gcdat.clight = doubles[0]
         swed.gcdat.aunit = doubles[1]
@@ -1090,5 +1177,18 @@ class SwissEph: NSObject {
     func swe_close () -> Void {
         // todo
         
+    }
+    
+    func pow2(a: Double, b: Double) -> Double {
+        var aa: Double = 0
+        if (b > 1) {
+            aa = pow2(a, b: b - 1)
+        } else if (b == 1) {
+            aa = a
+        } else if (b == 0) {
+            aa = 1
+        }
+    
+        return aa
     }
 }
