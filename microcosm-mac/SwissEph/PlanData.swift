@@ -17,6 +17,22 @@ class PlanData: NSObject {
                             0,0,0,0,0,0]
     var xflgs: Int = 0
     var teval: Double = 0
+    var ibdy: Int = 0
+    var lndx0: Int = 0   	/* file position of begin of planet's index */
+    var iflg: Int = 0
+    var ncoe: Int = 0
+    var rmax: Double = 0
+    var tfstart: Double = 0
+    var tfend: Double = 0
+    var dseg: Double = 0
+    var nndx: Int = 0
+    var telem: Double = 0
+    var prot: Double = 0
+    var dprot: Double = 0
+    var qrot: Double = 0
+    var dqrot: Double = 0
+    var peri: Double = 0
+    var dperi: Double = 0
     
     override init() {
         

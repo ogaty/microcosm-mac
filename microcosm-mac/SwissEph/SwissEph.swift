@@ -79,6 +79,8 @@ let SEI_FILE_LITENDIAN = 1
 
 let SEI_NEPHFILES = 7
 
+let SEI_FLG_ELLIPSE = 4
+
 let DO_SAVE = true
 
 let SE_GREG_CAL = true
@@ -736,12 +738,11 @@ class SwissEph: NSObject {
     {
         let ret: SweRet = SweRet()
         let data : NSData = fileHandle!.readDataToEndOfFile()
-        let fdp = swed.fidat[ifno]
         var index: Int
-        var ipli: Int
+        var ipli: UInt
         var pdp_idx: Int
         
-        var aBuffer = Array<Int8>(count: data.length, repeatedValue: 0)
+        var aBuffer = Array<UInt8>(count: data.length, repeatedValue: 0)
         data.getBytes(&aBuffer, length: data.length)
         if (aBuffer[0] != 83 || aBuffer[1] != 87 || aBuffer[2] != 73 || aBuffer[3] != 83 || aBuffer[4] != 83) { // SWISS
             ret.serr = "file damage."
@@ -749,7 +750,7 @@ class SwissEph: NSObject {
         var i: Int = 0
         var lfCnt: Int = 0
         // validate面倒なのでlf３回カウントまで進める
-        while (aBuffer[i] != 10 && lfCnt < 3) {
+        while (lfCnt < 3) {
             i = i + 1
             if (aBuffer[i] == 10) {
                 lfCnt = lfCnt + 1
@@ -766,48 +767,48 @@ class SwissEph: NSObject {
         
         // 本来は検証すべきだけどIntelなんだから
         // let _fendian:Int = SEI_FILE_LITENDIAN
+        // endian
+        // 074-077 63 62 61 00
+        index = index + 4
+        
+        // lng
+        // 078-07b c3 e8 13 00(semo)
+        //         d7 62 07 00(sepl)
+        index = index + 4
         
         /**********************************************************
          * DE number of JPL ephemeris which this file is based on *
          **********************************************************/
-        var tmp: Int = Int(aBuffer[index]) << 24
-        tmp = tmp + Int(aBuffer[index + 1]) << 16
-        tmp = tmp + Int(aBuffer[index + 2]) << 8
-        tmp = tmp + Int(aBuffer[index + 3])
+        var tmp: UInt = UInt(aBuffer[index + 3]) << 24
+        tmp = tmp + UInt(aBuffer[index + 2]) << 16
+        tmp = tmp + UInt(aBuffer[index + 1]) << 8
+        tmp = tmp + UInt(aBuffer[index])
 
+        // 07c-07f    af 01 00 00
         swed.fidat[ifno].sweph_denum = tmp
         index = index + 4
         
-        tmp = Int(aBuffer[index]) << 56
-        tmp = tmp + Int(aBuffer[index + 1]) << 48
-        tmp = tmp + Int(aBuffer[index + 2]) << 40
-        tmp = tmp + Int(aBuffer[index + 3]) << 32
-        tmp = tmp + Int(aBuffer[index + 4]) << 24
-        tmp = tmp + Int(aBuffer[index + 5]) << 16
-        tmp = tmp + Int(aBuffer[index + 6]) << 8
-        tmp = tmp + Int(aBuffer[index + 7])
-        swed.fidat[ifno].tfstart = tmp
+        // 080-087 1d 63 16 c7 7b 25 42 41(semo)  2378487.555371
+        //         00 00 00 40 80 25 42 41(sepl)  2378496.500000
+        swed.fidat[ifno].tfstart = do_fread8(aBuffer, index: index)
         index = index + 8
 
-        tmp = Int(aBuffer[index]) << 56
-        tmp = tmp + Int(aBuffer[index + 1]) << 48
-        tmp = tmp + Int(aBuffer[index + 2]) << 40
-        tmp = tmp + Int(aBuffer[index + 3]) << 32
-        tmp = tmp + Int(aBuffer[index + 4]) << 24
-        tmp = tmp + Int(aBuffer[index + 5]) << 16
-        tmp = tmp + Int(aBuffer[index + 6]) << 8
-        tmp = tmp + Int(aBuffer[index + 7])
-        swed.fidat[ifno].tfend = tmp
+        // 088-08f 75 cd 8d 3a 8c d1 43 41(semo)
+        //         4c 85 f8 ad 89 d1 43 41(sepl)
+        swed.fidat[ifno].tfend = do_fread8(aBuffer, index: index)
         index = index + 8
 
         /*************************************
          * how many planets are in file?     *
          *************************************/
-        tmp = Int(aBuffer[index]) << 8
-        tmp = tmp + Int(aBuffer[index + 1])
+        // 090-091
+        // semo:1, sepl:10(0x0a)
+        tmp = UInt(aBuffer[index + 1]) << 8
+        tmp = tmp + UInt(aBuffer[index])
         index = index + 2
 
         var nplan = tmp
+        swed.fidat[ifno].npl = (Int)(nplan)
         var nbytes_ipl:Int = 0
         if (nplan > 256) {
             nbytes_ipl = 4
@@ -818,19 +819,23 @@ class SwissEph: NSObject {
         
         /* which ones?                       */
         if (nbytes_ipl == 4) {
-            tmp = Int(aBuffer[index]) << 24
-            tmp = tmp + Int(aBuffer[index + 1]) << 16
-            tmp = tmp + Int(aBuffer[index + 2]) << 8
-            tmp = tmp + Int(aBuffer[index + 3])
+            tmp = UInt(aBuffer[index + 3]) << 24
+            tmp = tmp + UInt(aBuffer[index + 2]) << 16
+            tmp = tmp + UInt(aBuffer[index + 1]) << 8
+            tmp = tmp + UInt(aBuffer[index])
             index = index + 4
         } else {
-            tmp = Int(aBuffer[index]) << 8
-            tmp = tmp + Int(aBuffer[index + 1])
+            // こっちを通る
+            // 092-093
+            // semo:1, sepl:2
+            tmp = UInt(aBuffer[index + 1]) << 8
+            tmp = tmp + UInt(aBuffer[index])
             index = index + 2
         }
         swed.fidat[ifno].ipl = tmp
         
         if (ifno == SEI_FILE_ANY_AST) {
+            // 後で
         }
         
         /*************************************
@@ -845,110 +850,29 @@ class SwissEph: NSObject {
         // tmp = tmp + Int(aBuffer[index + 3])
         
         // let ulng:Int = tmp
+        /* read check area from file */
+        // fseek(fp, 0L, SEEK_SET);
 
+        index = index + 4
+
+        
         /*************************************
          * read general constants            *
          *************************************/
         /* clight, aunit, helgravconst, ratme, sunradius
          * these constants are currently not in use */
-        // 8 * 5 = 40バイト
-        tmp = 0
         var doubles: [Double] = [Double]()
-        /*
-        for cnt in 0..<5 {
-            for j in 0..<7 {
-                tmp = tmp + Int(aBuffer[index + cnt * 5 + j])
-            }
-            doubles.append(Double(tmp))
-            tmp = 0
-        }
-        index = index + 40
-         */
-        let aaa: Int8 = aBuffer[index]
-        let bbb: Int8 = aBuffer[index + 1]
-        let ccc: Int8 = aBuffer[index + 2]
-        let ddd: Int8 = aBuffer[index + 3]
-        let eee: Int8 = aBuffer[index + 4]
-        let fff: Int8 = aBuffer[index + 5]
-        let ggg: Int8 = aBuffer[index + 6]
-        let hhh: Int8 = aBuffer[index + 7]
-        var zzz: Double = 0
-        tmp = (Int)(bbb & 0x0f)
-        let aaaTmp1: Int = (Int)(aaa)
-        let bbbTmp1: Int = (Int)(bbb)
-        let bbbTmp: Int = tmp << 48
-        let cccTmp1: Int = (Int)(ccc)
-        let cccTmp2: Int = cccTmp1 << 40
-        let dddTmp1: Int = (Int)(ddd)
-        let dddTmp2: Int = dddTmp1 << 32
-        let eeeTmp1: Int = (Int)(eee)
-        let eeeTmp2: Int = eeeTmp1 << 24
-        let fffTmp1: Int = (Int)(fff)
-        let fffTmp2: Int = fffTmp1 << 24
-        let gggTmp1: Int = (Int)(ggg)
-        let gggTmp2: Int = gggTmp1 << 24
-        let hhhTmp1: Int = (Int)(hhh)
-//        zzz = bbbTmp + cccTmp2 + dddTmp2 + eeeTmp2  + fffTmp2 + gggTmp2 + hhhTmp1
-        zzz = (Double)(bbbTmp + cccTmp2 + dddTmp2 + eeeTmp2 + fffTmp2 + gggTmp2 + hhhTmp1)
 
-        let sign: Int = aaaTmp1 & 0x80
-        let x1: Int = ((aaaTmp1 & 0x7f) << 4) + ((bbbTmp1 & 0xf0) >> 4) - 1023
-        
-        
-        zzz = pow2(2, b: (Double)(x1))
-        var dbl: Double = 0.5
-        var mask: Int = 0x08
-        for i in (0..<3).reverse() {
-            zzz += dbl * (Double)((bbbTmp1 & mask) >> i)
-            dbl = dbl / 2
-            mask = mask / 2
-        }
-
-        mask = 0x80
-        for i in (0..<8).reverse() {
-            zzz += dbl * (Double)((cccTmp1 & mask) >> i)
-            dbl = dbl / 2
-            mask = mask / 2
-        }
-        mask = 0x80
-        for i in (0..<8).reverse() {
-            zzz += dbl * (Double)((dddTmp1 & mask) >> i)
-            dbl = dbl / 2
-            mask = mask / 2
-        }
-        mask = 0x80
-        for i in (0..<8).reverse() {
-            zzz += dbl * (Double)((eeeTmp1 & mask) >> i)
-            dbl = dbl / 2
-            mask = mask / 2
-        }
-        mask = 0x80
-        for i in (0..<8).reverse() {
-            zzz += dbl * (Double)((fffTmp1 & mask) >> i)
-            dbl = dbl / 2
-            mask = mask / 2
-        }
-        mask = 0x80
-        for i in (0..<8).reverse() {
-            zzz += dbl * (Double)((gggTmp1 & mask) >> i)
-            dbl = dbl / 2
-            mask = mask / 2
-        }
-        mask = 0x80
-        for i in (0..<8).reverse() {
-            zzz += dbl * (Double)((hhhTmp1 & mask) >> i)
-            dbl = dbl / 2
-            mask = mask / 2
-        }
-        if (sign == 1) {
-            zzz = zzz * -1
-        }
-        
-        doubles[0] = zzz
-        doubles[1] = zzz
-        doubles[2] = zzz
-        doubles[3] = zzz
-        doubles[4] = zzz
+        doubles.append(do_fread8(aBuffer, index: index))
+        index = index + 8
+        doubles.append(do_fread8(aBuffer, index: index))
+        index = index + 8
+        doubles.append(do_fread8(aBuffer, index: index))
+        index = index + 8
+        doubles.append(do_fread8(aBuffer, index: index))
+        index = index + 8
+        doubles.append(do_fread8(aBuffer, index: index))
+        index = index + 8
 
         swed.gcdat.clight = doubles[0]
         swed.gcdat.aunit = doubles[1]
@@ -958,76 +882,107 @@ class SwissEph: NSObject {
         /*************************************
          * read constants of planets         *
          *************************************/
-//        for kpl in 0..<fdp->npl {
-        for kpl in 0..<10 {
+        for kpl in 0..<swed.fidat[ifno].npl {
             /* get SEI_ planet number */
-            ipli = fdp.ipl
-            if (ipli >= SE_AST_OFFSET) {
+            ipli = swed.fidat[ifno].ipl
+            if (ipli >= (UInt)(SE_AST_OFFSET)) {
                 pdp_idx = SEI_ANYBODY
             }
             else {
-                pdp_idx = ipli
+                pdp_idx = (Int)(ipli)
             }
-//            pdp->ibdy = ipli;
+            swed.pldat[pdp_idx].ibdy = (Int)(ipli)
             /* file position of planet's index */
-//            retc = do_fread((void *) &pdp->lndx0, 4, 1, 4, fp, SEI_CURR_FPOS,            freord, fendian, ifno, serr);
-//            if (retc != OK) {
-//                goto return_error;
-//            }
+            tmp = UInt(aBuffer[index + 3]) << 24
+            tmp = tmp + UInt(aBuffer[index + 2]) << 16
+            tmp = tmp + UInt(aBuffer[index + 1]) << 8
+            tmp = tmp + UInt(aBuffer[index])
+            index = index + 4
+            swed.pldat[pdp_idx].lndx0 = (Int)(tmp)
+
             /* flags: helio/geocentric, rotation, reference ellipse */
-//            retc = do_fread((void *) &pdp->iflg, 1, 1, sizeof(int32), fp,                            SEI_CURR_FPOS, freord, fendian, ifno, serr);
-//            if (retc != OK) {
-//                goto return_error;
-//            }
+            tmp = UInt(aBuffer[index + 3]) << 24
+            tmp = tmp + UInt(aBuffer[index + 2]) << 16
+            tmp = tmp + UInt(aBuffer[index + 1]) << 8
+            tmp = tmp + UInt(aBuffer[index])
+            index = index + 4
+            swed.pldat[pdp_idx].iflg = (Int)(tmp)
+
             /* number of chebyshew coefficients / segment  */
             /* = interpolation order +1                    */
-//            retc = do_fread((void *) &pdp->ncoe, 1, 1, sizeof(int), fp,            SEI_CURR_FPOS, freord, fendian, ifno, serr);
-//            if (retc != OK) {
-//                goto return_error;
-//            }
+            tmp = UInt(aBuffer[index + 3]) << 24
+            tmp = tmp + UInt(aBuffer[index + 2]) << 16
+            tmp = tmp + UInt(aBuffer[index + 1]) << 8
+            tmp = tmp + UInt(aBuffer[index])
+            index = index + 4
+            swed.pldat[pdp_idx].ncoe = (Int)(tmp)
+            
             /* rmax = normalisation factor */
-//            retc = do_fread((void *) &lng, 4, 1, 4, fp, SEI_CURR_FPOS, freord,            fendian, ifno, serr);
-//            if (retc != OK) {
-//                goto return_error;
-//            }
-//            pdp->rmax = lng / 1000.0;
+            tmp = UInt(aBuffer[index + 3]) << 24
+            tmp = tmp + UInt(aBuffer[index + 2]) << 16
+            tmp = tmp + UInt(aBuffer[index + 1]) << 8
+            tmp = tmp + UInt(aBuffer[index])
+            index = index + 4
+            let lng: Int = (Int)(tmp)
+            swed.pldat[pdp_idx].rmax = (Double)((Double)(lng) / 1000.0)
+
             /* start and end epoch of planetary ephemeris,   */
             /* segment length, and orbital elements          */
-//            retc = do_fread((void *) doubles, 8, 10, 8, fp, SEI_CURR_FPOS, freord,                            fendian, ifno, serr);
-//            if (retc != OK) {
-//                goto return_error;
-//            }
-//            pdp->tfstart  = doubles[0];
-//            pdp->tfend    = doubles[1];
-//            pdp->dseg     = doubles[2];
-//            pdp->nndx     = (int32) ((doubles[1] - doubles[0] + 0.1) /doubles[2]);
-//            pdp->telem    = doubles[3];
-//            pdp->prot     = doubles[4];
-//            pdp->dprot    = doubles[5];
-//            pdp->qrot     = doubles[6];
-//            pdp->dqrot    = doubles[7];
-//            pdp->peri     = doubles[8];
-//            pdp->dperi    = doubles[9];
+            var doubles2: [Double] = [Double]()
+            
+            doubles2.append(do_fread8(aBuffer, index: index))
+            index = index + 8
+            doubles2.append(do_fread8(aBuffer, index: index))
+            index = index + 8
+            doubles2.append(do_fread8(aBuffer, index: index))
+            index = index + 8
+            doubles2.append(do_fread8(aBuffer, index: index))
+            index = index + 8
+            doubles2.append(do_fread8(aBuffer, index: index))
+            index = index + 8
+            doubles2.append(do_fread8(aBuffer, index: index))
+            index = index + 8
+            doubles2.append(do_fread8(aBuffer, index: index))
+            index = index + 8
+            doubles2.append(do_fread8(aBuffer, index: index))
+            index = index + 8
+            doubles2.append(do_fread8(aBuffer, index: index))
+            index = index + 8
+            doubles2.append(do_fread8(aBuffer, index: index))
+            index = index + 8
+            
+            swed.pldat[pdp_idx].tfstart = doubles2[0]
+            swed.pldat[pdp_idx].tfend = doubles2[1]
+            swed.pldat[pdp_idx].dseg = doubles2[2]
+            swed.pldat[pdp_idx].nndx = (Int)((doubles[1] - doubles[0] + 0.1) / doubles[2])
+            swed.pldat[pdp_idx].telem = doubles2[3]
+            swed.pldat[pdp_idx].prot = doubles2[4]
+            swed.pldat[pdp_idx].dprot = doubles2[5]
+            swed.pldat[pdp_idx].qrot = doubles2[6]
+            swed.pldat[pdp_idx].dqrot = doubles2[7]
+            swed.pldat[pdp_idx].peri = doubles2[8]
+            swed.pldat[pdp_idx].dperi = doubles2[9]
+
             /* alloc space for chebyshew coefficients */
             /* if reference ellipse is used, read its coefficients */
-//            if (pdp->iflg & SEI_FLG_ELLIPSE) {
-//                if (pdp->refep != NULL) { /* if switch to other eph. file */
-//                    free((void *) pdp->refep);
-//                    pdp->refep = NULL;    /* 2015-may-5 */
-//                    if (pdp->segp != NULL) {
-//                        free((void *) pdp->segp);     /* array of coefficients of */
-//                        pdp->segp = NULL;     /* ephemeris segment        */
-//                    }
-//                }
-//                pdp->refep = (double *) malloc((size_t) pdp->ncoe * 2 * 8);
-//                retc = do_fread((void *) pdp->refep, 8, 2*pdp->ncoe, 8, fp,
-//                SEI_CURR_FPOS, freord, fendian, ifno, serr);
-//                if (retc != OK) {
-//                    free(pdp->refep);  /* 2015-may-5 */
-//                    pdp->refep = NULL;  /* 2015-may-5 */
-//                    goto return_error;
-//                }
-//            }/**/
+            if ((swed.pldat[pdp_idx].iflg & SEI_FLG_ELLIPSE) > 0) {
+                // とりあえずは動くだろう
+                //                if (pdp->refep != NULL) { /* if switch to other eph. file */
+                //                    free((void *) pdp->refep);
+                //                    pdp->refep = NULL;    /* 2015-may-5 */
+                //                    if (pdp->segp != NULL) {
+                //                        free((void *) pdp->segp);     /* array of coefficients of */
+                //                        pdp->segp = NULL;     /* ephemeris segment        */
+                //                    }
+                //                }
+                //                pdp->refep = (double *) malloc((size_t) pdp->ncoe * 2 * 8);
+                //                retc = do_fread((void *) pdp->refep, 8, 2*pdp->ncoe, 8, fp,
+                //                SEI_CURR_FPOS, freord, fendian, ifno, serr);
+                //                if (retc != OK) {
+                //                    free(pdp->refep);  /* 2015-may-5 */
+                //                    pdp->refep = NULL;  /* 2015-may-5 */
+                //                    goto return_error;
+            }/**/
         }
         
         return ret
@@ -1179,16 +1134,123 @@ class SwissEph: NSObject {
         
     }
     
-    func pow2(a: Double, b: Double) -> Double {
-        var aa: Double = 0
-        if (b > 1) {
-            aa = pow2(a, b: b - 1)
-        } else if (b == 1) {
-            aa = a
-        } else if (b == 0) {
-            aa = 1
+    func do_fread8(buf: Array<UInt8>, index: Int) -> Double {
+        var ret: Double = 0
+        var tmp: Double = 0
+
+        let b8: UInt8 = buf[index + 7]
+        let b7: UInt8 = buf[index + 6]
+        let b6: UInt8 = buf[index + 5]
+        let b5: UInt8 = buf[index + 4]
+        let b4: UInt8 = buf[index + 3]
+        let b3: UInt8 = buf[index + 2]
+        let b2: UInt8 = buf[index + 1]
+        let b1: UInt8 = buf[index]
+
+        let b8I: UInt = (UInt)(b8)
+        let b7I: UInt = (UInt)(b7)
+        let b6I: UInt = (UInt)(b6)
+        let b5I: UInt = (UInt)(b5)
+        let b4I: UInt = (UInt)(b4)
+        let b3I: UInt = (UInt)(b3)
+        let b2I: UInt = (UInt)(b2)
+        let b1I: UInt = (UInt)(b1)
+
+//        let b1S: Int = b1I & 0x0f
+        /*
+        let b2S: Int = b2I << 48
+        let b3S: Int = b3I << 40
+        let b4S: Int = b4I << 32
+        let b5S: Int = b5I << 24
+        let b6S: Int = b6I << 24
+        let b7S: Int = b7I << 24
+ */
+        //        zzz = bbbTmp + cccTmp2 + dddTmp2 + eeeTmp2  + fffTmp2 + gggTmp2 + hhhTmp1
+//        ret = (Double)(b2S + b3S + b4S + b5S + b6S + b7S + b8I)
+        
+        let sign: UInt = b8I & 0x80
+        let e: UInt = ((b8I & 0x7f) << 4) + ((b7I & 0xf0) >> 4)
+        let eI: Int = (Int)(e) - 1023
+        
+        ret = pow2(2, b: eI)
+        var dbl: Double = 0.5
+        var mask: UInt = 0x08
+        for i in (0..<4).reverse() {
+            tmp = tmp + dbl * (Double)((b7I & mask) >> (UInt)(i))
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            tmp = tmp + dbl * (Double)((b6I & mask) >> (UInt)(i))
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            tmp = tmp + dbl * (Double)((b5I & mask) >> (UInt)(i))
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            tmp = tmp + dbl * (Double)((b4I & mask) >> (UInt)(i))
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            tmp = tmp + dbl * (Double)((b3I & mask) >> (UInt)(i))
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            tmp = tmp + dbl * (Double)((b2I & mask) >> (UInt)(i))
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        mask = 0x80
+        for i in (0..<8).reverse() {
+            tmp = tmp + dbl * (Double)((b1I & mask) >> (UInt)(i))
+            dbl = dbl / 2
+            mask = mask / 2
+        }
+        tmp = tmp + 1
+        
+        ret = ret * tmp
+
+        if (sign == 1) {
+            ret = ret * -1
+        }
+        
+        return ret
+    }
+    
+    func pow2(a: Double, b: Int) -> Double {
+        var ret: Double = a
+        let bb: UInt
+        if (b >= 0) {
+            bb = (UInt)(b)
+        } else {
+            // bが-1の時1/2=0.5となるのでa / 4、すなわち2回増える
+            bb = (UInt)(abs(b)) + 2
+        }
+        
+        if (b == 0) {
+            return 1.0
+        }
+        if (b > 0) {
+            for _ in 1..<bb {
+                ret = ret * a
+            }
+        } else {
+            for _ in 1..<bb {
+                ret = ret / a
+            }
         }
     
-        return aa
+        return ret
     }
 }

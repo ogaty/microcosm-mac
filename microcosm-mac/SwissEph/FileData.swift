@@ -9,10 +9,10 @@
 import Cocoa
 
 class FileData: NSObject {
-    var sweph_denum: Int = 0
-    var tfstart: Int = 0
-    var tfend: Int = 0
+    var sweph_denum: UInt = 0
+    var tfstart: Double = 0
+    var tfend: Double = 0
     var npl: Int = 0
-    var ipl: Int = 0
+    var ipl: UInt = 0
 
 }
