@@ -99,6 +99,7 @@ class SwissEph: NSObject {
     var xs_idx : Int // xsポインタのindex
     var fileName: String
     var fileHandle: NSFileHandle? // FiilePointer
+    var buf: Array<UInt8>
 
     override init() {
         swe_date = SweDate()
@@ -108,6 +109,7 @@ class SwissEph: NSObject {
         xs_idx = 0
         fileName = ""
         fileHandle = nil
+        buf = []
     }
     
     // tjd : Julian day, Universal time
@@ -350,11 +352,13 @@ class SwissEph: NSObject {
             iflagInt = iflag | SEFLG_SWIEPH
         }
         var deltatRet:SweRet = swe_deltat_ex(tjd_ut, iflag: iflag)
-        var retval:SweRet = swe_calc(tjd_ut + deltatRet.deltat, ipl: ipl, iflag: iflag)
+        var retval:SweRet = swe_calc(2451545.000000, ipl: ipl, iflag: iflag)
         /* if ephe required is not ephe returned, adjust delta t: */
         if ((retval.iflag & SEFLG_EPHMASK) != epheflag) {
             deltatRet = swe_deltat_ex(tjd_ut, iflag: iflag)
-            retval = swe_calc(tjd_ut + deltatRet.deltat, ipl: ipl, iflag: iflagInt)
+            
+            retval = swe_calc(2451545.000000, ipl: ipl, iflag: iflagInt)
+//            retval = swe_calc(tjd_ut + deltatRet.deltat, ipl: ipl, iflag: iflagInt)
         }
 
         return retval
@@ -571,13 +575,12 @@ class SwissEph: NSObject {
     func sweph(tjd: Double, ipli: Int, ifno: Int, iflag: Int, do_save: Bool) -> SweRet
     {
         var ret:SweRet = SweRet()
-        var ipl:Int = 0
+        var ipl:Int = ipli
         var xx:[Double] = [0, 0, 0, 0, 0, 0]
         
         if (ipli > SE_AST_OFFSET) {
             ipl = SEI_ANYBODY
         }
-        let pdp: PlanData = swed.pldat[ipl]
         if (do_save) {
 //            xp = pdp->x;
         }
@@ -647,7 +650,9 @@ class SwissEph: NSObject {
          ******************************/
         /* get new segment, if necessary */
 //        if (pdp->segp == NULL || tjd < pdp->tseg0 || tjd > pdp->tseg1) {
-//            retc = get_new_segment(tjd, ipl, ifno, serr);
+        if (swed.pldat[ipli].tseg0 == 0) {
+            get_new_segment(tjd, ipli: ipl, ifno: ifno, buf: buf)
+        }
 //            if (retc != OK)
 //            return(retc);
             /* rotate cheby coeffs back to equatorial system.
@@ -744,6 +749,7 @@ class SwissEph: NSObject {
         
         var aBuffer = Array<UInt8>(count: data.length, repeatedValue: 0)
         data.getBytes(&aBuffer, length: data.length)
+        buf = aBuffer
         if (aBuffer[0] != 83 || aBuffer[1] != 87 || aBuffer[2] != 73 || aBuffer[3] != 83 || aBuffer[4] != 83) { // SWISS
             ret.serr = "file damage."
         }
@@ -901,20 +907,14 @@ class SwissEph: NSObject {
             swed.pldat[pdp_idx].lndx0 = (Int)(tmp)
 
             /* flags: helio/geocentric, rotation, reference ellipse */
-            tmp = UInt(aBuffer[index + 3]) << 24
-            tmp = tmp + UInt(aBuffer[index + 2]) << 16
-            tmp = tmp + UInt(aBuffer[index + 1]) << 8
-            tmp = tmp + UInt(aBuffer[index])
-            index = index + 4
+            tmp = UInt(aBuffer[index])
+            index = index + 1
             swed.pldat[pdp_idx].iflg = (Int)(tmp)
 
             /* number of chebyshew coefficients / segment  */
             /* = interpolation order +1                    */
-            tmp = UInt(aBuffer[index + 3]) << 24
-            tmp = tmp + UInt(aBuffer[index + 2]) << 16
-            tmp = tmp + UInt(aBuffer[index + 1]) << 8
-            tmp = tmp + UInt(aBuffer[index])
-            index = index + 4
+            tmp = UInt(aBuffer[index])
+            index = index + 1
             swed.pldat[pdp_idx].ncoe = (Int)(tmp)
             
             /* rmax = normalisation factor */
@@ -1114,6 +1114,203 @@ class SwissEph: NSObject {
         }
         icty = abs(icty)
         ret = ret + icty.description
+
+        return ret
+    }
+
+    func get_new_segment(tjd: Double, ipli: Int, ifno: Int, buf: Array<UInt8>) -> SweRet {
+        let ret: SweRet = SweRet()
+        var fpos: Int
+        var idbl: Int
+        var nco: Int = 0
+        var nsizes: Int = 0
+        var nsize: [Int] = [0, 0, 0, 0]
+        var j: Int
+        var k: Int
+        var c: [UInt8] = [0, 0]
+        var longs: [UInt] = []
+
+//        let freord: Int = SEI_FILE_REORD
+//        let fendian: Int = SEI_FILE_LITENDIAN
+
+        /* compute segment number */
+        let iseg: Int = (Int) ((tjd - swed.pldat[ipli].tfstart) / swed.pldat[ipli].dseg)
+
+        swed.pldat[ipli].tseg0 = swed.pldat[ipli].tfstart + (Double)(iseg) * swed.pldat[ipli].dseg
+        swed.pldat[ipli].tseg1 = swed.pldat[ipli].tseg0 + swed.pldat[ipli].dseg
+
+        /* get file position of coefficients from file */
+        fpos = swed.pldat[ipli].lndx0 + iseg * 3
+        // tjd_ut = 2457605.0919465744の時
+        // fpos = 06 e1 71
+        var tmp: UInt
+        tmp = UInt(buf[fpos + 2]) << 16
+        tmp = tmp + UInt(buf[fpos + 1]) << 8
+        tmp = tmp + UInt(buf[fpos])
+        fpos = (Int)(tmp)
+
+
+        /* clear space of chebyshew coefficients */
+        // 静的領域確保しておくしかないよね
+/*
+        if (swed.pldat[ipli].segp == NULL) {
+            swed.pldat[ipli].segp = (double *) malloc((size_t) pdp->ncoe * 3 * 8);
+        }
+        memset((void *) pdp->segp, 0, (size_t) pdp->ncoe * 3 * 8);
+*/
+        /* read coefficients for 3 coordinates */
+        for icoord in 0..<3 {
+            idbl = icoord * swed.pldat[ipli].ncoe
+            /* first read header */
+            /* first bit indicates number of sizes of packed coefficients */
+            // 0x48, 0x75
+            c[0] = buf[fpos]
+            c[1] = buf[fpos + 1]
+            fpos = fpos + 2
+            if (c[0] > 128) {
+                // todo
+                /*
+ nsizes = 6;
+ retc = do_fread((void *) (c+2), 1, 2, 1, fp, SEI_CURR_FPOS, freord, fendian, ifno, serr);
+ nsize[0] = (int) c[1] / 16
+ nsize[1] = (int) c[1] % 16
+ nsize[2] = (int) c[2] / 16
+ nsize[3] = (int) c[2] % 16
+ nsize[4] = (int) c[3] / 16
+ nsize[5] = (int) c[3] % 16
+ nco = nsize[0] + nsize[1] + nsize[2] + nsize[3] + nsize[4] + nsize[5]
+ */
+
+ 
+            } else {
+                nsizes = 4
+                nsize[0] = (Int)((Int)(c[0]) / 16)
+                nsize[1] = (Int)(c[0] % 16)
+                nsize[2] = (Int)((Int)(c[1]) / 16)
+                nsize[3] = (Int)(c[1] % 16)
+                nco = nsize[0] + nsize[1] + nsize[2] + nsize[3]
+            }
+
+            /* there may not be more coefficients than interpolation
+             * order + 1 */
+            // pdp->ncoe = 29
+            if (nco > swed.pldat[ipli].ncoe) {
+/*
+                if (serr != NULL) {
+                    sprintf(serr, "error in ephemeris file: %d coefficients instead of %d. ", nco, pdp->ncoe);
+                    if (strlen(serr) + strlen(fdp->fnam) < AS_MAXCH - 1) {
+                        sprintf(serr, "error in ephemeris file %s: %d coefficients instead of %d. ", fdp->fnam, nco, pdp->ncoe);
+                    }
+                }
+                free(pdp->segp);
+                pdp->segp = NULL;
+                return (ERR);
+*/
+            }
+
+            /* now unpack */
+            // nsizes = 4
+            for i in 0..<nsizes {
+                if (nsize[i] == 0) {
+                    continue
+                }
+                if (i < 4) {
+                    j = (4 - i)
+                    k = nsize[i]
+                    longs.removeAll()
+                    if (j == 4) {
+                        for _ in 0..<k {
+                            tmp = UInt(buf[fpos + 3]) << 24
+                            tmp = tmp + UInt(buf[fpos + 2]) << 16
+                            tmp = tmp + UInt(buf[fpos + 1]) << 8
+                            tmp = tmp + UInt(buf[fpos])
+                            longs.append((UInt)(tmp))
+                            fpos = fpos + 4
+                        }
+                    } else if (j == 3) {
+                        for _ in 0..<k {
+                            tmp = UInt(buf[fpos + 2]) << 16
+                            tmp = tmp + UInt(buf[fpos + 1]) << 8
+                            tmp = tmp + UInt(buf[fpos])
+                            longs.append((UInt)(tmp))
+                            fpos = fpos + 3
+                        }
+                    } else if (j == 2) {
+                        for _ in 0..<k {
+                            tmp = UInt(buf[fpos + 1]) << 8
+                            tmp = tmp + UInt(buf[fpos])
+                            longs.append((UInt)(tmp))
+                            fpos = fpos + 4
+                        }
+                    } else {
+                        for _ in 0..<k {
+                            tmp = UInt(buf[fpos])
+                            longs.append((UInt)(tmp))
+                            fpos = fpos + 4
+                        }
+                    }
+                    
+                    for m in 0..<k {
+                        if ((longs[m] & 1) > 0) {   /* will be negative */
+                            let half: Double = (Double)((longs[m] + 1) / 2)
+                            swed.pldat[ipli].segp[idbl] = -1 * (half / 1e+9 * swed.pldat[ipli].rmax / 2)
+                        } else {
+                            let half: Double = (Double)(longs[m] / 2)
+                            swed.pldat[ipli].segp[idbl] = (Double)(half / 1e+9 * swed.pldat[ipli].rmax / 2)
+                        }
+                        idbl = idbl + 1
+                    }
+                } else if (i == 4) {              /* half byte packing */
+                    j = 1
+                    k = (nsize[i] + 1) / 2
+/*
+                    retc = do_fread((void *) longs, j, k, 4, fp, SEI_CURR_FPOS, freord, fendian, ifno, serr);
+                    if (retc != OK) {
+                        goto return_error_gns;
+                    }
+*/
+/*
+                    for (m = 0, j = 0;
+                         m < k && j < nsize[i];
+                         m++) {
+                        for (n = 0, o = 16;
+                             n < 2 && j < nsize[i];
+                             n++, j++, idbl++, longs[m] %= o, o /= 16) {
+                            if (longs[m] & o) {
+                                pdp->segp[idbl] =
+                                    -(((longs[m]+o) / o / 2) * pdp->rmax / 2 / 1e+9);
+                            } else {
+                                pdp->segp[idbl] = (longs[m] / o / 2) * pdp->rmax / 2 / 1e+9;
+                            }
+                        }
+                    }
+*/
+                } else if (i == 5) {              /* quarter byte packing */
+                    j = 1
+                    k = (nsize[i] + 3) / 4
+/*
+                    retc = do_fread((void *) longs, j, k, 4, fp, SEI_CURR_FPOS, freord, fendian, ifno, serr);
+                    if (retc != OK) {
+                        goto return_error_gns;
+                    }
+                    for (m = 0, j = 0;
+                         m < k && j < nsize[i];
+                         m++) {
+                        for (n = 0, o = 64;
+                             n < 4 && j < nsize[i];
+                             n++, j++, idbl++, longs[m] %= o, o /= 4) {
+                            if (longs[m] & o) {
+                                pdp->segp[idbl] =
+                                    -(((longs[m]+o) / o / 2) * pdp->rmax / 2 / 1e+9);
+                            } else {
+                                pdp->segp[idbl] = (longs[m] / o / 2) * pdp->rmax / 2 / 1e+9;
+                            }
+                        }
+                    }
+*/
+                }
+            }
+        }
 
         return ret
     }

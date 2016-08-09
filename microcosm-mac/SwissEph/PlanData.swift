@@ -33,6 +33,16 @@ class PlanData: NSObject {
     var dqrot: Double = 0
     var peri: Double = 0
     var dperi: Double = 0
+    var tseg0: Double = 0
+    var tseg1: Double = 0
+    var segp: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     
     override init() {
         
