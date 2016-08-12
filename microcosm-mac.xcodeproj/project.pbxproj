@@ -16,6 +16,8 @@
 		C6EAB17D1D30C2FB0038C772 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */; };
 		C6EAB1801D30C2FB0038C772 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17E1D30C2FB0038C772 /* Main.storyboard */; };
 		C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1971D3150D00038C772 /* SwissEph.swift */; };
+		C6F4C2EF1D5B808800108545 /* SweSunb.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F4C2EE1D5B808800108545 /* SweSunb.swift */; };
+		C6F4C2F11D5C0C5A00108545 /* SwissHLib.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F4C2F01D5C0C5A00108545 /* SwissHLib.swift */; };
 		C6FA05BC1D48F047002F5BA3 /* SavePositions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA05BB1D48F047002F5BA3 /* SavePositions.swift */; };
 		C6FA05BE1D48F059002F5BA3 /* SweData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA05BD1D48F059002F5BA3 /* SweData.swift */; };
 		C6FA05C01D48F068002F5BA3 /* SweRet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA05BF1D48F068002F5BA3 /* SweRet.swift */; };
@@ -37,6 +39,8 @@
 		C6EAB1811D30C2FB0038C772 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6EAB1921D30E8990038C772 /* microcosm-mac-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microcosm-mac-Bridging-Header.h"; sourceTree = "<group>"; };
 		C6EAB1971D3150D00038C772 /* SwissEph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissEph.swift; path = SwissEph/SwissEph.swift; sourceTree = "<group>"; };
+		C6F4C2EE1D5B808800108545 /* SweSunb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweSunb.swift; path = SwissEph/SweSunb.swift; sourceTree = "<group>"; };
+		C6F4C2F01D5C0C5A00108545 /* SwissHLib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissHLib.swift; path = SwissEph/SwissHLib.swift; sourceTree = "<group>"; };
 		C6FA05BB1D48F047002F5BA3 /* SavePositions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SavePositions.swift; path = SwissEph/SavePositions.swift; sourceTree = "<group>"; };
 		C6FA05BD1D48F059002F5BA3 /* SweData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweData.swift; path = SwissEph/SweData.swift; sourceTree = "<group>"; };
 		C6FA05BF1D48F068002F5BA3 /* SweRet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweRet.swift; path = SwissEph/SweRet.swift; sourceTree = "<group>"; };
@@ -92,6 +96,8 @@
 				C6FA05C31D4A56AA002F5BA3 /* SweDate.swift */,
 				C6FA05C51D4C64E6002F5BA3 /* FileData.swift */,
 				C6E9FDB21D4C8030008FDE6B /* GenConst.swift */,
+				C6F4C2EE1D5B808800108545 /* SweSunb.swift */,
+				C6F4C2F01D5C0C5A00108545 /* SwissHLib.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -177,7 +183,9 @@
 				C6FA05C21D48F7A6002F5BA3 /* PlanData.swift in Sources */,
 				C6FA05C01D48F068002F5BA3 /* SweRet.swift in Sources */,
 				C6FA05C41D4A56AA002F5BA3 /* SweDate.swift in Sources */,
+				C6F4C2EF1D5B808800108545 /* SweSunb.swift in Sources */,
 				C6FA05BC1D48F047002F5BA3 /* SavePositions.swift in Sources */,
+				C6F4C2F11D5C0C5A00108545 /* SwissHLib.swift in Sources */,
 				C6FA05BE1D48F059002F5BA3 /* SweData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

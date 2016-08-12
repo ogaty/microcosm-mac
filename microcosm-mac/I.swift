@@ -12,16 +12,19 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var swiss : SwissEph
+    var ret: SweRet = SweRet()
+    let swed: SweData = SweData()
     
     override init() {
         swiss = SwissEph()
-        super.init()
     }
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
-        swiss.swe_calc_ut(2457605.0919465744, ipl: 1, iflag: 1)
+        let iflag: Int = SEFLG_SWIEPH | SEFLG_SPEED
+        ret = swiss.swe_calc_ut(2457605.0919465744, ipl: 1, iflag: iflag)
+        let a = 0
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

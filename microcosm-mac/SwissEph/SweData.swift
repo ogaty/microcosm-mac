@@ -15,6 +15,14 @@ class SweData: NSObject {
     var gcdat: GenConst
     var ephe_path_is_set: Bool = false
     var ephepath: String
+    var delta_t_userdef_is_set: Bool = false
+    var delta_t_userdef: Double = 0
+    var is_tid_acc_manual: Bool = false
+    var tid_acc: Double = 0
+    var swed_is_initialised: Bool = true
+    var init_dt_done: Bool = false
+    var astro_models : [Int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     
     override init() {
         for _ in 0..<SEI_NPLANETS {

@@ -35,6 +35,9 @@ class PlanData: NSObject {
     var dperi: Double = 0
     var tseg0: Double = 0
     var tseg1: Double = 0
+    var neval: Int = 0
+    var iephe: Int = 0
+    var refep: [Double] = [0, 0, 0, 0, 0, 0]
     var segp: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                           0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                           0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
