@@ -23,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
         let iflag: Int = SEFLG_SWIEPH | SEFLG_SPEED
+        swiss.swe_set_ephe_path("")
         ret = swiss.swe_calc_ut(2457605.0919465744, ipl: 1, iflag: iflag)
         let a = 0
     }

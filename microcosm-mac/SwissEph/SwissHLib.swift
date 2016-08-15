@@ -9,11 +9,12 @@
 import Cocoa
 
 class SwissHLib: NSObject {
-    var swe_date: SweDate
     
     override init() {
-        swe_date = SweDate()
     }
 
+    func square_sum(x: Double, y: Double, z: Double) -> Double {
+        return x*x+y*y+z*z
+    }
     
 }

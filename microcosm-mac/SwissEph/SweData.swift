@@ -13,6 +13,11 @@ class SweData: NSObject {
     var fidat: [FileData] = [FileData]()
     var savedat: [SavePositions] = [SavePositions]()
     var gcdat: GenConst
+    var oec: SweEpsilon = SweEpsilon()
+    var oec2000: SweEpsilon = SweEpsilon()
+    var nut: SweNut = SweNut()
+    var nut2000: SweNut = SweNut()
+    var nutv: SweNut = SweNut()
     var ephe_path_is_set: Bool = false
     var ephepath: String
     var delta_t_userdef_is_set: Bool = false
@@ -21,6 +26,7 @@ class SweData: NSObject {
     var tid_acc: Double = 0
     var swed_is_initialised: Bool = true
     var init_dt_done: Bool = false
+    var sidd: SideData = SideData()
     var astro_models : [Int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     

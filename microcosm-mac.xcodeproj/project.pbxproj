@@ -18,6 +18,9 @@
 		C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1971D3150D00038C772 /* SwissEph.swift */; };
 		C6F4C2EF1D5B808800108545 /* SweSunb.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F4C2EE1D5B808800108545 /* SweSunb.swift */; };
 		C6F4C2F11D5C0C5A00108545 /* SwissHLib.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F4C2F01D5C0C5A00108545 /* SwissHLib.swift */; };
+		C6F4C3141D60ABE100108545 /* SideData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F4C3131D60ABE100108545 /* SideData.swift */; };
+		C6F4C3161D60AEA900108545 /* SweEpsilon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F4C3151D60AEA900108545 /* SweEpsilon.swift */; };
+		C6F4C32C1D61C03D00108545 /* SweNut.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F4C32B1D61C03D00108545 /* SweNut.swift */; };
 		C6FA05BC1D48F047002F5BA3 /* SavePositions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA05BB1D48F047002F5BA3 /* SavePositions.swift */; };
 		C6FA05BE1D48F059002F5BA3 /* SweData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA05BD1D48F059002F5BA3 /* SweData.swift */; };
 		C6FA05C01D48F068002F5BA3 /* SweRet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA05BF1D48F068002F5BA3 /* SweRet.swift */; };
@@ -41,6 +44,9 @@
 		C6EAB1971D3150D00038C772 /* SwissEph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissEph.swift; path = SwissEph/SwissEph.swift; sourceTree = "<group>"; };
 		C6F4C2EE1D5B808800108545 /* SweSunb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweSunb.swift; path = SwissEph/SweSunb.swift; sourceTree = "<group>"; };
 		C6F4C2F01D5C0C5A00108545 /* SwissHLib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissHLib.swift; path = SwissEph/SwissHLib.swift; sourceTree = "<group>"; };
+		C6F4C3131D60ABE100108545 /* SideData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideData.swift; path = SwissEph/SideData.swift; sourceTree = "<group>"; };
+		C6F4C3151D60AEA900108545 /* SweEpsilon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweEpsilon.swift; path = SwissEph/SweEpsilon.swift; sourceTree = "<group>"; };
+		C6F4C32B1D61C03D00108545 /* SweNut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweNut.swift; path = SwissEph/SweNut.swift; sourceTree = "<group>"; };
 		C6FA05BB1D48F047002F5BA3 /* SavePositions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SavePositions.swift; path = SwissEph/SavePositions.swift; sourceTree = "<group>"; };
 		C6FA05BD1D48F059002F5BA3 /* SweData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweData.swift; path = SwissEph/SweData.swift; sourceTree = "<group>"; };
 		C6FA05BF1D48F068002F5BA3 /* SweRet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweRet.swift; path = SwissEph/SweRet.swift; sourceTree = "<group>"; };
@@ -98,6 +104,9 @@
 				C6E9FDB21D4C8030008FDE6B /* GenConst.swift */,
 				C6F4C2EE1D5B808800108545 /* SweSunb.swift */,
 				C6F4C2F01D5C0C5A00108545 /* SwissHLib.swift */,
+				C6F4C3131D60ABE100108545 /* SideData.swift */,
+				C6F4C3151D60AEA900108545 /* SweEpsilon.swift */,
+				C6F4C32B1D61C03D00108545 /* SweNut.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -177,6 +186,9 @@
 			files = (
 				C6E9FDB31D4C8030008FDE6B /* GenConst.swift in Sources */,
 				C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */,
+				C6F4C3161D60AEA900108545 /* SweEpsilon.swift in Sources */,
+				C6F4C32C1D61C03D00108545 /* SweNut.swift in Sources */,
+				C6F4C3141D60ABE100108545 /* SideData.swift in Sources */,
 				C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */,
 				C6FA05C61D4C64E6002F5BA3 /* FileData.swift in Sources */,
 				C6EAB1791D30C2FB0038C772 /* I.swift in Sources */,

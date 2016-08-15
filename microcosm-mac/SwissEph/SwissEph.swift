@@ -11,118 +11,159 @@
 import Cocoa
 import Swift
 
-let J2000 = 2451545.0
-
-let SE_ECL_NUT = -1
-let SEFLG_JPLEPH = 1 /* use JPL ephemeris */
-let SEFLG_SWIEPH = 2 /* use SWISSEPH ephemeris */
-let SEFLG_MOSEPH = 4 /* use Moshier ephemeris */
-let SEFLG_EPHMASK = 7
-
-let SE_MODEL_DELTAT = 7
-
-let SEI_FLG_ROTATE = 2
-
-let SEFLG_DEFAULTEPH = 2
-
-let SE_AST_OFFSET = 10000
-
-let SEFLG_SPEED3 = 128
+let SEFLG_JPLEPH: Int = 1 /* use JPL ephemeris */
+let SEFLG_SWIEPH: Int = 2 /* use SWISSEPH ephemeris */
+let SEFLG_MOSEPH: Int = 4 /* use Moshier ephemeris */
+let SEFLG_HELCTR: Int = 8      /* heliocentric position */
+let SEFLG_TRUEPOS: Int = 16
+let SEFLG_J2000: Int = 32
+let SEFLG_NONUT: Int = 64
+let SEFLG_SPEED3: Int = 128
 /* speed from 3 positions (do not use it,
  SEFLG_SPEED is faster and more precise.) */
-let SEFLG_SPEED	= 256     /* high precision speed  */
+let SEFLG_SPEED: Int	= 256     /* high precision speed  */
+let SEFLG_NOABERR: Int = 1024 /* turn off 'annual' aberration of light */
+let J2000: Double = 2451545.0
 
-let SEFLG_EQUATORIAL = (2*1024)    /* equatorial positions are wanted */
-let SEFLG_XYZ        = (4*1024)    /* cartesian, not polar, coordinates */
-let SEFLG_RADIANS    = (8*1024)    /* coordinates in radians, not degrees */
+let SE_ECL_NUT: Int = -1
+let SEFLG_EPHMASK: Int = 7
 
-let OK = 0
-let ERR = -1
-let NOT_AVAILABLE = -2
+let SEFLG_DEFAULTEPH: Int = 2
 
-let MOON_SPEED_INTV = 0.00005
-let PLAN_SPEED_INTV = 0.0001
-let NODE_CALC_INTV_MOSH = 0.1
+let SE_AST_OFFSET: Int = 10000
 
-let SE_SUN = 0
+
+let SEFLG_EQUATORIAL: Int = (2*1024)    /* equatorial positions are wanted */
+let SEFLG_XYZ: Int        = (4*1024)    /* cartesian, not polar, coordinates */
+let SEFLG_RADIANS: Int    = (8*1024)    /* coordinates in radians, not degrees */
+let SEFLG_BARYCTR: Int    = (16*1024)
+let SEFLG_TOPOCTR: Int    = (32*1024)    /* topocentric position */
+let SEFLG_SIDEREAL: Int   = 64 * 1024     /* sidereal position */
+let SEFLG_ICRS: Int       = 128 * 1024
+
+let SEI_FLG_ROTATE: Int = 2
+
+
+let OK: Int = 0
+let ERR: Int = -1
+let NOT_AVAILABLE: Int = -2
+
+let MOON_SPEED_INTV: Double = 0.00005
+let PLAN_SPEED_INTV: Double = 0.0001
+let NODE_CALC_INTV_MOSH: Double = 0.1
+
+let SE_SUN: Int = 0
 let SE_MOON = 1
 let SE_PLUTO = 9
-let SE_MEAN_NODE = 10
-let SE_TRUE_NODE = 11
-let SE_MEAN_APOG = 12
-let SE_OSCU_APOG = 13
-let SE_NPLANETS = 21
+let SE_MEAN_NODE: Int = 10
+let SE_TRUE_NODE: Int = 11
+let SE_MEAN_APOG: Int = 12
+let SE_OSCU_APOG: Int = 13
+let SE_NPLANETS: Int = 21
 
-let SEFLG_TRUEPOS = 16
-let SEFLG_J2000 = 32
 
-let SEFLG_ICRS = 128 * 1024
 
-let SEI_EMB = 0
-let SEI_EARTH = 0
-let SEI_SUN = 0
-let SEI_MOON = 1
-let SEI_MERCURY = 2
-let SEI_VENUS = 3
-let SEI_MARS = 4
-let SEI_JUPITER = 5
-let SEI_SATURN = 6
-let SEI_URANUS = 7
-let SEI_NEPTUNE = 8
-let SEI_PLUTO = 9
-let SEI_SUNBARY = 10      /* barycentric sun */
-let SEI_ANYBODY = 11      /* any asteroid */
-let SEI_CHIRON = 12
-let SEI_PHOLUS = 13
-let SEI_CERES = 14
-let SEI_PALLAS = 15
-let SEI_JUNO = 16
-let SEI_VESTA = 17
-let SEI_NPLANETS = 18
+let SEI_EMB: Int = 0
+let SEI_EARTH: Int = 0
+let SEI_SUN: Int = 0
+let SEI_MOON: Int = 1
+let SEI_MERCURY: Int = 2
+let SEI_VENUS: Int = 3
+let SEI_MARS: Int = 4
+let SEI_JUPITER: Int = 5
+let SEI_SATURN: Int = 6
+let SEI_URANUS: Int = 7
+let SEI_NEPTUNE: Int = 8
+let SEI_PLUTO: Int = 9
+let SEI_SUNBARY: Int = 10      /* barycentric sun */
+let SEI_ANYBODY: Int = 11      /* any asteroid */
+let SEI_CHIRON: Int = 12
+let SEI_PHOLUS: Int = 13
+let SEI_CERES: Int = 14
+let SEI_PALLAS: Int = 15
+let SEI_JUNO: Int = 16
+let SEI_VESTA: Int = 17
+let SEI_NPLANETS: Int = 18
 
-let SEI_FILE_PLANET = 0
-let SEI_FILE_MOON = 1
-let SEI_FILE_MAIN_AST = 2
-let SEI_FILE_ANY_AST = 3
-let SEI_FILE_FIXSTAR = 4
+let SEI_FILE_PLANET: Int = 0
+let SEI_FILE_MOON: Int = 1
+let SEI_FILE_MAIN_AST: Int = 2
+let SEI_FILE_ANY_AST: Int = 3
+let SEI_FILE_FIXSTAR: Int = 4
 
-let SEI_FILE_BIGNDIAN = 0
-let SEI_FILE_LITENDIAN = 1
+let SEI_FILE_BIGNDIAN: Int = 0
+let SEI_FILE_LITENDIAN: Int = 1
 
-let SEI_NEPHFILES = 7
+let SEI_NEPHFILES: Int = 7
 
-let SEI_FLG_ELLIPSE = 4
-let SEI_FLG_EMBHEL = 8
+let SEI_FLG_ELLIPSE: Int = 4
+let SEI_FLG_EMBHEL: Int = 8
 
-let DO_SAVE = true
-let NO_SAVE = false
+let DO_SAVE: Bool = true
+let NO_SAVE: Bool = false
 
-let SE_GREG_CAL = true
+let J2000_TO_J: Int = -1
 
-let SE_TIDAL_DE200 = -23.8946
-let SE_TIDAL_DE403 = -25.580
-let SE_TIDAL_DE404 = -25.580 /* was (-25.8) until V. 1.76.2 */
-let SE_TIDAL_DE405 = -25.826
-let SE_TIDAL_DE406 = -25.826
-let SE_TIDAL_DE421 = -25.85
-let SE_TIDAL_DE422 = -25.85
-let SE_TIDAL_DE430 = -25.82
-let SE_TIDAL_DE431 = -25.80
-let SE_DE_NUMBER = 431
-let SE_TIDAL_DEFAULT = SE_TIDAL_DE431
+let SE_GREG_CAL: Bool = true
 
-let PI = 3.14159265358979323846
-let DEG_TO_RAD = 0.0174532925199433
+let SE_TIDAL_DE200: Double = -23.8946
+let SE_TIDAL_DE403: Double = -25.580
+let SE_TIDAL_DE404: Double = -25.580 /* was (-25.8) until V. 1.76.2 */
+let SE_TIDAL_DE405: Double = -25.826
+let SE_TIDAL_DE406: Double = -25.826
+let SE_TIDAL_DE421: Double = -25.85
+let SE_TIDAL_DE422: Double = -25.85
+let SE_TIDAL_DE430: Double = -25.82
+let SE_TIDAL_DE431: Double = -25.80
+let SE_DE_NUMBER: Int = 431
+let SE_TIDAL_DEFAULT: Double = SE_TIDAL_DE431
+let SE_MODEL_PREC_LONGTERM: Int = 0
+let SE_MODEL_PREC_SHORTTERM: Int = 1
+let SE_MODEL_BIAS: Int = 4
+let SE_MODEL_JPLHOR_MODE: Int = 5
+let SE_MODEL_DELTAT: Int = 7
+let SEMOD_PREC_IAU_1976: Int = 1
+let SEMOD_PREC_IAU_2000: Int = 2
+let SEMOD_PREC_IAU_2006: Int = 3
+let SEMOD_PREC_BRETAGNON_2003: Int = 4
+let SEMOD_PREC_VONDRAK_2011: Int = 8
+let SEMOD_PREC_DEFAULT: Int = 8
+let SEMOD_PREC_DEFAULT_SHORT: Int = 8
 
-let AS_MAXCH = 256
+let SEFLG_JPLHOR: Int = (256*1024)
 
-let SEMOD_DELTAT_ESPENAK_MEEUS_2006 = 1
+let SE_SIDBIT_ECL_T0: Int = 256
+let SE_SIDBIT_SSY_PLANE: Int = 512
 
-let TAB2_START = -1000
-let TAB2_END = 1600
-let TAB2_STEP = 100
-let TABSTART = 1620
-let TABEND = 2019
+/* methods of JPL Horizons (iflag & SEFLG_JPLHOR),
+ * using daily dpsi, deps;  see explanations below */
+let SEMOD_JPLHOR_DEFAULT: Int = 1
+
+let PI: Double = 3.14159265358979323846
+let TWOPI: Double = PI * 2
+let RAD_TO_DEG: Double = (180.0 / PI)
+let DEG_TO_RAD: Double = 0.0174532925199433
+let AS2R: Double = (DEG_TO_RAD / 3600.0)
+let EPS0: Double = (84381.406 * AS2R)
+
+let AUNIT: Double = 1.49597870691e+11
+let CLIGHT: Double = 2.99792458e+8
+
+let AS_MAXCH: Int = 256
+
+let SEMOD_DELTAT_ESPENAK_MEEUS_2006: Int = 1
+
+let TAB2_START : Int = -1000
+let TAB2_END: Int = 1600
+let TAB2_STEP: Int = 100
+let TABSTART: Int = 1620
+let TABEND: Int = 2019
+let TABSIZ: Int = 400
+
+let NPOL_PECL: Int = 4
+let NPER_PECL: Int = 8
+let NPOL_PEQU: Int = 4
+let NPER_PEQU: Int = 14
 
 let dt: [Double] = [
     /* 1620.0 thru 1659.0 */
@@ -148,9 +189,6 @@ let dt: [Double] = [
     /* 1780.0 thru 1799.0 */
     17.00, 17.00, 17.00, 17.00, 17.00, 17.00, 17.00, 17.00, 17.00, 17.00,
     17.00, 17.00, 16.00, 16.00, 16.00, 16.00, 15.00, 15.00, 14.00, 14.00,
-    /* 1780.0 thru 1799.0 */
-    17.00, 17.00, 17.00, 17.00, 17.00, 17.00, 17.00, 17.00, 17.00, 17.00,
-    17.00, 17.00, 16.00, 16.00, 16.00, 16.00, 15.00, 15.00, 14.00, 14.00,
     /* 1800.0 thru 1819.0 */
     13.70, 13.40, 13.10, 12.90, 12.70, 12.60, 12.50, 12.50, 12.50, 12.50,
     12.50, 12.50, 12.50, 12.50, 12.50, 12.50, 12.50, 12.40, 12.30, 12.20,
@@ -165,10 +203,6 @@ let dt: [Double] = [
     -5.40, -5.42, -5.20, -5.46, -5.46, -5.79, -5.63, -5.64, -5.80, -5.66,
     -5.87, -6.01, -6.19, -6.64, -6.44, -6.47, -6.09, -5.76, -4.66, -3.74,
     /* 1900.0 thru 1939.0 */
-    -2.72, -1.54, -0.02, 1.24, 2.64, 3.86, 5.37, 6.14, 7.75, 9.13,
-    10.46, 11.53, 13.36, 14.65, 16.01, 17.20, 18.24, 19.06, 20.25, 20.95,
-    21.16, 22.25, 22.41, 23.03, 23.49, 23.62, 23.86, 24.49, 24.34, 24.08,
-    24.02, 24.00, 23.87, 23.95, 23.86, 23.93, 23.73, 23.92, 23.96, 24.02,
     -2.72, -1.54, -0.02, 1.24, 2.64, 3.86, 5.37, 6.14, 7.75, 9.13,
     10.46, 11.53, 13.36, 14.65, 16.01, 17.20, 18.24, 19.06, 20.25, 20.95,
     21.16, 22.25, 22.41, 23.03, 23.49, 23.62, 23.86, 24.49, 24.34, 24.08,
@@ -200,6 +234,38 @@ let dt2: [Int] = [
     1570, 1090,  740,  490,  320,  200,  120,
 ]
 
+/* for pre_pequ(): */
+/* polynomials */
+let xypol: [[Double]] = [
+    [+5453.282155, -73750.930350],
+    [+0.4252841, -0.7675452],
+    [-0.00037173, -0.00018725],
+    [-0.000000152, +0.000000231]
+]
+/* periodics */
+let xyper: [[Double]] = [
+    [256.75, 708.15, 274.2, 241.45, 2309, 492.2, 396.1, 288.9, 231.1, 1610, 620, 157.87, 220.3, 1200],
+    [-819.940624, -8444.676815, 2600.009459, 2755.17563, -167.659835, 871.855056, 44.769698, -512.313065, -819.415595, -538.071099, -189.793622, -402.922932, 179.516345, -9.814756],
+    [75004.344875, 624.033993, 1251.136893, -1102.212834, -2660.66498, 699.291817, 153.16722, -950.865637, 499.754645, -145.18821, 558.116553, -23.923029, -165.405086, 9.344131],
+    [81491.287984, 787.163481, 1251.296102, -1257.950837, -2966.79973, 639.744522, 131.600209, -445.040117, 584.522874, -89.756563, 524.42963, -13.549067, -210.157124, -44.919798],
+    [1558.515853, 7774.939698, -2219.534038, -2523.969396, 247.850422, -846.485643, -1393.124055, 368.526116, 749.045012, 444.704518, 235.934465, 374.049623, -171.33018, -22.899655]
+]
+/* for pre_pecl(): */
+/* polynomials */
+let pqpol: [[Double]] = [
+    [+5851.607687, -1600.886300],
+    [-0.1189000, +1.1689818],
+    [-0.00028913, -0.00000020],
+    [+0.000000101, -0.000000437]
+]
+/* periodics */
+let pqper: [[Double]] = [
+    [708.15, 2309, 1620, 492.2, 1183, 622, 882, 547],
+    [-5486.751211, -17.127623, -617.517403, 413.44294, 78.614193, -180.732815, -87.676083, 46.140315],
+    [-684.66156, 2446.28388, 399.671049, -356.652376, -186.387003, -316.80007, 198.296701, 101.135679], /* typo in publication fixed */
+    [667.66673, -2354.886252, -428.152441, 376.202861, 184.778874, 335.321713, -185.138669, -120.97283],
+    [-5523.863691, -549.74745, -310.998056, 421.535876, -36.776172, -145.278396, -34.74445, 22.885731]
+]
 
 class SwissEph: NSObject {
 
@@ -212,6 +278,7 @@ class SwissEph: NSObject {
     var fileName: String
     var fileHandle: NSFileHandle? // FiilePointer
     var buf: Array<UInt8>
+    var hlib: SwissHLib = SwissHLib()
 
     override init() {
         swe_date = SweDate()
@@ -235,7 +302,7 @@ class SwissEph: NSObject {
         var x: [Double] = [0, 0, 0, 0, 0, 0]
         var iplInt:Int = ipl
         var iflagInt : Int = iflag
-        var iflagSave: Int = iflag
+        let iflagSave: Int = iflag
         var epheflag_sv: Int = SEFLG_SWIEPH
         
         
@@ -261,7 +328,7 @@ class SwissEph: NSObject {
          * ephemeris = 0 to ephemeris = SEFLG_DEFAULTEPH
          * or vice-versa.
          */
-        epheflag = iflagInt & SEFLG_EPHMASK;
+        epheflag = iflagInt & SEFLG_EPHMASK
         if ((epheflag & SEFLG_SWIEPH) > 0) {
             epheflag = 0
         }
@@ -338,35 +405,35 @@ class SwissEph: NSObject {
                     }
                 }
             
-            }
-            if ((iflagInt & SEFLG_RADIANS) > 0) {
-                if (iplInt == SE_ECL_NUT) {
-                    for j in 0..<4 {
-                        x[j] *= DEG_TO_RAD;
-                    }
-                } else {
-                    for j in 0..<2 {
-                        x[j] *= DEG_TO_RAD;
-                    }
-                    if ((iflagInt & (SEFLG_SPEED3 | SEFLG_SPEED)) > 0) {
-                        for j in 3..<5 {
+                if ((iflagInt & SEFLG_RADIANS) > 0) {
+                    if (iplInt == SE_ECL_NUT) {
+                        for j in 0..<4 {
                             x[j] *= DEG_TO_RAD;
+                        }
+                    } else {
+                        for j in 0..<2 {
+                            x[j] *= DEG_TO_RAD;
+                        }
+                        if ((iflagInt & (SEFLG_SPEED3 | SEFLG_SPEED)) > 0) {
+                            for j in 3..<5 {
+                                x[j] *= DEG_TO_RAD;
+                            }
                         }
                     }
                 }
-            }
-            for i in 0..<6 {
-                swe_ret.xx[i] = x[i]
-            }
-            iflagInt = swed.savedat[sd_idx].iflgsave
-            /* if no ephemeris has been specified, do not return chosen ephemeris */
-            if ((iflagSave & SEFLG_EPHMASK) == 0) {
-                iflagInt = iflagInt & ~SEFLG_DEFAULTEPH
-            }
+                for i in 0..<6 {
+                    swe_ret.xx[i] = x[i]
+                }
+                iflagInt = swed.savedat[sd_idx].iflgsave
+                /* if no ephemeris has been specified, do not return chosen ephemeris */
+                if ((iflagSave & SEFLG_EPHMASK) == 0) {
+                    iflagInt = iflagInt & ~SEFLG_DEFAULTEPH
+                }
             
-            swe_ret.iflag = iflagInt
+                swe_ret.iflag = iflagInt
             
-            return swe_ret
+                return swe_ret
+            }
         
         }
 
@@ -390,6 +457,7 @@ class SwissEph: NSObject {
                 swe_ret.iflag = ERR
                 return swe_ret
             }
+            swed.savedat[sd_idx].iflgsave = ret.iflag
             
 //        }
 
@@ -455,30 +523,33 @@ class SwissEph: NSObject {
     func swe_calc_ut ( tjd_ut: Double, ipl: Int, iflag: Int) -> SweRet {
         var epheflag:Int = iflag & SEFLG_EPHMASK
         var iflagInt:Int = iflag
+        nouseDmyInt(iflagInt)
         if (epheflag == 0) {
             epheflag = SEFLG_SWIEPH
             iflagInt = iflag | SEFLG_SWIEPH
         }
-        var deltatRet:SweRet = swe_deltat_ex(swed, tjd: tjd_ut, iflag: iflag)
-        var retval:SweRet = swe_calc(2451545.000000, ipl: ipl, iflag: iflag)
+        let deltatRet:SweRet = swe_deltat_ex(swed, tjd: tjd_ut, iflag: iflag)
+//        var retval:SweRet = swe_calc(tjd_ut + deltatRet.deltat, ipl: ipl, iflag: iflag)
+        let retval:SweRet = swe_calc(tjd_ut, ipl: ipl, iflag: iflag)
+        // この戻り値でEPHMASK立ててないといかん
         /* if ephe required is not ephe returned, adjust delta t: */
         if ((retval.iflag & SEFLG_EPHMASK) != epheflag) {
-            deltatRet = swe_deltat_ex(swed, tjd: tjd_ut, iflag: iflag)
+//            deltatRet = swe_deltat_ex(swed, tjd: tjd_ut, iflag: iflag)
             
-            retval = swe_calc(2451545.000000, ipl: ipl, iflag: iflagInt)
+//            retval = swe_calc(2451545.000000, ipl: ipl, iflag: iflagInt)
 //            retval = swe_calc(tjd_ut + deltatRet.deltat, ipl: ipl, iflag: iflagInt)
         }
 
         return retval
     }
 
-    func swe_set_ephe_path(path: String) {
+    func swe_set_ephe_path(path: String) -> Void {
         swed.ephe_path_is_set = true
         swed.ephepath = path
 
         // この時点でswe_calcが動いている
         let iflag: Int = SEFLG_SWIEPH|SEFLG_J2000|SEFLG_TRUEPOS|SEFLG_ICRS
-        let retc: SweRet = swe_calc(J2000, ipl: SE_MOON, iflag: iflag)
+        swe_calc(J2000, ipl: SE_MOON, iflag: iflag)
         if (swed.fidat[SEI_FILE_MOON].fileHandle != nil) {
             swi_set_tid_acc(0, iflag: (Int)(swed.fidat[SEI_FILE_MOON].sweph_denum), denum: 0)
         }
@@ -486,10 +557,12 @@ class SwissEph: NSObject {
     
     
     func swecalc (tjd: Double, ipl: Int, iflag: Int) -> SweRet {
+        var ret: SweRet = SweRet()
         var iflagInt:Int = iflag
         let epheflag:Int = SEFLG_SWIEPH
         var ipli: Int
         var pdp_idx: Int
+        var xp: [Double] = [0, 0, 0, 0, 0, 0]
         /******************************************
          * iflag plausible?                       *
          ******************************************/
@@ -528,6 +601,8 @@ class SwissEph: NSObject {
             pdp_idx = ipli
 
             switch(epheflag) {
+            case SEFLG_JPLEPH:
+                fallthrough
             case SEFLG_SWIEPH:
                 let retc:SweRet = sweplan(tjd, ipli: ipli, ifno: SEI_FILE_MOON, iflag: iflag, do_save: DO_SAVE)
                 if (retc.iflag == ERR) {
@@ -546,14 +621,23 @@ class SwissEph: NSObject {
             
             /* heliocentric, lighttime etc. */
             // todo
-//            if ((retc = app_pos_etc_moon(iflag, serr)) != OK) {
-//                goto return_error; /* retc may be wrong with sidereal calculation */
-//            }
+            let retc: SweRet = app_pos_etc_moon(iflag)
+            if (retc.iflag != OK) {
+                //                goto return_error; /* retc may be wrong with sidereal calculation */
+            }
         }
         
         // todo
+        for i in 0..<24 {
+            if (ipl == SE_MOON) {
+                swed.savedat[sd_idx].xsaves[i] = swed.pldat[SEI_MOON].xreturn[i]
+            } else {
+                swed.savedat[sd_idx].xsaves[i] = xp[i]
+            }
+        }
+        ret.iflag = iflag
         
-        return swe_ret
+        return ret
     }
         
 
@@ -585,11 +669,10 @@ class SwissEph: NSObject {
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
         var do_earth: Bool = false
-        var do_sunbary: Bool = false
+        let do_sunbary: Bool = false
         var do_moon: Bool = false
         var xps: [Double] = [0, 0, 0, 0, 0, 0]
         var xpm: [Double] = [0, 0, 0, 0, 0, 0]
-        var i: Int
         let sunb: SweSunb = SweSunb()
 
         /* xps (barycentric sun) may be necessary because some planets on sweph
@@ -659,14 +742,14 @@ class SwissEph: NSObject {
 //                }
            }
             for i in 0..<6 {
-                swed.pldat[SEI_MOON].xpmret[i] = xpm[i]
+                swed.pldat[SEI_MOON].xpmret[i] = swed.pldat[SEI_MOON].x[i]
             }
         }
         if (do_earth) {
         }
         if (ipli == SEI_MOON) {
             for i in 0..<6 {
-                swed.pldat[SEI_MOON].x[i] = xpm[i]
+                swed.pldat[SEI_MOON].x[i] = swed.pldat[SEI_MOON].x[i]
             }
         } else if (ipli == SEI_EARTH) {
         } else if (ipli == SEI_SUN) {
@@ -704,7 +787,6 @@ class SwissEph: NSObject {
         var ret:SweRet = SweRet()
         var retc:SweRet = SweRet()
         var ipl:Int = ipli
-        var xx:[Double] = [0, 0, 0, 0, 0, 0]
         var t: Double
         var tsv: Double
         var need_speed: Bool = true
@@ -772,7 +854,7 @@ class SwissEph: NSObject {
          * get planet's position
          ******************************/
         /* get new segment, if necessary */
-        if (swed.pldat[ipli].segp.count == 0 || swed.pldat[ipli].tseg0 == 0 || swed.pldat[ipli].tseg1 == 0) {
+        if (swed.pldat[ipli].segp.count == 0 || tjd < swed.pldat[ipli].tseg0 || tjd > swed.pldat[ipli].tseg1) {
             retc = get_new_segment(tjd, ipli: ipl, ifno: ifno, buf: buf)
         }
         if (retc.iflag != OK) {
@@ -811,9 +893,9 @@ class SwissEph: NSObject {
             } else {
                 ret.xx[i] = swi_echeb(t, coef: swed.pldat[ipli].segp, ncf: swed.pldat[ipli].neval, index: i*swed.pldat[ipli].ncoe)
                 if (need_speed) {
-                    ret.xx[i+3] = swi_edcheb(t, coef: swed.pldat[ipli].segp, ncf: swed.pldat[ipli].neval, index: i*swed.pldat[ipli].ncoe) / swed.pldat[ipli].dseg * 2
+                    swed.pldat[ipli].x[i+3] = swi_edcheb(t, coef: swed.pldat[ipli].segp, ncf: swed.pldat[ipli].neval, index: i*swed.pldat[ipli].ncoe) / swed.pldat[ipli].dseg * 2
                 } else {
-                    ret.xx[i+3] = 0 /* von Alois als billiger fix, evtl. illegal */
+                    swed.pldat[ipli].x[i+3] = 0 /* von Alois als billiger fix, evtl. illegal */
                 }
             }
         }
@@ -824,6 +906,10 @@ class SwissEph: NSObject {
          * have to compute barycentric earth and subtract heliocentric
          * earth from it. this may be necessary with calls from
          * sweplan() and from app_pos_etc_sun() (light-time). */
+
+        
+        
+        // TODO ret.xx[i]が変 nevalを直したのに
         if (ipl == SEI_SUNBARY && ((swed.pldat[ipli].iflg & SEI_FLG_EMBHEL) > 0)) {
             /* sweph() calls sweph() !!! for EMB.
              * Attention: a new calculation must be forced in any case.
@@ -840,10 +926,12 @@ class SwissEph: NSObject {
             }
             swed.pldat[SEI_EARTH].teval = tsv
             for i in 0..<3 {
-                swed.pldat[ipli].x[i] = retc.xx[i]
+                swed.pldat[ipli].x[i] = retc.xx[i] - swed.pldat[ipli].x[i]
             }
-            for i in 3..<5 {
-                swed.pldat[ipli].x[i] = retc.xx[i]
+            if (need_speed) {
+                for i in 3..<5 {
+                    swed.pldat[ipli].x[i] = retc.xx[i] - swed.pldat[ipli].x[i]
+                }
             }
         }
         /* asteroids are heliocentric.
@@ -870,10 +958,209 @@ class SwissEph: NSObject {
         }
         for i in 0..<6 {
             let a:Double = swed.pldat[ipli].x[i]
-            ret.xx[i] = a
+            retc.xx[i] = a
         }
 
         return ret
+    }
+
+    /* transforms the position of the moon:
+     * heliocentric position
+     * barycentric position
+     * astrometric position
+     * apparent position
+     * precession and nutation
+     *
+     * note:
+     * for apparent positions, we consider the earth-moon
+     * system as independant.
+     * for astrometric positions (SEFLG_NOABERR), we
+     * consider the motions of the earth and the moon
+     * related to the solar system barycenter.
+     */
+    func app_pos_etc_moon(iflag: Int) -> SweRet {
+        let ret: SweRet = SweRet()
+        var retc: SweRet = SweRet()
+        var xx: [Double] = [0, 0, 0, 0, 0, 0]
+        var xxm: [Double] = [0, 0, 0, 0, 0, 0]
+        var xxsv: [Double] = [0, 0, 0, 0, 0, 0]
+        var xobs: [Double] = [0, 0, 0, 0, 0, 0]
+        var xobs2: [Double] = [0, 0, 0, 0, 0, 0]
+        var xe: [Double] = [0, 0, 0, 0, 0, 0]
+        var t: Double
+        var dt: Double
+        /* if the same conversions have already been done for the same
+         * date, then return */
+        var flg1: Int = iflag & ~SEFLG_EQUATORIAL
+        flg1 = flg1 & ~SEFLG_XYZ
+        var flg2: Int = swed.pldat[SEI_MOON].xflgs & ~SEFLG_EQUATORIAL
+        flg2 = flg2 & ~SEFLG_XYZ
+        if (flg1 == flg2) {
+            swed.pldat[SEI_MOON].xflgs = iflag
+            swed.pldat[SEI_MOON].iephe = iflag & SEFLG_EPHMASK
+            ret.iflag = OK
+            return ret
+        }
+        /* the conversions will be done with xx[]. */
+        for i in 0..<6 {
+            xx[i] = swed.pldat[SEI_MOON].x[i]
+            xxm[i] = xx[i]
+        }
+        /***********************************
+         * to solar system barycentric
+         ***********************************/
+        for i in 0..<6 {
+            xx[i] = xx[i] + swed.pldat[SEI_EARTH].x[i]
+        }
+
+        /*******************************
+         * observer
+         *******************************/
+        if ((iflag & SEFLG_TOPOCTR) > 0) {
+//            if (swed.topd.teval != swed.pldat[SEI_MOON].teval
+//                || swed.topd.teval == 0) {
+//                if (swi_get_observer(pdp->teval, iflag | SEFLG_NONUT, DO_SAVE, xobs, serr) != OK)
+//                return ERR;
+//            } else {
+//                for (i = 0; i <= 5; i++)
+//                xobs[i] = swed.topd.xobs[i];
+//            }
+//            for (i = 0; i <= 5; i++)
+//            xxm[i] -= xobs[i];
+//            for (i = 0; i <= 5; i++)
+//            xobs[i] += pedp->x[i];
+        } else if ((iflag & SEFLG_BARYCTR) > 0) {
+//            for (i = 0; i <= 5; i++)
+//            xobs[i] = 0;
+//            for (i = 0; i <= 5; i++)
+//            xxm[i] += pedp->x[i];
+        } else if ((iflag & SEFLG_HELCTR) > 0) {
+//            for (i = 0; i <= 5; i++)
+//            xobs[i] = psdp->x[i];
+//            for (i = 0; i <= 5; i++)
+//            xxm[i] += pedp->x[i] - psdp->x[i];
+        } else {
+            for i in 0..<6 {
+                xobs[i] = swed.pldat[SEI_EARTH].x[i]
+            }
+        }
+
+        /*******************************
+         * light-time                  *
+         *******************************/
+        if ((iflag & SEFLG_TRUEPOS) == 0) {
+            let dt1: Double = sqrt(hlib.square_sum(xxm[0], y: xxm[1], z: xxm[2]))
+            dt = dt1 * AUNIT / CLIGHT / 86400.0
+            t = swed.pldat[SEI_MOON].teval - dt
+            switch(swed.pldat[SEI_MOON].iephe) {
+            case SEFLG_JPLEPH:
+//                retc = swi_pleph(t, J_MOON, J_EARTH, xx, serr);
+//                if (retc == OK)
+//                retc = swi_pleph(t, J_EARTH, J_SBARY, xe, serr);
+//                if (retc == OK && (iflag & SEFLG_HELCTR))
+//                retc = swi_pleph(t, J_SUN, J_SBARY, xs, serr);
+//                if (retc != OK) {
+//                    swi_close_jpl_file();
+//                    swed.jpl_file_is_open = FALSE;
+//                }
+//                for (i = 0; i <= 5; i++)
+//                xx[i] += xe[i];
+                break;
+            case SEFLG_SWIEPH:
+                retc = sweplan(t, ipli: SEI_MOON, ifno: SEI_FILE_MOON, iflag: iflag, do_save: NO_SAVE)
+                if (retc.iflag != OK) {
+                    return retc
+                }
+                for i in 0..<6 {
+                    xx[i] += xe[i]
+                }
+                break
+            case SEFLG_MOSEPH:
+                /* this method results in an error of a milliarcsec in speed */
+//                for (i = 0; i <= 2; i++) {
+//                    xx[i] -= dt * xx[i+3];
+//                    xe[i] = pedp->x[i] - dt * pedp->x[i+3];
+//                    xe[i+3] = pedp->x[i+3];
+//                    xs[i] = 0;
+//                    xs[i+3] = 0;
+//                }
+                break
+            default:
+                return ret
+            }
+            if ((iflag & SEFLG_TOPOCTR) > 0) {
+//                if (swi_get_observer(t, iflag | SEFLG_NONUT, NO_SAVE, xobs2, NULL) != OK)
+//                return ERR;
+//                for (i = 0; i <= 5; i++)
+//                xobs2[i] += xe[i];
+            } else if ((iflag & SEFLG_BARYCTR) > 0) {
+//                for i in 0..<6 {
+//                    xobs2[i] = 0
+//                }
+            } else if ((iflag & SEFLG_HELCTR) > 0) {
+//                for i in 0..<6 {
+//                    xobs2[i] = xs[i]
+//                }
+            } else {
+                for i in 0..<6  {
+                    xobs2[i] = xe[i]
+                }
+            }
+        }
+        /*************************
+         * to correct center
+         *************************/
+        for i in 0..<6 {
+            xx[i] = xx[i] - xobs[i]
+        }
+
+        /**********************************
+         * 'annual' aberration of light   *
+         **********************************/
+        if (!((iflag & SEFLG_TRUEPOS) > 0) && !((iflag & SEFLG_NOABERR) > 0)) {
+            /* SEFLG_NOABERR is on, if SEFLG_HELCTR or SEFLG_BARYCTR */
+//            swi_aberr_light(xx, xobs, iflag);
+            /*
+             * Apparent speed is also influenced by
+             * the difference of speed of the earth between t and t-dt.
+             * Neglecting this would lead to an error of several 0.1"
+             */
+            if ((iflag & SEFLG_SPEED) > 0) {
+                for i in 3..<6 {
+                    xx[i] = xx[i] + xobs[i] - xobs2[i]
+                }
+            }
+        }
+        /* if !speedflag, speed = 0 */
+        if (!((iflag & SEFLG_SPEED) > 0)) {
+            for i in 3..<6 {
+                xx[i] = 0
+            }
+        }
+        /* ICRS to J2000 */
+//        if (!(iflag & SEFLG_ICRS) && get_denum(SEI_MOON, iflag) >= 403) {
+//            swi_bias(xx, t, iflag, FALSE);
+//        }/**/
+
+        /* save J2000 coordinates; required for sidereal positions */
+        for i in 0..<6 {
+            xxsv[i] = xx[i]
+        }
+        /************************************************
+         * precession, equator 2000 -> equator of date *
+         ************************************************/
+        if (!((iflag & SEFLG_J2000) > 0)) {
+            retc = swi_precess(xx, J: swed.pldat[SEI_MOON].teval, iflag: iflag, direction: J2000_TO_J)
+            for i in 0..<6 {
+                xx[i] = retc.tmpDbl6[i]
+            }
+            if ((iflag & SEFLG_SPEED) > 0) {
+                
+            }
+//            swi_precess_speed(xx, pdp->teval, iflag, J2000_TO_J);
+        }
+        
+        return app_pos_rest(SEI_MOON, iflag: iflag)
     }
 
     /* SWISSEPH
@@ -1120,6 +1407,7 @@ class SwissEph: NSObject {
                 for _ in 0..<swed.pldat[pdp_idx].ncoe*2*8 {
                     let refep: Double = do_fread8(aBuffer, index: index)
                     swed.pldat[pdp_idx].refep.append(refep)
+                    index = index + 8
                 }
                 //                if (retc != OK) {
                 //                    free(pdp->refep);  /* 2015-may-5 */
@@ -1140,13 +1428,13 @@ class SwissEph: NSObject {
      * ここら辺は論文でも探さないと分からないよなあ
      */
     func rot_back(ipli: Int) -> Void {
-        var t: Double = swed.pldat[ipli].tseg0 + swed.pldat[ipli].dseg / 2
-        var tdiff: Double = (t - swed.pldat[ipli].telem) / 365250.0
+        let t: Double = swed.pldat[ipli].tseg0 + swed.pldat[ipli].dseg / 2
+        let tdiff: Double = (t - swed.pldat[ipli].telem) / 365250.0
         var dn: Double
         var i : Int
         var qav : Double
         var pav : Double
-        var nco : Int = swed.pldat[ipli].ncoe
+        let nco : Int = swed.pldat[ipli].ncoe
         var omtild: Double
         var com: Double
         var som: Double
@@ -1157,24 +1445,28 @@ class SwissEph: NSObject {
         var xrot: Double = 0
         var yrot: Double = 0
         var zrot: Double = 0
-        var seps2000: Double = 0 //swed.oec2000.seps
-        var ceps2000: Double = 0 //swed.oec2000.ceps
+        let seps2000: Double = 0 //swed.oec2000.seps
+        let ceps2000: Double = 0 //swed.oec2000.ceps
         var x: [[Double]] = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
                              [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
                              [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
                              [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
-
+        
         
         
         if (ipli == SEI_MOON) {
-            dn = swed.pldat[ipli].prot + tdiff * swed.pldat[ipli].dprot
+            let protTmp: Double = tdiff * swed.pldat[ipli].dprot
+            dn = swed.pldat[ipli].prot + protTmp
             i = (Int) (dn / (2 * PI))
             dn = dn - (Double)(i * 2) * PI
-            qav = (swed.pldat[ipli].qrot + tdiff * swed.pldat[ipli].dqrot) * cos(dn)
-            pav = (swed.pldat[ipli].qrot + tdiff * swed.pldat[ipli].dqrot) * sin(dn)
+            let qrotTmp: Double = tdiff * swed.pldat[ipli].dqrot
+            qav = (swed.pldat[ipli].qrot + qrotTmp) * cos(dn)
+            pav = (swed.pldat[ipli].qrot + qrotTmp) * sin(dn)
         } else {
-            qav = swed.pldat[ipli].qrot + tdiff * swed.pldat[ipli].dqrot
-            pav = swed.pldat[ipli].prot + tdiff * swed.pldat[ipli].dprot
+            let protTmp: Double = tdiff * swed.pldat[ipli].dprot
+            let qrotTmp: Double = tdiff * swed.pldat[ipli].dqrot
+            qav = swed.pldat[ipli].qrot + protTmp
+            pav = swed.pldat[ipli].prot + qrotTmp
         }
         /*calculate cosine and sine of average perihelion longitude. */
         for i in 0..<swed.pldat[ipli].ncoe {
@@ -1183,42 +1475,60 @@ class SwissEph: NSObject {
             x[i][2] = swed.pldat[ipli].segp[i+nco+nco]
         }
         if ((swed.pldat[ipli].iflg & SEI_FLG_ELLIPSE) > 0) {
-//            refepx = swed.pldat[ipli].refep;
-//            refepy = refepx + nco;
-            omtild = swed.pldat[ipli].peri + tdiff * swed.pldat[ipli].dperi;
+            //            refepx = swed.pldat[ipli].refep;
+            //            refepy = refepx + nco;
+            let dperi: Double = tdiff * swed.pldat[ipli].dperi
+            omtild = swed.pldat[ipli].peri + dperi
             i = (Int)(omtild / (2 * PI))
             omtild = omtild - (Double)(i) * (2 * PI)
             com = cos(omtild);
             som = sin(omtild);
             /*add reference orbit.  */
             for i in 0..<nco {
-                x[i][0] = swed.pldat[ipli].segp[i] + com * swed.pldat[ipli].refep[i] - som * swed.pldat[ipli].refep[i + nco]
-                x[i][1] = swed.pldat[ipli].segp[i + nco] + com * swed.pldat[ipli].refep[i + nco] + som * swed.pldat[ipli].refep[i]
+                let com0Tmp: Double = com * swed.pldat[ipli].refep[i]
+                let som0Tmp: Double = som * swed.pldat[ipli].refep[i + nco]
+                let com1Tmp: Double = com * swed.pldat[ipli].refep[i + nco]
+                let som1Tmp: Double = som * swed.pldat[ipli].refep[i]
+                x[i][0] = swed.pldat[ipli].segp[i] + com0Tmp - som0Tmp
+                x[i][1] = swed.pldat[ipli].segp[i + nco] + com1Tmp + som1Tmp
             }
         }
         /* construct right handed orthonormal system with first axis along
          origin of longitudes and third axis along angular momentum
          this uses the standard formulas for equinoctal variables
          (see papers by broucke and by cefola).      */
-        cosih2 = 1.0 / (1.0 + qav * qav + pav * pav)
+        let qav2: Double = qav * qav
+        let pav2: Double = pav * pav
+        cosih2 = 1.0 / (1.0 + qav2 + pav2)
         /*     calculate orbit pole. */
         uiz[0] = 2.0 * pav * cosih2
         uiz[1] = -2.0 * qav * cosih2
-        uiz[2] = (1.0 - qav * qav - pav * pav) * cosih2
+        uiz[2] = (1.0 - qav2 - pav2) * cosih2
         /*     calculate origin of longitudes vector. */
-        uix[0] = (1.0 + qav * qav - pav * pav) * cosih2
+        uix[0] = (1.0 + qav2 - pav2) * cosih2
         uix[1] = 2.0 * qav * pav * cosih2
         uix[2] = -2.0 * pav * cosih2
         /*     calculate vector in orbital plane orthogonal to origin of
          longitudes.                                               */
-        uiy[0] = 2.0 * qav * pav * cosih2
-        uiy[1] = (1.0 - qav * qav + pav * pav) * cosih2
+        uiy[0] = 2.0 * qav2 * cosih2
+        uiy[1] = (1.0 - qav2 + pav2) * cosih2
         uiy[2] = 2.0 * qav * cosih2
         /*     rotate to actual orientation in space.         */
         for i in 0..<nco {
-            xrot = x[i][0] * uix[0] + x[i][1] * uiy[0] + x[i][2] * uiz[0]
-            yrot = x[i][0] * uix[1] + x[i][1] * uiy[1] + x[i][2] * uiz[1]
-            zrot = x[i][0] * uix[2] + x[i][1] * uiy[2] + x[i][2] * uiz[2]
+            let uixTmp0: Double = x[i][0] * uix[0]
+            let uixTmp1: Double = x[i][0] * uix[1]
+            let uixTmp2: Double = x[i][0] * uix[2]
+            let uiyTmp0: Double = x[i][1] * uiy[0]
+            let uiyTmp1: Double = x[i][1] * uiy[1]
+            let uiyTmp2: Double = x[i][1] * uiy[2]
+            let uizTmp0: Double = x[i][2] * uiz[0]
+            let uizTmp1: Double = x[i][2] * uiz[1]
+            let uizTmp2: Double = x[i][2] * uiz[2]
+
+            xrot = uixTmp0 + uiyTmp0 + uizTmp0
+            yrot = uixTmp1 + uiyTmp1 + uizTmp1
+            zrot = uixTmp2 + uiyTmp2 + uizTmp2
+            let zzzz: Double = fabs(xrot) + fabs(yrot) + fabs(zrot)
             if (fabs(xrot) + fabs(yrot) + fabs(zrot) >= 1e-14) {
                 swed.pldat[ipli].neval = i
             }
@@ -1703,7 +2013,7 @@ class SwissEph: NSObject {
          * See AA page K11.
          */
         if (Y >= (Double)(TABSTART)) {
-            ret.deltat = deltat_aa(tjd, tid_acc);
+            ret.deltat = deltat_aa(tjd, tid_acc: tid_acc);
             ret.iflag = iflag
             return ret
         }
@@ -1738,12 +2048,12 @@ class SwissEph: NSObject {
             return ret
         }
         if (denum == 0) {
-            if ((iflag & SEFLG_MOSEPH) > 0) {
+            if ((iflagInt & SEFLG_MOSEPH) > 0) {
                 ret.tid_acc = SE_TIDAL_DE404
                 ret.denum = 404
                 return ret
             }
-            if ((iflag & SEFLG_JPLEPH) > 0) {
+            if ((iflagInt & SEFLG_JPLEPH) > 0) {
                 // 対応しない
             }
             
@@ -1752,14 +2062,14 @@ class SwissEph: NSObject {
                 tjd_et = tjd_ut; /* + swe_deltat_ex(tjd_ut, 0, NULL); we do not add
                  delta t, because it would result in a recursive
                  call of swi_set_tid_acc() */
-                if (fileHandle == nil ||
+                if (swed.fidat[SEI_FILE_MOON].fileHandle == nil ||
                     tjd_et < swed.fidat[SEI_FILE_MOON].tfstart + 1 ||
                     tjd_et > swed.fidat[SEI_FILE_MOON].tfend - 1) {
                     iflagInt = SEFLG_SWIEPH
                     iflagInt = iflag | SEFLG_J2000
                     iflagInt = iflag | SEFLG_TRUEPOS
                     iflagInt = iflag | SEFLG_ICRS
-                    retc = swe_calc(tjd_et, ipl: SE_MOON, iflag: iflag)
+                    retc = swe_calc(tjd_et, ipl: SE_MOON, iflag: iflagInt)
                 }
                 ret_denum = (Int)(swed.fidat[SEI_FILE_MOON].sweph_denum)
             }
@@ -1880,8 +2190,8 @@ class SwissEph: NSObject {
     
     func deltat_longterm_morrison_stephenson(tjd: Double) -> Double
     {
-        var Ygreg: Double =  2000.0 + (tjd - J2000)/365.2425
-        var u: Double = (Ygreg  - 1820) / 100.0
+        let Ygreg: Double =  2000.0 + (tjd - J2000)/365.2425
+        let u: Double = (Ygreg  - 1820) / 100.0
         return (-20 + 32 * u * u)
     }
     
@@ -2046,7 +2356,102 @@ class SwissEph: NSObject {
     }
     
     func deltat_aa(tjd: Double, tid_acc: Double) -> Double {
+        var ans: Double = 0
+        var ans2: Double = 0
+        var ans3: Double = 0
+        var p: Double = 0
+        var B: Double = 0
+        var B2: Double = 0
+        var dd: Double = 0
+        var iy: Int = 0
+        var k: Int = 0
+        var d: [Double] = [0, 0, 0, 0, 0, 0]
+        /* read additional values from swedelta.txt */
+        let tabsize: Int = TABSIZ
+        let tabend: Int = TABSTART + tabsize - 1
+        /*Y = 2000.0 + (tjd - J2000)/365.25;*/
+//        let Z: Double = tjd - J2000
+        let Y: Double = 2000.0 + (tjd - J2000)/365.2425
+        if (Y <= (Double)(tabend)) {
+            /* Index into the table.
+             */
+            p = floor(Y)
+            iy = (Int) ((Int)(p) - TABSTART)
+            /* Zeroth order estimate is value at start of year */
+            ans = dt[iy]
+            k = iy + 1
+            if( k >= tabsize ) {
+                /* No data, can't go on. */
+                ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
+                return ans / 86400.0
+            }
+            /* The fraction of tabulation interval */
+            p = Y - p;
+            /* First order interpolated value */
+            ans += p*(dt[k] - dt[iy]);
+            if( (iy-1 < 0) || (iy+2 >= tabsize) ) {
+                /* can't do second differences */
+                ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
+                return ans / 86400.0
+            }
+            /* Make table of first differences */
+            k = iy - 2;
+            for i in 0..<5 {
+                if( (k < 0) || (k+1 >= tabsize) ) {
+                    d[i] = 0
+                }
+                else {
+                    d[i] = dt[k+1] - dt[k]
+                }
+                k = k + 1
+            }
+            /* Compute second differences */
+            for i in 0..<4 {
+                d[i] = d[i+1] - d[i]
+            }
+            B = 0.25*p*(p-1.0)
+            ans += B*(d[1] + d[2])
+            if( iy+2 >= tabsize ) {
+                ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
+                return ans / 86400.0
+            }
+            /* Compute third differences */
+            for i in 0..<3 {
+                d[i] = d[i+1] - d[i]
+            }
+            B = 2.0*B/3.0
+            ans += (p-0.5)*B*d[1]
+            if( (iy-2 < 0) || (iy+3 > tabsize) ) {
+                ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
+                return ans / 86400.0
+            }
+            /* Compute fourth differences */
+            for i in 0..<2 {
+                d[i] = d[i+1] - d[i]
+            }
+            B = 0.125*B*(p+1.0)*(p-2.0)
+            ans += B*(d[0] + d[1])
+            ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
+            return ans / 86400.0
+        }
         
+        /* today - :
+         * Formula Stephenson (1997; p. 507),
+         * with modification to avoid jump at end of AA table,
+         * similar to what Meeus 1998 had suggested.
+         * Slow transition within 100 years.
+         */
+        B = 0.01 * (Y - 1820);
+        ans = -20 + 31 * B * B;
+        /* slow transition from tabulated values to Stephenson formula: */
+        if (Y <= (Double)(tabend+100)) {
+            B2 = 0.01 * (Double)(tabend - 1820)
+            ans2 = -20 + 31 * B2 * B2
+            ans3 = dt[tabsize-1]
+            dd = (ans2 - ans3)
+            ans = ans + dd * (Y - (Double)(tabend + 100)) * 0.01
+        }
+        return ans / 86400.0
     }
 
     /* Read delta t values from external file.
@@ -2054,8 +2459,743 @@ class SwissEph: NSObject {
      */
     func init_dt() -> Int
     {
+        // txt無くても動くしzetでもamateruでも配置してないや
         if (!swed.init_dt_done) {
+            swed.init_dt_done = true
+            return TABSIZ
         }
+        return TABSIZ
+    }
+
+    /* Subroutine arguments:
+     *
+     * R = rectangular equatorial coordinate vector to be precessed.
+     *     The result is written back into the input vector.
+     * J = Julian date
+     * direction =
+     *      Precess from J to J2000: direction = 1
+     *      Precess from J2000 to J: direction = -1
+     * Note that if you want to precess from J1 to J2, you would
+     * first go from J1 to J2000, then call the program again
+     * to go from J2000 to J2.
+     */
+    func swi_precess(R: [Double], J: Double, iflag: Int, direction: Int ) -> SweRet
+    {
+        var ret: SweRet = SweRet()
+        let T: Double = (J - J2000)/36525.0
+        var prec_model: Int = swed.astro_models[SE_MODEL_PREC_LONGTERM]
+        var prec_model_short: Int = swed.astro_models[SE_MODEL_PREC_SHORTTERM]
+        var jplhor_model = swed.astro_models[SE_MODEL_JPLHOR_MODE]
+        if (prec_model == 0) {
+            prec_model = SEMOD_PREC_DEFAULT
+        }
+        if (prec_model_short == 0) {
+            prec_model_short = SEMOD_PREC_DEFAULT_SHORT
+        }
+        if (jplhor_model == 0) {
+            jplhor_model = SEMOD_JPLHOR_DEFAULT
+        }
+        /* JPL Horizons uses precession IAU 1976 and nutation IAU 1980 plus
+         * some correction to nutation, arriving at extremely high precision */
+        /*if ((iflag & SEFLG_JPLHOR) && (jplhor_model & SEMOD_JPLHOR_DAILY_DATA)) {*/
+        if ((iflag & SEFLG_JPLHOR) > 0 /*&& INCLUDE_CODE_FOR_DPSI_DEPS_IAU1980*/) {
+            ret.tmpInt = precess_1(R, J: J, direction: direction, prec_method: SEMOD_PREC_IAU_1976)
+            return ret
+        /* Use IAU 1976 formula for a few centuries.  */
+        //    } else if (prec_model_short == SEMOD_PREC_IAU_1976 && fabs(T) <= PREC_IAU_1976_CTIES) {
+        //    return precess_1(R, J, direction, SEMOD_PREC_IAU_1976);
+        //    } else if (prec_model == SEMOD_PREC_IAU_1976) {
+        //    return precess_1(R, J, direction, SEMOD_PREC_IAU_1976);
+        /* Use IAU 2000 formula for a few centuries.  */
+        //    } else if (prec_model_short == SEMOD_PREC_IAU_2000 && fabs(T) <= PREC_IAU_2000_CTIES) {
+        //    return precess_1(R, J, direction, SEMOD_PREC_IAU_2000);
+        //    } else if (prec_model == SEMOD_PREC_IAU_2000) {
+        //    return precess_1(R, J, direction, SEMOD_PREC_IAU_2000);
+        /* Use IAU 2006 formula for a few centuries.  */
+        //    } else if (prec_model_short == SEMOD_PREC_IAU_2006 && fabs(T) <= PREC_IAU_2006_CTIES) {
+        //    return precess_1(R, J, direction, SEMOD_PREC_IAU_2006);
+        //    } else if (prec_model == SEMOD_PREC_IAU_2006) {
+        //    return precess_1(R, J, direction, SEMOD_PREC_IAU_2006);
+        //    } else if (prec_model == SEMOD_PREC_BRETAGNON_2003) {
+        //    return precess_1(R, J, direction, SEMOD_PREC_BRETAGNON_2003);
+        //    } else if (prec_model == SEMOD_PREC_LASKAR_1986) {
+        //    return precess_2(R, J, iflag, direction, SEMOD_PREC_LASKAR_1986);
+        //    } else if (prec_model == SEMOD_PREC_SIMON_1994) {
+        //    return precess_2(R, J, iflag, direction, SEMOD_PREC_SIMON_1994);
+        } else { /* SEMOD_PREC_VONDRAK_2011 */
+            ret = precess_3(R, J: J, direction: direction, prec_meth: SEMOD_PREC_VONDRAK_2011)
+            return ret
+        }
+    }
+
+/* Precession of the equinox and ecliptic
+ * from epoch Julian date J to or from J2000.0
+ *
+ * Original program by Steve Moshier.
+ * Changes in program structure and implementation of IAU 2003 (P03) and
+ * Vondrak 2011 by Dieter Koch.
+ *
+ * SEMOD_PREC_VONDRAK_2011 1
+ * J. Vondrák, N. Capitaine, and P. Wallace, "New precession expressions,
+ * valid for long time intervals", A&A 534, A22 (2011)
+ *
+     * SEMOD_PREC_IAU_2006 0
+     * N. Capitaine, P.T. Wallace, and J. Chapront, "Expressions for IAU 2000
+     * precession quantities", 2003, A&A 412, 567-568 (2003).
+     * This is a "short" term model, that can be combined with other models
+     *
+     * SEMOD_PREC_WILLIAMS_1994 0
+     * James G. Williams, "Contributions to the Earth's obliquity rate,
+     * precession, and nutation,"  Astron. J. 108, 711-724 (1994).
+     *
+     * SEMOD_PREC_SIMON_1994 0
+     * J. L. Simon, P. Bretagnon, J. Chapront, M. Chapront-Touze', G. Francou,
+     * and J. Laskar, "Numerical Expressions for precession formulae and
+     * mean elements for the Moon and the planets," Astronomy and Astrophysics
+     * 282, 663-683 (1994).
+     *
+     * SEMOD_PREC_IAU_1976 0
+     * IAU Coefficients are from:
+     * J. H. Lieske, T. Lederle, W. Fricke, and B. Morando,
+     * "Expressions for the Precession Quantities Based upon the IAU
+     * (1976) System of Astronomical Constants,"  Astronomy and
+     * Astrophysics 58, 1-16 (1977).
+     * This is a "short" term model, that can be combined with other models
+     *
+     * SEMOD_PREC_LASKAR_1986 0
+     * Newer formulas that cover a much longer time span are from:
+     * J. Laskar, "Secular terms of classical planetary theories
+     * using the results of general theory," Astronomy and Astrophysics
+     * 157, 59070 (1986).
+     * See also:
+     * P. Bretagnon and G. Francou, "Planetary theories in rectangular
+     * and spherical variables. VSOP87 solutions," Astronomy and
+     * Astrophysics 202, 309-315 (1988).
+     *
+     * Bretagnon and Francou's expansions for the node and inclination
+     * of the ecliptic were derived from Laskar's data but were truncated
+     * after the term in T**6. I have recomputed these expansions from
+     * Laskar's data, retaining powers up to T**10 in the result.
+     *
+     */
+    func precess_1(R: [Double], J: Double, direction: Int, prec_method: Int) -> Int
+    {
+        return 0
+    }
+
+    func precess_2(R: [Double], J: Double, iflag: Int, direction: Int, prec_method: Int) -> Int
+    {
+        return 0
+    }
+    
+    func precess_3(R: [Double], J: Double, direction: Int, prec_meth: Int) -> SweRet
+    {
+        let ret: SweRet = SweRet()
+        var retc: SweRet
+        var T: Double
+        var x: [Double] = [0, 0, 0]
+        
+        if( J == J2000 ) {
+            return ret
+        }
+        /* Each precession angle is specified by a polynomial in
+         * T = Julian centuries from J2000.0.  See AA page B18.
+         */
+        T = (J - J2000)/36525.0
+        retc = pre_pmat(J)
+        var j: Int = 0
+        if (direction == -1) {
+            for i in 0..<3 {
+                let R0:Double = R[0] * retc.tmpDbl6[j + 0]
+                let R1:Double = R[1] * retc.tmpDbl6[j + 1]
+                let R2:Double = R[2] * retc.tmpDbl6[j + 2]
+                x[i] = R0 + R1 + R2
+                j = i * 3
+            }
+        } else {
+            for i in 0..<3 {
+                let R0:Double = R[0] * retc.tmpDbl6[j + 0]
+                let R1:Double = R[1] * retc.tmpDbl6[j + 3]
+                let R2:Double = R[2] * retc.tmpDbl6[j + 6]
+                x[i] = R0 + R1 + R2
+                j = i * 3
+            }
+        }
+        for i in 0..<3 {
+            ret.tmpDbl6[i] = x[i]
+        }
+        return ret
+    }
+
+    func pre_pmat(tjd: Double) -> SweRet {
+        let ret: SweRet = SweRet()
+        var retc1: SweRet
+        var retc2: SweRet
+        var retc3: SweRet
+        var retc4: SweRet
+        var w: Double
+        var eqx: [Double] = [0, 0, 0]
+        /*equator pole */
+        retc1 = pre_pequ(tjd)
+        /* ecliptic pole */
+        retc2 = pre_pecl(tjd)
+        /* equinox */
+        retc3 = swi_cross_prod(retc1.tmpDbl6, b: retc2.tmpDbl6)
+        let tmp0: Double = retc3.tmpDbl6[0] * retc3.tmpDbl6[0]
+        let tmp1: Double = retc3.tmpDbl6[1] * retc3.tmpDbl6[1]
+        let tmp2: Double = retc3.tmpDbl6[2] * retc3.tmpDbl6[2]
+
+        w = sqrt(tmp0 + tmp1 + tmp2)
+        eqx[0] = retc3.tmpDbl6[0] / w
+        eqx[1] = retc3.tmpDbl6[1] / w
+        eqx[2] = retc3.tmpDbl6[2] / w
+        retc4 = swi_cross_prod(retc1.tmpDbl6, b: eqx)
+        ret.tmpDbl6[0] = eqx[0]
+        ret.tmpDbl6[1] = eqx[1]
+        ret.tmpDbl6[2] = eqx[2]
+        ret.tmpDbl6[3] = retc4.tmpDbl6[0]
+        ret.tmpDbl6[4] = retc4.tmpDbl6[1]
+        ret.tmpDbl6[5] = retc4.tmpDbl6[2]
+        ret.tmpDbl6[6] = retc1.tmpDbl6[0]
+        ret.tmpDbl6[7] = retc1.tmpDbl6[1]
+        ret.tmpDbl6[8] = retc1.tmpDbl6[2]
+        return ret
+    }
+
+    func pre_pequ(tjd: Double) -> SweRet {
+        let ret: SweRet = SweRet()
+        let npol: Int = NPOL_PEQU
+        let nper: Int = NPER_PEQU
+        var t: Double = 0
+        var p: Double = 0
+        var q: Double = 0
+        var w: Double = 0
+        var a: Double = 0
+        var s: Double = 0
+        var c: Double = 0
+        var x: Double = 0
+        var y: Double = 0
+
+        t = (tjd - J2000) / 36525.0
+        for i in 0..<nper {
+            w = TWOPI * t;
+            a = w / xyper[0][i]
+            s = sin(a);
+            c = cos(a);
+            x += c * xyper[1][i] + s * xyper[3][i]
+            y += c * xyper[2][i] + s * xyper[4][i]
+        }
+        /* polynomial terms */
+        w = 1;
+        for i in 0..<npol {
+            x += xypol[i][0] * w
+            y += xypol[i][1] * w
+            w *= t
+        }
+        x *= AS2R
+        y *= AS2R
+        /* equator pole vector */
+        ret.tmpDbl6[0] = x
+        ret.tmpDbl6[1] = y
+        w = x * x + y * y;
+        if (w < 1) {
+            ret.tmpDbl6[2] = sqrt(1 - w)
+        }
+        else  {
+            ret.tmpDbl6[2] = 0
+        }
+        return ret
+    }
+    
+    func pre_pecl(tjd: Double) -> SweRet {
+        let ret: SweRet = SweRet()
+        let npol: Int = NPOL_PECL
+        let nper: Int = NPER_PECL
+        var t: Double = 0
+        var p: Double = 0
+        var q: Double = 0
+        var w: Double = 0
+        var a: Double = 0
+        var s: Double = 0
+        var c: Double = 0
+        var z: Double = 0
+        
+        t = (tjd - J2000) / 36525.0
+        /* periodic terms */
+        for i in 0..<nper {
+            w = TWOPI * t
+            a = w / pqper[0][i]
+            s = sin(a)
+            c = cos(a)
+            let tmp1: Double = c * pqper[1][i]
+            let tmp2: Double = s * pqper[3][i]
+            let tmp3: Double = c * pqper[2][i]
+            let tmp4: Double = s * pqper[4][i]
+            p = p + tmp1 + tmp2
+            q += c * tmp3 + tmp4
+        }
+        /* polynomial terms */
+        w = 1;
+        for i in 0..<npol {
+            p += pqpol[i][0] * w
+            q += pqpol[i][1] * w
+            w *= t;
+        }
+        /* both to radians */
+        p = p * AS2R
+        q = q * AS2R
+        /* ecliptic pole vector */
+        let p2:Double = p * p
+        let q2:Double = q * q
+        z = 1 - p2 - q2
+        if (z < 0) {
+            z = 0
+        }
+        else {
+            z = sqrt(z)
+        }
+        s = sin(EPS0)
+        c = cos(EPS0)
+        ret.tmpDbl6[0] = p
+        let tmp5: Double = z * s
+        let tmp6: Double = z * c
+        ret.tmpDbl6[1] = -1 * q * c - tmp5
+        ret.tmpDbl6[2] = -1 * q * s + tmp6
+        
+        return ret
+    }
+    
+    func swi_cross_prod(a: [Double], b: [Double]) -> SweRet {
+        let ret: SweRet = SweRet()
+        ret.tmpDbl6[0] = a[1]*b[2] - a[2]*b[1]
+        ret.tmpDbl6[1] = a[2]*b[0] - a[0]*b[2]
+        ret.tmpDbl6[2] = a[0]*b[1] - a[1]*b[0]
+        return ret
+    }
+    
+    func app_pos_rest(pdp_idx: Int, iflag: Int) -> SweRet {
+        var daya: Double = 0
+        var xxsv: [Double] = [0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0]
+        var xx: [Double] = [0, 0, 0, 0, 0, 0]
+        var retc: SweRet
+        let ret: SweRet = SweRet()
+        let oe_flag: Int  = 0
+        /************************************************
+         * nutation                                     *
+         ************************************************/
+        if (!((iflag & SEFLG_NONUT) > 0)) {
+//            swi_nutate(xx, iflag, FALSE);
+        }
+        /* now we have equatorial cartesian coordinates; save them */
+        for i in 0..<6 {
+            swed.pldat[pdp_idx].xreturn[18+i] = xx[i]
+        }
+        /************************************************
+         * transformation to ecliptic.                  *
+         * with sidereal calc. this will be overwritten *
+         * afterwards.                                  *
+         ************************************************/
+        if (oe_flag == 0) {
+            retc = swi_coortrf2(xx, sineps: swed.oec.seps, coseps: swed.oec.ceps)
+            var tmpCoortrf2 : [Double] = [0, 0, 0, 0, 0, 0]
+            for i in 0..<3 {
+                tmpCoortrf2[i] = xx[i + 3]
+            }
+            if ((iflag & SEFLG_SPEED) > 0) {
+                retc = swi_coortrf2(tmpCoortrf2, sineps: swed.oec.seps, coseps: swed.oec.ceps)
+            }
+            if (!((iflag & SEFLG_NONUT) > 0)) {
+                swi_coortrf2(xx, sineps: swed.nut.snut, coseps: swed.nut.cnut)
+                for i in 0..<3 {
+                    tmpCoortrf2[i] = xx[i + 3]
+                }
+                if ((iflag & SEFLG_SPEED) > 0) {
+                    swi_coortrf2(tmpCoortrf2, sineps: swed.nut.snut, coseps: swed.nut.cnut)
+                }
+            }
+        }
+        /* now we have ecliptic cartesian coordinates */
+        for i in 0..<6 {
+            swed.pldat[pdp_idx].xreturn[6+i] = xx[i]
+        }
+        /************************************
+         * sidereal positions               *
+         ************************************/
+        if ((iflag & SEFLG_SIDEREAL) > 0) {
+            /* project onto ecliptic t0 */
+            if ((swed.sidd.sid_mode & SE_SIDBIT_ECL_T0) > 0) {
+//                if (swi_trop_ra2sid_lon(x2000, pdp->xreturn+6, pdp->xreturn+18, iflag) != OK) {
+//                    return ERR
+//                }
+                /* project onto solar system equator */
+            } else if ((swed.sidd.sid_mode & SE_SIDBIT_SSY_PLANE) > 0) {
+//                if (swi_trop_ra2sid_lon_sosy(x2000, pdp->xreturn+6, iflag) != OK)
+                ret.iflag = ERR
+                return ret
+            } else {
+                /* traditional algorithm */
+//                swi_cartpol_sp(pdp->xreturn+6, pdp->xreturn);
+                /* note, swe_get_ayanamsa_ex() disturbs present calculations, if sun is calculated with
+                 * TRUE_CHITRA ayanamsha, because the ayanamsha also calculates the sun.
+                 * Therefore current values are saved... */
+                for i in 0..<24 {
+//                    xxsv[i] = pdp->xreturn[i];
+                }
+//                if (swe_get_ayanamsa_ex(pdp->teval, iflag, &daya, serr) == ERR) {
+//                    return ERR
+//                }
+                /* ... and restored */
+                for i in 0..<24 {
+                    swed.pldat[pdp_idx].xreturn[i] = xxsv[i]
+                }
+                swed.pldat[pdp_idx].xreturn[0] = swed.pldat[pdp_idx].xreturn[0] - daya * DEG_TO_RAD
+                var tmpReturn3 : [Double] = [0, 0, 0, 0, 0, 0]
+                for i in 0..<6 {
+                    tmpReturn3[i + 6] = swed.pldat[pdp_idx].xreturn[i + 18]
+                }
+                swi_polcart_sp(tmpReturn3)
+            }
+        }
+        /************************************************
+         * transformation to polar coordinates          *
+         ************************************************/
+        var tmpReturn1 : [Double] = [0, 0, 0, 0, 0, 0]
+        for i in 0..<6 {
+            tmpReturn1[i] = swed.pldat[pdp_idx].xreturn[i + 18]
+        }
+        retc = swi_cartpol_sp(tmpReturn1)
+        for i in 0..<6 {
+            swed.pldat[pdp_idx].xreturn[i + 12] = retc.tmpDbl6[i]
+        }
+
+        var tmpReturn2 : [Double] = [0, 0, 0, 0, 0, 0]
+        for i in 0..<6 {
+            tmpReturn2[i] = swed.pldat[pdp_idx].xreturn[i + 6]
+        }
+        retc = swi_cartpol_sp(tmpReturn2)
+        for i in 0..<6 {
+            swed.pldat[pdp_idx].xreturn[i] = retc.tmpDbl6[i]
+        }
+        /**********************
+         * radians to degrees *
+         **********************/
+        /*if ((iflag & SEFLG_RADIANS) == 0) {*/
+        for i in 0..<2 {
+            swed.pldat[pdp_idx].xreturn[i] *= RAD_TO_DEG      /* ecliptic */
+            swed.pldat[pdp_idx].xreturn[i+3] *= RAD_TO_DEG
+            swed.pldat[pdp_idx].xreturn[i+12] *= RAD_TO_DEG   /* equator */
+            swed.pldat[pdp_idx].xreturn[i+15] *= RAD_TO_DEG
+        }
+        /*pdp->xreturn[12] -= (0.053 / 3600.0); */
+        /*}*/
+        /* save, what has been done */
+        swed.pldat[pdp_idx].xflgs = iflag
+        swed.pldat[pdp_idx].iephe = iflag & SEFLG_EPHMASK
+        ret.iflag = OK
+        return ret
+    }
+
+    /*
+     * conversion between ecliptical and equatorial cartesian coordinates
+     * sineps            sin(eps)
+     * coseps            cos(eps)
+     * for ecl. to equ.  sineps must be -sin(eps)
+     */
+    func swi_coortrf2(xpo: [Double], sineps: Double, coseps: Double) -> SweRet
+    {
+        let ret: SweRet = SweRet()
+        var x: [Double] = [0, 0, 0]
+        x[0] = xpo[0]
+        x[1] = xpo[1] * coseps + xpo[2] * sineps
+        x[2] = -xpo[1] * sineps + xpo[2] * coseps
+        ret.tmpDbl6[0] = x[0]
+        ret.tmpDbl6[1] = x[1]
+        ret.tmpDbl6[2] = x[2]
+        
+        return ret
+    }
+
+    /* influence of precession on speed
+     * xx           position and speed of planet in equatorial cartesian
+     *              coordinates */
+    func swi_precess_speed(xx: [Double], t: Double, iflag: Int, direction: Int) -> SweRet
+    {
+        let ret: SweRet = SweRet()
+        var retc: SweRet = SweRet()
+        var oe: SweEpsilon = SweEpsilon()
+        var xx1: [Double] = [0, 0, 0]
+        var xx2: [Double] = [0, 0, 0]
+        var fac: Double = 0
+        for i in 0..<3 {
+            xx1[i] = xx[i]
+        }
+        for i in 0..<3 {
+            xx2[i] = xx[i + 3]
+        }
+//        double tprec = (t - J2000) / 36525.0;
+        var prec_model: Int = swed.astro_models[SE_MODEL_PREC_LONGTERM]
+        if (prec_model == 0) {
+            prec_model = SEMOD_PREC_DEFAULT
+        }
+        if (direction == J2000_TO_J) {
+            fac = 1
+//                oe = &swed.oec;
+        } else {
+            fac = -1
+//            oe = &swed.oec2000;
+        }
+        /* first correct rotation.
+         * this costs some sines and cosines, but neglect might
+         * involve an error > 1"/day */
+        swi_precess(xx2, J: t, iflag: iflag, direction: direction)
+        /* then add 0.137"/day */
+        swi_coortrf2(xx1, sineps: oe.seps, coseps: oe.ceps)
+        swi_coortrf2(xx2, sineps: oe.seps, coseps: oe.ceps)
+        retc = swi_cartpol_sp(xx)
+        for i in 0..<3 {
+            ret.tmpDbl6[i] = retc.tmpDbl6[i]
+        }
+        if (prec_model == SEMOD_PREC_VONDRAK_2011) {
+//            swi_ldp_peps(t, &dpre, NULL);
+//            swi_ldp_peps(t + 1, &dpre2, NULL);
+//            xx[3] += (dpre2 - dpre) * fac;
+        } else {
+//            xx[3] += (50.290966 + 0.0222226 * tprec) / 3600 / 365.25 * DEGTORAD * fac;
+            /* formula from Montenbruck, German 1994, p. 18 */
+        }
+        retc = swi_polcart_sp(xx)
+        for i in 0..<3 {
+            xx1[i] = retc.tmpDbl6[i]
+        }
+        for i in 0..<3 {
+            xx2[i] = retc.tmpDbl6[i + 3]
+        }
+        retc = swi_coortrf2(xx1, sineps: -1 * oe.seps, coseps: oe.ceps)
+        for i in 0..<3 {
+            ret.tmpDbl6[i] = retc.tmpDbl6[i]
+        }
+        retc = swi_coortrf2(xx2, sineps: -1 * oe.seps, coseps: oe.ceps)
+        for i in 0..<3 {
+            ret.tmpDbl6[i + 3] = retc.tmpDbl6[i]
+        }
+        
+        return ret
+    }
+    
+    func swi_cartpol_sp(x: [Double]) -> SweRet {
+        let ret: SweRet = SweRet()
+        var retc: SweRet
+        var rxy: Double = 0
+        var xx: [Double] = [0, 0, 0, 0, 0]
+        var ll: [Double] = [0, 0, 0, 0, 0]
+        var coslon: Double = 0
+        var sinlon: Double = 0
+        var coslat: Double = 0
+        var sinlat: Double = 0
+        /* zero position */
+        if (x[0] == 0 && x[1] == 0 && x[2] == 0) {
+            ret.tmpDbl6[0] = 0
+            ret.tmpDbl6[1] = 0
+            ret.tmpDbl6[3] = 0
+            ret.tmpDbl6[4] = 0
+            var xx3: [Double] = [0, 0, 0]
+            for i in 0..<3 {
+                xx3[i] = x[i + 3]
+            }
+            ret.tmpDbl6[5] = sqrt(hlib.square_sum(xx3[0], y: xx3[1], z: xx3[2]))
+            retc = swi_cartpol(xx3)
+            for i in 0..<3 {
+                ret.tmpDbl6[i] = retc.tmpDbl6[i]
+            }
+            ret.tmpDbl6[2] = 0
+            return ret
+        }
+        /* zero speed */
+        if (x[3] == 0 && x[4] == 0 && x[5] == 0) {
+            ret.tmpDbl6[3] = 0
+            ret.tmpDbl6[4] = 0
+            ret.tmpDbl6[5] = 0
+            retc = swi_cartpol(x)
+            for i in 0..<3 {
+                ret.tmpDbl6[i] = retc.tmpDbl6[i]
+            }
+            return ret
+        }
+        /* position */
+        rxy = x[0]*x[0] + x[1]*x[1]
+        ll[2] = sqrt(rxy + x[2]*x[2])
+        rxy = sqrt(rxy)
+        ll[0] = atan2(x[1], x[0])
+        if (ll[0] < 0.0) {
+            ll[0] = ll[0] + TWOPI
+        }
+        ll[1] = atan(x[2] / rxy)
+        /* speed:
+         * 1. rotate coordinate system by longitude of position about z-axis,
+         *    so that new x-axis = position radius projected onto x-y-plane.
+         *    in the new coordinate system
+         *    vy'/r = dlong/dt, where r = sqrt(x^2 +y^2).
+         * 2. rotate coordinate system by latitude about new y-axis.
+         *    vz"/r = dlat/dt, where r = position radius.
+         *    vx" = dr/dt
+         */
+        coslon = x[0] / rxy          /* cos(l[0]); */
+        sinlon = x[1] / rxy          /* sin(l[0]); */
+        coslat = rxy / ll[2]         /* cos(l[1]); */
+        sinlat = x[2] / ll[2]        /* sin(ll[1]); */
+        xx[3] = x[3] * coslon + x[4] * sinlon
+        xx[4] = -x[3] * sinlon + x[4] * coslon
+        ret.tmpDbl6[3] = xx[4] / rxy           /* speed in longitude */
+        xx[4] = -sinlat * xx[3] + coslat * x[5]
+        xx[5] =  coslat * xx[3] + sinlat * x[5]
+        ret.tmpDbl6[4] = xx[4] / ll[2]         /* speed in latitude */
+        ret.tmpDbl6[5] = xx[5]                 /* speed in radius */
+        ret.tmpDbl6[0] = ll[0]                 /* return position */
+        ret.tmpDbl6[1] = ll[1]
+        ret.tmpDbl6[2] = ll[2]
+        return ret
+    }
+
+    /* conversion of cartesian (x[3]) to polar coordinates (l[3]).
+     * x = l is allowed.
+     * if |x| = 0, then lon, lat and rad := 0.
+     */
+    func swi_cartpol(x: [Double]) -> SweRet
+    {
+        let ret: SweRet = SweRet()
+        var rxy: Double = 0
+        var ll: [Double] = [0, 0, 0]
+        if (x[0] == 0 && x[1] == 0 && x[2] == 0) {
+            ret.tmpDbl6[0] = 0
+            ret.tmpDbl6[1] = 0
+            ret.tmpDbl6[2] = 0
+            return ret
+        }
+        rxy = x[0] * x[0] + x[1] * x[1]
+        ll[2] = sqrt(rxy + x[2] * x[2])
+        rxy = sqrt(rxy);
+        ll[0] = atan2(x[1], x[0])
+        if (ll[0] < 0.0) {
+            ll[0] = ll[0] + TWOPI
+        }
+        if (rxy == 0) {
+            if (x[2] >= 0) {
+                ll[1] = PI / 2
+            }
+            else {
+                ll[1] = -1 * (PI / 2)
+            }
+        } else {
+            ll[1] = atan(x[2] / rxy)
+        }
+        ret.tmpDbl6[0] = ll[0]
+        ret.tmpDbl6[0] = ll[1]
+        ret.tmpDbl6[0] = ll[2]
+        
+        return ret
+    }
+
+    /* conversion of position and speed
+     * from polar (l[6]) to cartesian coordinates (x[6])
+     * x = l is allowed
+     * explanation s. swi_cartpol_sp()
+     */
+    func swi_polcart_sp(l: [Double]) -> SweRet
+    {
+        let ret: SweRet = SweRet()
+        var sinlon: Double = 0
+        var coslon: Double = 0
+        var sinlat: Double = 0
+        var coslat: Double = 0
+        
+        var xx:[Double] = [0, 0, 0, 0, 0, 0]
+        var rxy: Double = 0
+        var rxyz: Double = 0
+        
+        /* zero speed */
+        if (l[3] == 0 && l[4] == 0 && l[5] == 0) {
+            ret.tmpDbl6[3] = 0
+            ret.tmpDbl6[4] = 0
+            ret.tmpDbl6[5] = 0
+            swi_polcart(l)
+            return ret
+        }
+        /* position */
+        coslon = cos(l[0]);
+        sinlon = sin(l[0]);
+        coslat = cos(l[1]);
+        sinlat = sin(l[1]);
+        xx[0] = l[2] * coslat * coslon;
+        xx[1] = l[2] * coslat * sinlon;
+        xx[2] = l[2] * sinlat;
+        /* speed; explanation s. swi_cartpol_sp(), same method the other way round*/
+        rxyz = l[2];
+        rxy = sqrt(xx[0] * xx[0] + xx[1] * xx[1])
+        xx[5] = l[5]
+        xx[4] = l[4] * rxyz
+        ret.tmpDbl6[5] = sinlat * xx[5] + coslat * xx[4]       /* speed z */
+        xx[3] = coslat * xx[5] - sinlat * xx[4]
+        xx[4] = l[3] * rxy;
+        ret.tmpDbl6[3] = coslon * xx[3] - sinlon * xx[4]       /* speed x */
+        ret.tmpDbl6[4] = sinlon * xx[3] + coslon * xx[4]       /* speed y */
+        ret.tmpDbl6[0] = xx[0]                                 /* return position */
+        ret.tmpDbl6[1] = xx[1]
+        ret.tmpDbl6[2] = xx[2]
+        
+        return ret
+    }
+    
+    /* conversion from polar (l[3]) to cartesian coordinates (x[3]).
+     * x = l is allowed.
+     */
+    func swi_polcart(l: [Double]) -> SweRet
+    {
+        let ret: SweRet = SweRet()
+        var xx:[Double] = [0, 0, 0]
+        var cosl1: Double
+
+        cosl1 = cos(l[1])
+        xx[0] = l[2] * cosl1 * cos(l[0])
+        xx[1] = l[2] * cosl1 * sin(l[0])
+        xx[2] = l[2] * sin(l[1])
+        ret.tmpDbl6[0] = xx[0]
+        ret.tmpDbl6[1] = xx[1]
+        ret.tmpDbl6[2] = xx[2]
+        
+        return ret
+    }
+    
+    // 未使用warning対策ダミー
+    func nouseDmyInt(a: Int) -> Void {
+        return
+    }
+    
+    // 未使用warning対策ダミー
+    func nouseDmyUInt(a: UInt) -> Void {
+        return
+    }
+    
+    // 未使用warning対策ダミー
+    func nouseDmyDbl(a: Double) -> Void {
+        return
+    }
+    
+    // 空リターン
+    func retInt(a: Int) -> Int {
+        return a
+    }
+    
+    // 空リターン
+    func retUInt(a: UInt) -> UInt {
+        return a
+    }
+
+    // 空リターン
+    func retRet(a: SweRet) -> SweRet {
+        return a
     }
     
     func pow2(a: Double, b: Int) -> Double {

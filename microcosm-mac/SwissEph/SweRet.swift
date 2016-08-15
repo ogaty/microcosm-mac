@@ -10,7 +10,10 @@ import Cocoa
 
 class SweRet: NSObject {
     var iflag: Int = 0
-    var xx: [Double] = [0, 0, 0, 0, 0, 0]
+    var xx: [Double] = [0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0]
     var serr: String = ""
 
     // for deltaT
@@ -20,6 +23,11 @@ class SweRet: NSObject {
 
     var date: NSDateComponents = NSDateComponents()
     var tmp: UInt = 0
+    var tmpInt: Int = 0
+    var tmpDbl6: [Double] = [0, 0, 0, 0, 0, 0,
+                             0, 0, 0, 0, 0, 0,
+                             0, 0, 0, 0, 0, 0,
+                             0, 0, 0, 0, 0, 0]
     var jut: Double = 0
     
 }
