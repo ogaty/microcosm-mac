@@ -40,6 +40,7 @@ let SEFLG_BARYCTR: Int    = (16*1024)
 let SEFLG_TOPOCTR: Int    = (32*1024)    /* topocentric position */
 let SEFLG_SIDEREAL: Int   = 64 * 1024     /* sidereal position */
 let SEFLG_ICRS: Int       = 128 * 1024
+let SEFLG_JPLHOR_APPROX: Int = 512 * 1024
 
 let SEI_FLG_ROTATE: Int = 2
 
@@ -104,6 +105,12 @@ let NO_SAVE: Bool = false
 
 let J2000_TO_J: Int = -1
 
+let PREC_IAU_1976_CTIES: Double = 2.0
+let PREC_IAU_2000_CTIES: Double = 2.0
+let PREC_IAU_2006_CTIES: Double = 75.0
+
+let NDCOR_EPS_JPL = 51
+
 let SE_GREG_CAL: Bool = true
 
 let SE_TIDAL_DE200: Double = -23.8946
@@ -121,6 +128,7 @@ let SE_MODEL_PREC_LONGTERM: Int = 0
 let SE_MODEL_PREC_SHORTTERM: Int = 1
 let SE_MODEL_BIAS: Int = 4
 let SE_MODEL_JPLHOR_MODE: Int = 5
+let SE_MODEL_JPLHORA_MODE: Int = 6
 let SE_MODEL_DELTAT: Int = 7
 let SEMOD_PREC_IAU_1976: Int = 1
 let SEMOD_PREC_IAU_2000: Int = 2
@@ -129,6 +137,9 @@ let SEMOD_PREC_BRETAGNON_2003: Int = 4
 let SEMOD_PREC_VONDRAK_2011: Int = 8
 let SEMOD_PREC_DEFAULT: Int = 8
 let SEMOD_PREC_DEFAULT_SHORT: Int = 8
+
+let SEMOD_JPLHORA_1: Int = 1
+let SEMOD_JPLHORA_DEFAULT: Int = 1
 
 let SEFLG_JPLHOR: Int = (256*1024)
 
@@ -1445,8 +1456,8 @@ class SwissEph: NSObject {
         var xrot: Double = 0
         var yrot: Double = 0
         var zrot: Double = 0
-        let seps2000: Double = 0 //swed.oec2000.seps
-        let ceps2000: Double = 0 //swed.oec2000.ceps
+        let seps2000: Double = swed.oec2000.seps
+        let ceps2000: Double = swed.oec2000.ceps
         var x: [[Double]] = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
                              [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
                              [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
@@ -1510,7 +1521,7 @@ class SwissEph: NSObject {
         uix[2] = -2.0 * pav * cosih2
         /*     calculate vector in orbital plane orthogonal to origin of
          longitudes.                                               */
-        uiy[0] = 2.0 * qav2 * cosih2
+        uiy[0] = 2.0 * qav * pav * cosih2
         uiy[1] = (1.0 - qav2 + pav2) * cosih2
         uiy[2] = 2.0 * qav * cosih2
         /*     rotate to actual orientation in space.         */
@@ -1869,7 +1880,7 @@ class SwissEph: NSObject {
         
         ret = ret * tmp
 
-        if (sign == 1) {
+        if (sign == 0x80) {
             ret = ret * -1
         }
         
@@ -1886,10 +1897,12 @@ class SwissEph: NSObject {
         var br: Double = 0.0
         var brp2: Double = 0.0 /* dummy assign to silence gcc warning */
         var brpp: Double = 0.0
+        var c: Double = coef[index]
         
         for j in (0..<ncf).reverse() {
             brp2 = brpp
             brpp = br
+            c = coef[index + j]
             br = x2 * brpp - brp2 + coef[index + j]
         }
         
@@ -1911,6 +1924,8 @@ class SwissEph: NSObject {
         var bjp2: Double
         var xjp2: Double
         
+        var c: Double = coef[index]
+        
         x2 = x * 2.0
         bf = 0.0      /* dummy assign to silence gcc warning */
         bj = 0.0      /* dummy assign to silence gcc warning */
@@ -1921,6 +1936,7 @@ class SwissEph: NSObject {
         for j in (1..<ncf).reverse() {
             dj = (Double)(j + j)
             xj = coef[index + j] * dj + xjp2
+            c = coef[index + j]
             bj = x2 * bjpl - bjp2 + xj
             bf = bjp2
             bjp2 = bjpl
@@ -3168,6 +3184,141 @@ class SwissEph: NSObject {
         return ret
     }
     
+    func swi_check_ecliptic(tjd: Double, iflag: Int)
+    {
+        if (swed.oec2000.teps != J2000) {
+//            calc_epsilon(J2000, iflag, &swed.oec2000);
+        }
+        if (tjd == J2000) {
+            swed.oec.teps = swed.oec2000.teps
+            swed.oec.eps = swed.oec2000.eps
+            swed.oec.seps = swed.oec2000.seps
+            swed.oec.ceps = swed.oec2000.ceps
+            return
+        }
+        if (swed.oec.teps != tjd || tjd == 0) {
+//            calc_epsilon(tjd, iflag, &swed.oec)
+            swed.oec.teps = tjd
+            
+        }
+    }
+    
+    /* calculates obliquity of ecliptic and stores it together
+     * with its date, sine, and cosine
+     */
+//    func calc_epsilon(double tjd, int32 iflag, struct epsilon *e)
+//    {
+//    e->teps = tjd;
+//    e->eps = swi_epsiln(tjd, iflag);
+//    e->seps = sin(e->eps);
+//    e->ceps = cos(e->eps);
+//    }
+
+    func swi_epsiln(J: Double, iflag: Int) -> Double
+    {
+        var T: Double
+        var eps: Double = 0
+        var tofs: Double = 0
+        var dofs: Double
+        var t0: Double
+        var t1: Double
+        var prec_model: Int = swed.astro_models[SE_MODEL_PREC_LONGTERM]
+        var prec_model_short: Int = swed.astro_models[SE_MODEL_PREC_SHORTTERM]
+        var jplhor_model:Int = swed.astro_models[SE_MODEL_JPLHOR_MODE]
+        var jplhora_model: Int = swed.astro_models[SE_MODEL_JPLHORA_MODE]
+        if (prec_model == 0) {
+            prec_model = SEMOD_PREC_DEFAULT
+        }
+        if (prec_model_short == 0) {
+            prec_model_short = SEMOD_PREC_DEFAULT_SHORT
+        }
+        if (jplhor_model == 0) {
+            jplhor_model = SEMOD_JPLHOR_DEFAULT
+        }
+        if (jplhora_model == 0) {
+            jplhora_model = SEMOD_JPLHORA_DEFAULT
+        }
+        T = (J - 2451545.0)/36525.0
+        let tmp1: Double = 1.813e-3 * T
+        let tmp1b: Double = -4.34e-8 * T
+        let tmp2: Double = tmp1 - 5.9e-4
+        let tmp2b: Double = tmp1b - 5.76e-7
+        let tmp3: Double = tmp2 * T
+        let tmp3b: Double = tmp2b * T
+        let tmp4: Double = tmp3 - 46.8150
+        let tmp4a: Double = tmp3 - 46.84024
+        let tmp4b: Double = tmp3b + 2.0034e-3
+        let tmp5: Double = tmp4 * T
+        let tmp5a: Double = tmp4a * T
+        let tmp5b: Double = tmp4b * T
+        let tmp6: Double = tmp5 + 84381.448
+        let tmp6a: Double = tmp5a + 84381.406
+        let tmp7: Double = tmp6 * DEG_TO_RAD
+        let tmp7a: Double = tmp6a * DEG_TO_RAD
+        let tmp8: Double = tmp7 / 3600
+        let tmp8a: Double = tmp7a / 3600
+        if ((iflag & SEFLG_JPLHOR) > 0 /*&& INCLUDE_CODE_FOR_DPSI_DEPS_IAU1980*/) {
+            eps = tmp8
+        /*} else if ((iflag & SEFLG_JPLHOR_APPROX) && !APPROXIMATE_HORIZONS_ASTRODIENST) {*/
+        } else if (((iflag & SEFLG_JPLHOR_APPROX) > 0) && jplhora_model != SEMOD_JPLHORA_1) {
+            eps = tmp8
+        } else if (prec_model_short == SEMOD_PREC_IAU_1976 && fabs(T) <= PREC_IAU_1976_CTIES ) {
+            eps = tmp8
+        } else if (prec_model == SEMOD_PREC_IAU_1976) {
+            eps = tmp8
+        } else if (prec_model_short == SEMOD_PREC_IAU_2000 && fabs(T) <= PREC_IAU_2000_CTIES ) {
+            eps = tmp8a
+        } else if (prec_model == SEMOD_PREC_IAU_2000) {
+            eps = tmp8a
+//    } else if (prec_model_short == SEMOD_PREC_IAU_2006 && fabs(T) <= PREC_IAU_2006_CTIES) {
+//    eps =  (((tmp5b -1.831e-4) * T -46.836769) * T + 84381.406) * DEGTORAD / 3600.0;
+//    } else if (prec_model == SEMOD_PREC_IAU_2006) {
+//    eps =  (((tmp5b -1.831e-4) * T -46.836769) * T + 84381.406) * DEGTORAD / 3600.0;
+//    } else if (prec_model == SEMOD_PREC_BRETAGNON_2003) {
+//    eps =  ((((((-3e-11 * T - 2.48e-8) * T -5.23e-7) * T +1.99911e-3) * T -1.667e-4) * T -46.836051) * T + 84381.40880) * DEGTORAD / 3600.0;/* */
+//    } else if (prec_model == SEMOD_PREC_SIMON_1994) {
+//    eps =  (((((2.5e-8 * T -5.1e-7) * T +1.9989e-3) * T -1.52e-4) * T -46.80927) * T + 84381.412) * DEGTORAD / 3600.0;/* */
+//    } else if (prec_model == SEMOD_PREC_WILLIAMS_1994) {
+//    eps =  ((((-1.0e-6 * T +2.0e-3) * T -1.74e-4) * T -46.833960) * T + 84381.409) * DEGTORAD / 3600.0;/* */
+//    } else if (prec_model == SEMOD_PREC_LASKAR_1986) {
+//    T /= 10.0;
+//    eps = ((((((((( 2.45e-10*T + 5.79e-9)*T + 2.787e-7)*T
+//    + 7.12e-7)*T - 3.905e-5)*T - 2.4967e-3)*T
+//    - 5.138e-3)*T + 1.99925)*T - 0.0155)*T - 468.093)*T
+//    + 84381.448;
+//    eps *= DEGTORAD/3600.0;
+        } else { /* SEMOD_PREC_VONDRAK_2011 */
+            let retc: SweRet = swi_ldp_peps(J)
+            eps = retc.tmpDbl6[1]
+            /*if ((iflag & SEFLG_JPLHOR_APPROX) && APPROXIMATE_HORIZONS_ASTRODIENST) {*/
+            if ((iflag & SEFLG_JPLHOR_APPROX) > 0 && jplhora_model == SEMOD_JPLHORA_1) {
+//    tofs = (J - DCOR_EPS_JPL_TJD0) / 365.25;
+//    dofs = OFFSET_EPS_JPLHORIZONS;
+                if (tofs < 0) {
+ //   tofs = 0;
+//    dofs = dcor_eps_jpl[0];
+                } else if (tofs >= (Double)(NDCOR_EPS_JPL - 1)) {
+//    tofs = NDCOR_EPS_JPL;
+//    dofs = dcor_eps_jpl[NDCOR_EPS_JPL - 1];
+                } else {
+//    t0 = (int) tofs;
+//    t1 = t0 + 1;
+//    dofs = dcor_eps_jpl[(int)t0];
+//    dofs = (tofs - t0) * (dcor_eps_jpl[(int)t0] - dcor_eps_jpl[(int)t1]) + dcor_eps_jpl[(int)t0];
+                }
+//    dofs /= (1000.0 * 3600.0);
+//    eps += dofs * DEGTORAD;
+            }
+        }
+        return(eps)
+    }
+    
+    func swi_ldp_peps(tjd : Double) -> SweRet {
+        let ret: SweRet = SweRet()
+        
+        return ret
+    }
+
     // 未使用warning対策ダミー
     func nouseDmyInt(a: Int) -> Void {
         return
