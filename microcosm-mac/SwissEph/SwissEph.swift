@@ -100,6 +100,9 @@ let SEI_NEPHFILES: Int = 7
 let SEI_FLG_ELLIPSE: Int = 4
 let SEI_FLG_EMBHEL: Int = 8
 
+let OFFSET_EPS_JPLHORIZONS: Double = 35.95
+let DCOR_EPS_JPL_TJD0: Double = 2437846.5
+
 let DO_SAVE: Bool = true
 let NO_SAVE: Bool = false
 
@@ -175,6 +178,9 @@ let NPOL_PECL: Int = 4
 let NPER_PECL: Int = 8
 let NPOL_PEQU: Int = 4
 let NPER_PEQU: Int = 14
+
+let NPOL_PEPS = 4
+let NPER_PEPS = 10
 
 let dt: [Double] = [
     /* 1620.0 thru 1659.0 */
@@ -278,6 +284,33 @@ let pqper: [[Double]] = [
     [-5523.863691, -549.74745, -310.998056, 421.535876, -36.776172, -145.278396, -34.74445, 22.885731]
 ]
 
+let dcor_eps_jpl: [Double] = [
+    36.726, 36.627, 36.595, 36.578, 36.640, 36.659, 36.731, 36.765,
+    36.662, 36.555, 36.335, 36.321, 36.354, 36.227, 36.289, 36.348, 36.257, 36.163,
+    35.979, 35.896, 35.842, 35.825, 35.912, 35.950, 36.093, 36.191, 36.009, 35.943,
+    35.875, 35.771, 35.788, 35.753, 35.822, 35.866, 35.771, 35.732, 35.543, 35.498,
+    35.449, 35.409, 35.497, 35.556, 35.672, 35.760, 35.596, 35.565, 35.510, 35.394,
+    35.385, 35.375, 35.415,
+]
+
+/* periodics */
+let peper: [[Double]] = [
+    [+409.90, +396.15, +537.22, +402.90, +417.15, +288.92, +4043.00, +306.00, +277.00, +203.00],
+    [-6908.287473, -3198.706291, +1453.674527, -857.748557, +1173.231614, -156.981465, +371.836550, -216.619040, +193.691479, +11.891524],
+    [+753.872780, -247.805823, +379.471484, -53.880558, -90.109153, -353.600190, -63.115353, -28.248187, +17.703387, +38.911307],
+    [-2845.175469, +449.844989, -1255.915323, +886.736783, +418.887514, +997.912441, -240.979710, +76.541307, -36.788069, -170.964086],
+    [-1704.720302, -862.308358, +447.832178, -889.571909, +190.402846, -56.564991, -296.222622, -75.859952, +67.473503, +3.014055]
+]
+
+/* for pre_peps(): */
+/* polynomials */
+let pepol: [[Double]] = [
+    [+8134.017132, +84028.206305],
+    [+5043.0520035, +0.3624445],
+    [-0.00710733, -0.00004039],
+    [+0.000000271, -0.000000110]
+]
+
 class SwissEph: NSObject {
 
     var swe_date: SweDate
@@ -328,7 +361,8 @@ class SwissEph: NSObject {
         }
         
         // swiss ephemeris only.
-        iflagInt = iflagInt & ~SEFLG_EPHMASK
+        iflagInt = iflagInt & ~SEFLG_MOSEPH
+        iflagInt = iflagInt & ~SEFLG_JPLEPH
         iflagInt |= SEFLG_SWIEPH
         
         /* if ephemeris flag != ephemeris flag of last call,
@@ -357,7 +391,6 @@ class SwissEph: NSObject {
         if ((iflagInt & SEFLG_SPEED3) > 0 && (iflagInt & SEFLG_SPEED) > 0) {
             iflagInt = iflagInt & ~SEFLG_SPEED3
         }
-        iflagInt = iflagInt | SEFLG_SPEED
         /* cartesian flag excludes radians flag */
         // XYZとRADIANのフラグが立っていたらXYZだけにする
         if ((iflagInt & SEFLG_XYZ) > 0 && (iflagInt & SEFLG_RADIANS) > 0) {
@@ -469,7 +502,11 @@ class SwissEph: NSObject {
                 return swe_ret
             }
             swed.savedat[sd_idx].iflgsave = ret.iflag
-            
+            for i in 0..<6  {
+                x[i] = ret.xx[i]
+                swed.savedat[sd_idx].xsaves[i] = ret.xx[i]
+            }
+        
 //        }
 
 // end_swe_calc:
@@ -577,7 +614,7 @@ class SwissEph: NSObject {
         /******************************************
          * iflag plausible?                       *
          ******************************************/
-//        iflagInt = plaus_iflag(iflag, ipl, tjd, serr);
+        iflagInt = plaus_iflag(iflag, ipl: ipl, tjd: tjd)
 
         if (!swed.ephe_path_is_set) {
             swe_set_ephe_path("")
@@ -593,7 +630,7 @@ class SwissEph: NSObject {
         /******************************************
          * obliquity of ecliptic 2000 and of date *
          ******************************************/
-//        swi_check_ecliptic(tjd, iflag);
+        swi_check_ecliptic(tjd, iflag: iflag)
         /******************************************
          * nutation                               *
          ******************************************/
@@ -618,6 +655,9 @@ class SwissEph: NSObject {
                 let retc:SweRet = sweplan(tjd, ipli: ipli, ifno: SEI_FILE_MOON, iflag: iflag, do_save: DO_SAVE)
                 if (retc.iflag == ERR) {
 //                    goto return_error;
+                }
+                for i in 0..<6 {
+                    ret.xx[i] = retc.xx[i]
                 }
                 
                 /* if sweph file not found, switch to moshier */
@@ -650,7 +690,19 @@ class SwissEph: NSObject {
         
         return ret
     }
-        
+    
+    func plaus_iflag(iflag: Int, ipl: Int, tjd: Double) -> Int {
+        var iflagRet: Int = iflag
+        var epheflag: Int  = 0
+        /* if no_precession bit is set, set also no_nutation bit */
+        if ((iflag & SEFLG_J2000) > 0) {
+            iflagRet |= SEFLG_NONUT
+        }
+        epheflag = SEFLG_SWIEPH
+        iflagRet = (iflagRet & ~SEFLG_EPHMASK)
+        iflagRet = iflagRet | epheflag
+        return iflagRet
+    }
 
     /* SWISSEPH
      * this function computes
@@ -741,8 +793,10 @@ class SwissEph: NSObject {
                 if (retc.iflag == ERR) {
                     return retc
                 }
-                //todo xpmを戻す
-
+                for i in 0..<6 {
+                    ret.xx[i] = swed.pldat[SEI_MOON].x[i]
+                }
+                
                 /* if moon file doesn't exist, take moshier moon */
 //                if (swed.fidat[SEI_FILE_MOON].fptr == NULL) {
 //                    if (serr != NULL && strlen(serr) + 35 < AS_MAXCH)
@@ -761,11 +815,13 @@ class SwissEph: NSObject {
         if (ipli == SEI_MOON) {
             for i in 0..<6 {
                 swed.pldat[SEI_MOON].x[i] = swed.pldat[SEI_MOON].x[i]
+                ret.xx[i] = swed.pldat[SEI_MOON].x[i]
             }
         } else if (ipli == SEI_EARTH) {
         } else if (ipli == SEI_SUN) {
             for i in 0..<6 {
                 swed.pldat[SEI_SUNBARY].x[i] = xpm[i]
+                ret.xx[i] = xpm[i]
             }
         } else {
             /* planet */
@@ -1157,6 +1213,7 @@ class SwissEph: NSObject {
         for i in 0..<6 {
             xxsv[i] = xx[i]
         }
+        var oe_flag : Int = 0
         /************************************************
          * precession, equator 2000 -> equator of date *
          ************************************************/
@@ -1169,9 +1226,12 @@ class SwissEph: NSObject {
                 
             }
 //            swi_precess_speed(xx, pdp->teval, iflag, J2000_TO_J);
+            oe_flag = 0
+        } else {
+            oe_flag = 1
         }
         
-        return app_pos_rest(SEI_MOON, iflag: iflag)
+        return app_pos_rest(SEI_MOON, iflag: iflag, oe_flag: oe_flag, xx: xx)
     }
 
     /* SWISSEPH
@@ -2789,16 +2849,18 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func app_pos_rest(pdp_idx: Int, iflag: Int) -> SweRet {
+    func app_pos_rest(pdp_idx: Int, iflag: Int, oe_flag: Int, xx: [Double]) -> SweRet {
         var daya: Double = 0
         var xxsv: [Double] = [0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0]
-        var xx: [Double] = [0, 0, 0, 0, 0, 0]
+        var xxx: [Double] = [0, 0, 0, 0, 0, 0]
         var retc: SweRet
         let ret: SweRet = SweRet()
-        let oe_flag: Int  = 0
+        for i in 0..<6 {
+            xxx[i] = xx[i]
+        }
         /************************************************
          * nutation                                     *
          ************************************************/
@@ -2815,27 +2877,59 @@ class SwissEph: NSObject {
          * afterwards.                                  *
          ************************************************/
         if (oe_flag == 0) {
-            retc = swi_coortrf2(xx, sineps: swed.oec.seps, coseps: swed.oec.ceps)
+            retc = swi_coortrf2(xxx, sineps: swed.oec.seps, coseps: swed.oec.ceps)
             var tmpCoortrf2 : [Double] = [0, 0, 0, 0, 0, 0]
             for i in 0..<3 {
-                tmpCoortrf2[i] = xx[i + 3]
+                tmpCoortrf2[i] = xxx[i + 3]
             }
             if ((iflag & SEFLG_SPEED) > 0) {
                 retc = swi_coortrf2(tmpCoortrf2, sineps: swed.oec.seps, coseps: swed.oec.ceps)
             }
             if (!((iflag & SEFLG_NONUT) > 0)) {
-                swi_coortrf2(xx, sineps: swed.nut.snut, coseps: swed.nut.cnut)
+                swi_coortrf2(xxx, sineps: swed.nut.snut, coseps: swed.nut.cnut)
                 for i in 0..<3 {
-                    tmpCoortrf2[i] = xx[i + 3]
+                    tmpCoortrf2[i] = xxx[i + 3]
                 }
                 if ((iflag & SEFLG_SPEED) > 0) {
                     swi_coortrf2(tmpCoortrf2, sineps: swed.nut.snut, coseps: swed.nut.cnut)
                 }
             }
+        } else {
+            retc = swi_coortrf2(xxx, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
+            for i in 0..<3 {
+                xxx[i] = retc.tmpDbl6[i]
+            }
+
+            var tmpCoortrf2 : [Double] = [0, 0, 0, 0, 0, 0]
+            for i in 0..<3 {
+                tmpCoortrf2[i] = xxx[i + 3]
+            }
+            if ((iflag & SEFLG_SPEED) > 0) {
+                retc = swi_coortrf2(tmpCoortrf2, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
+                for i in 0..<3 {
+                    xxx[i + 3] = retc.tmpDbl6[i]
+                }
+            }
+
+            if (!((iflag & SEFLG_NONUT) > 0)) {
+                swi_coortrf2(xxx, sineps: swed.nut.snut, coseps: swed.nut.cnut)
+                for i in 0..<3 {
+                    xxx[i] = retc.tmpDbl6[i]
+                }
+                if ((iflag & SEFLG_SPEED) > 0) {
+                    for i in 0..<3 {
+                        tmpCoortrf2[i] = xxx[i + 3]
+                    }
+                    swi_coortrf2(tmpCoortrf2, sineps: swed.nut.snut, coseps: swed.nut.cnut)
+                    for i in 0..<3 {
+                        xxx[i + 3] = retc.tmpDbl6[i]
+                    }
+                }
+            }
         }
         /* now we have ecliptic cartesian coordinates */
         for i in 0..<6 {
-            swed.pldat[pdp_idx].xreturn[6+i] = xx[i]
+            swed.pldat[pdp_idx].xreturn[6+i] = xxx[i]
         }
         /************************************
          * sidereal positions               *
@@ -3005,8 +3099,8 @@ class SwissEph: NSObject {
         let ret: SweRet = SweRet()
         var retc: SweRet
         var rxy: Double = 0
-        var xx: [Double] = [0, 0, 0, 0, 0]
-        var ll: [Double] = [0, 0, 0, 0, 0]
+        var xx: [Double] = [0, 0, 0, 0, 0, 0]
+        var ll: [Double] = [0, 0, 0, 0, 0, 0]
         var coslon: Double = 0
         var sinlon: Double = 0
         var coslat: Double = 0
@@ -3187,7 +3281,10 @@ class SwissEph: NSObject {
     func swi_check_ecliptic(tjd: Double, iflag: Int)
     {
         if (swed.oec2000.teps != J2000) {
-//            calc_epsilon(J2000, iflag, &swed.oec2000);
+            swed.oec2000.teps = J2000
+            swed.oec2000.eps = swi_epsiln(J2000, iflag: iflag)
+            swed.oec2000.seps = sin(swed.oec2000.eps)
+            swed.oec2000.ceps = cos(swed.oec2000.eps)
         }
         if (tjd == J2000) {
             swed.oec.teps = swed.oec2000.teps
@@ -3197,31 +3294,21 @@ class SwissEph: NSObject {
             return
         }
         if (swed.oec.teps != tjd || tjd == 0) {
-//            calc_epsilon(tjd, iflag, &swed.oec)
             swed.oec.teps = tjd
-            
+            swed.oec.eps = swi_epsiln(tjd, iflag: iflag)
+            swed.oec.seps = sin(swed.oec.eps)
+            swed.oec.ceps = cos(swed.oec.eps)
         }
     }
-    
-    /* calculates obliquity of ecliptic and stores it together
-     * with its date, sine, and cosine
-     */
-//    func calc_epsilon(double tjd, int32 iflag, struct epsilon *e)
-//    {
-//    e->teps = tjd;
-//    e->eps = swi_epsiln(tjd, iflag);
-//    e->seps = sin(e->eps);
-//    e->ceps = cos(e->eps);
-//    }
 
     func swi_epsiln(J: Double, iflag: Int) -> Double
     {
         var T: Double
         var eps: Double = 0
         var tofs: Double = 0
-        var dofs: Double
-        var t0: Double
-        var t1: Double
+        var dofs: Double = 0
+        var t0: Double = 0
+        var t1: Double = 0
         var prec_model: Int = swed.astro_models[SE_MODEL_PREC_LONGTERM]
         var prec_model_short: Int = swed.astro_models[SE_MODEL_PREC_SHORTTERM]
         var jplhor_model:Int = swed.astro_models[SE_MODEL_JPLHOR_MODE]
@@ -3292,30 +3379,67 @@ class SwissEph: NSObject {
             eps = retc.tmpDbl6[1]
             /*if ((iflag & SEFLG_JPLHOR_APPROX) && APPROXIMATE_HORIZONS_ASTRODIENST) {*/
             if ((iflag & SEFLG_JPLHOR_APPROX) > 0 && jplhora_model == SEMOD_JPLHORA_1) {
-//    tofs = (J - DCOR_EPS_JPL_TJD0) / 365.25;
-//    dofs = OFFSET_EPS_JPLHORIZONS;
+                tofs = (J - DCOR_EPS_JPL_TJD0) / 365.25
+                dofs = OFFSET_EPS_JPLHORIZONS
                 if (tofs < 0) {
- //   tofs = 0;
-//    dofs = dcor_eps_jpl[0];
+                    tofs = 0
+                    dofs = dcor_eps_jpl[0]
                 } else if (tofs >= (Double)(NDCOR_EPS_JPL - 1)) {
-//    tofs = NDCOR_EPS_JPL;
-//    dofs = dcor_eps_jpl[NDCOR_EPS_JPL - 1];
+                    tofs = (Double)(NDCOR_EPS_JPL)
+                    dofs = dcor_eps_jpl[NDCOR_EPS_JPL - 1]
                 } else {
-//    t0 = (int) tofs;
-//    t1 = t0 + 1;
-//    dofs = dcor_eps_jpl[(int)t0];
-//    dofs = (tofs - t0) * (dcor_eps_jpl[(int)t0] - dcor_eps_jpl[(int)t1]) + dcor_eps_jpl[(int)t0];
+                    t0 = tofs
+                    t1 = t0 + 1
+                    let t0I: Int = (Int)(t0)
+                    let t1I: Int = (Int)(t1)
+                    dofs = dcor_eps_jpl[t0I]
+                    dofs = (tofs - t0) * (dcor_eps_jpl[t0I] - dcor_eps_jpl[t1I]) + dcor_eps_jpl[t0I]
                 }
-//    dofs /= (1000.0 * 3600.0);
-//    eps += dofs * DEGTORAD;
+                dofs = dofs / (1000.0 * 3600.0)
+                eps = eps + dofs * DEG_TO_RAD
             }
         }
-        return(eps)
+        return eps
     }
     
     func swi_ldp_peps(tjd : Double) -> SweRet {
         let ret: SweRet = SweRet()
-        
+        let nper:Int = NPER_PEPS
+        let npol:Int = NPOL_PEPS
+        var a: Double = 0
+        var t: Double = 0
+        var p: Double = 0
+        var q: Double = 0
+        var w: Double = 0
+        var s: Double = 0
+        var c: Double = 0
+
+        t = (tjd - J2000) / 36525.0
+        /* periodic terms */
+        for i in 0..<nper {
+            w = TWOPI * t
+            a = w / peper[0][i]
+            s = sin(a)
+            c = cos(a)
+            p += c * peper[1][i] + s * peper[3][i]
+            q += c * peper[2][i] + s * peper[4][i]
+        }
+
+        /* polynomial terms */
+        w = 1
+        for i in 0..<npol {
+            p = p + pepol[i][0] * w
+            q = q + pepol[i][1] * w
+            w = w * t
+        }
+        /* both to radians */
+        p = p * AS2R
+        q = q * AS2R
+
+        /* return */
+        ret.tmpDbl6[0] = p
+        ret.tmpDbl6[1] = q
+
         return ret
     }
 
