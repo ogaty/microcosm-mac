@@ -3202,8 +3202,8 @@ class SwissEph: NSObject {
             ll[1] = atan(x[2] / rxy)
         }
         ret.tmpDbl6[0] = ll[0]
-        ret.tmpDbl6[0] = ll[1]
-        ret.tmpDbl6[0] = ll[2]
+        ret.tmpDbl6[1] = ll[1]
+        ret.tmpDbl6[2] = ll[2]
         
         return ret
     }
