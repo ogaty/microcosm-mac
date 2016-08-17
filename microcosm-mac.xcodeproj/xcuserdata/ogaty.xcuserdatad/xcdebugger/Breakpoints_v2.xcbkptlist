@@ -29,38 +29,6 @@
             timestampString = "493135598.566145"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3169"
-            endingLineNumber = "3169"
-            landmarkName = "swi_cartpol_sp(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "microcosm-mac/SwissEph/SwissEph.swift"
-            timestampString = "493134280.669592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "591"
-            endingLineNumber = "591"
-            landmarkName = "swe_calc_ut(_:ipl:iflag:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "microcosm-mac/SwissEph/SwissEph.swift"
-            timestampString = "493135598.566145"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3138"
             endingLineNumber = "3138"
             landmarkName = "swi_cartpol_sp(_:)"
@@ -74,124 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "microcosm-mac/SwissEph/SwissEph.swift"
-            timestampString = "493135598.566145"
+            timestampString = "493139009.657324"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2979"
-            endingLineNumber = "2979"
-            landmarkName = "app_pos_rest(_:iflag:oe_flag:xx:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "microcosm-mac/SwissEph/SwissEph.swift"
-            timestampString = "493135598.566145"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2988"
-            endingLineNumber = "2988"
-            landmarkName = "app_pos_rest(_:iflag:oe_flag:xx:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "microcosm-mac/SwissEph/SwissEph.swift"
-            timestampString = "493135598.566145"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3008"
-            endingLineNumber = "3008"
-            landmarkName = "app_pos_rest(_:iflag:oe_flag:xx:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "microcosm-mac/SwissEph/SwissEph.swift"
-            timestampString = "493135667.733066"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2996"
-            endingLineNumber = "2996"
-            landmarkName = "app_pos_rest(_:iflag:oe_flag:xx:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "microcosm-mac/SwissEph/SwissEph.swift"
-            timestampString = "493136674.873005"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2931"
-            endingLineNumber = "2931"
-            landmarkName = "app_pos_rest(_:iflag:oe_flag:xx:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "microcosm-mac/SwissEph/SwissEph.swift"
-            timestampString = "493136724.353387"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2937"
-            endingLineNumber = "2937"
-            landmarkName = "app_pos_rest(_:iflag:oe_flag:xx:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "microcosm-mac/SwissEph/SwissEph.swift"
-            timestampString = "493136856.963561"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3109"
-            endingLineNumber = "3109"
-            landmarkName = "swi_cartpol_sp(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "microcosm-mac/SwissEph/SwissEph.swift"
-            timestampString = "493136890.887594"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3178"
-            endingLineNumber = "3178"
-            landmarkName = "swi_cartpol(_:)"
+            startingLineNumber = "601"
+            endingLineNumber = "601"
+            landmarkName = "swe_set_ephe_path(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

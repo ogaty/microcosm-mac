@@ -503,18 +503,18 @@ class SwissEph: NSObject {
             }
             swed.savedat[sd_idx].iflgsave = ret.iflag
             for i in 0..<6  {
-                x[i] = ret.xx[i]
-                swed.savedat[sd_idx].xsaves[i] = ret.xx[i]
+//                x[i] = ret.xx[i]
+//                swed.savedat[sd_idx].xsaves[i] = ret.xx[i]
             }
         
 //        }
 
 // end_swe_calc:
         if ((iflagInt & SEFLG_EQUATORIAL) > 0) {
-            xs_idx = sd_idx + 12 /* equatorial coordinates */ /* 赤道座標系 */
+            xs_idx = 12 /* equatorial coordinates */ /* 赤道座標系 */
         }
         else {
-            xs_idx = sd_idx      /* ecliptic coordinates */ /* 黄道座標系 */
+            xs_idx = 0      /* ecliptic coordinates */ /* 黄道座標系 */
         }
         
         if ((iflagInt & SEFLG_XYZ) > 0) {
@@ -597,7 +597,7 @@ class SwissEph: NSObject {
 
         // この時点でswe_calcが動いている
         let iflag: Int = SEFLG_SWIEPH|SEFLG_J2000|SEFLG_TRUEPOS|SEFLG_ICRS
-        swe_calc(J2000, ipl: SE_MOON, iflag: iflag)
+        let ret: SweRet = swe_calc(J2000, ipl: SE_MOON, iflag: iflag)
         if (swed.fidat[SEI_FILE_MOON].fileHandle != nil) {
             swi_set_tid_acc(0, iflag: (Int)(swed.fidat[SEI_FILE_MOON].sweph_denum), denum: 0)
         }
@@ -732,7 +732,7 @@ class SwissEph: NSObject {
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
         var do_earth: Bool = false
-        let do_sunbary: Bool = false
+        var do_sunbary: Bool = false
         var do_moon: Bool = false
         var xps: [Double] = [0, 0, 0, 0, 0, 0]
         var xpm: [Double] = [0, 0, 0, 0, 0, 0]
@@ -751,13 +751,15 @@ class SwissEph: NSObject {
 //        }
         if (ipli == SEI_MOON) {
             do_earth = true
-//            do_sunbary = true
+            do_sunbary = true
         }
         if (do_save || ipli == SEI_MOON || ipli == SEI_EARTH) {
             do_moon = true
         }
         /* barycentric sun */
         if (do_sunbary) {
+            // todo 二周目はここから
+            
             /* if planet has already been computed for this date, return
              * if speed flag has been turned on, recompute planet */
             if (tjd == swed.pldat[SEI_SUNBARY].teval
