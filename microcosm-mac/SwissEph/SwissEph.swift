@@ -320,7 +320,6 @@ class SwissEph: NSObject {
     var sd_idx : Int // sdポインタのindex
     var xs_idx : Int // xsポインタのindex
     var fileName: String
-    var fileHandle: NSFileHandle? // FiilePointer
     var buf: Array<UInt8>
     var hlib: SwissHLib = SwissHLib()
 
@@ -330,7 +329,6 @@ class SwissEph: NSObject {
         sd_idx = 0
         xs_idx = 0
         fileName = ""
-        fileHandle = nil
         buf = []
     }
     
@@ -770,7 +768,7 @@ class SwissEph: NSObject {
             } else {
                 retc = sweph(tjd, ipli: SEI_SUNBARY, ifno: SEI_FILE_PLANET, xsunb: sunb, iflag: iflag, do_save: do_save)/**/
                 //todo xpsを戻す
-                if (retc != OK) {
+                if (retc.iflag != OK) {
                     return(retc)
                 }
             }
@@ -868,9 +866,9 @@ class SwissEph: NSObject {
 
         /* if planet has already been computed for this date, return.
          * if speed flag has been turned on, recompute planet */
+        let speedf1: Int = swed.pldat[ipli].xflgs & SEFLG_SPEED
+        let speedf2: Int = iflag & SEFLG_SPEED
         /*
-        speedf1 = pdp->xflgs & SEFLG_SPEED;
-        speedf2 = iflag & SEFLG_SPEED;
         if (tjd == pdp->teval
             && pdp->iephe == SEFLG_SWIEPH
             && (!speedf2 || speedf1)
@@ -886,24 +884,22 @@ class SwissEph: NSObject {
              * if new asteroid, close old file. */
             if (tjd < swed.fidat[ifno].tfstart || tjd > swed.fidat[ifno].tfend
                 || (ipl == SEI_ANYBODY && ipli != swed.pldat[ipl].ibdy)) {
-//                fclose(fdp->fptr);
-//                fdp->fptr = NULL;
-//                if (pdp->refep != NULL)
-//                free((void *) pdp->refep);
-//                pdp->refep = NULL;
-//                if (pdp->segp != NULL)
-//                free((void *) pdp->segp);
-//                pdp->segp = NULL;
+                swed.fidat[ifno].fileHandle!.closeFile()
+                swed.fidat[ifno].fileHandle = nil
             }
         }
         if (swed.fidat[ifno].fileHandle == nil) {
             fileName = swi_gen_filename(tjd, ipli: ipli)
-            fileHandle = swi_fopen(ifno, filename: fileName, ephepath: swed.ephepath)
-        }
+            swed.fidat[ifno].fileHandle = swi_fopen(ifno, filename: fileName, ephepath: swed.ephepath)
+            let data : NSData = swed.fidat[ifno].fileHandle!.readDataToEndOfFile()
+            var aBuffer = Array<UInt8>(count: data.length, repeatedValue: 0)
+            data.getBytes(&aBuffer, length: data.length)
+            buf = aBuffer
         
-        ret = read_const(ifno)
-        if (ret.iflag == ERR) {
-            return ret
+            ret = read_const(ifno)
+            if (ret.iflag == ERR) {
+                return ret
+            }
         }
 
         /* if first ephemeris file (J-3000), it might start a mars period
@@ -978,7 +974,6 @@ class SwissEph: NSObject {
 
         
         
-        // TODO ret.xx[i]が変 nevalを直したのに
         if (ipl == SEI_SUNBARY && ((swed.pldat[ipli].iflg & SEI_FLG_EMBHEL) > 0)) {
             /* sweph() calls sweph() !!! for EMB.
              * Attention: a new calculation must be forced in any case.
@@ -1027,7 +1022,7 @@ class SwissEph: NSObject {
         }
         for i in 0..<6 {
             let a:Double = swed.pldat[ipli].x[i]
-            retc.xx[i] = a
+            ret.xx[i] = a
         }
 
         return ret
@@ -1244,15 +1239,11 @@ class SwissEph: NSObject {
     func read_const(ifno: Int) -> SweRet
     {
         let ret: SweRet = SweRet()
-        let data : NSData = fileHandle!.readDataToEndOfFile()
         var index: Int
         var ipli: UInt = 0
         var pdp_idx: Int
         
-        var aBuffer = Array<UInt8>(count: data.length, repeatedValue: 0)
-        data.getBytes(&aBuffer, length: data.length)
-        buf = aBuffer
-        if (aBuffer[0] != 83 || aBuffer[1] != 87 || aBuffer[2] != 73 || aBuffer[3] != 83 || aBuffer[4] != 83) { // SWISS
+        if (buf[0] != 83 || buf[1] != 87 || buf[2] != 73 || buf[3] != 83 || buf[4] != 83) { // SWISS
             ret.serr = "file damage."
         }
         var i: Int = 0
@@ -1260,7 +1251,7 @@ class SwissEph: NSObject {
         // validate面倒なのでlf３回カウントまで進める
         while (lfCnt < 3) {
             i = i + 1
-            if (aBuffer[i] == 10) {
+            if (buf[i] == 10) {
                 lfCnt = lfCnt + 1
             }
         }
@@ -1288,7 +1279,7 @@ class SwissEph: NSObject {
          * DE number of JPL ephemeris which this file is based on *
          **********************************************************/
         var tmp: UInt = 0
-        var bufRet: SweRet = do_fread(aBuffer, index: index)
+        var bufRet: SweRet = do_fread(buf, index: index)
 
         // 07c-07f    af 01 00 00
         swed.fidat[ifno].sweph_denum = bufRet.tmp
@@ -1296,12 +1287,12 @@ class SwissEph: NSObject {
         
         // 080-087 1d 63 16 c7 7b 25 42 41(semo)  2378487.555371
         //         00 00 00 40 80 25 42 41(sepl)  2378496.500000
-        swed.fidat[ifno].tfstart = do_fread8(aBuffer, index: index)
+        swed.fidat[ifno].tfstart = do_fread8(buf, index: index)
         index = index + 8
 
         // 088-08f 75 cd 8d 3a 8c d1 43 41(semo)
         //         4c 85 f8 ad 89 d1 43 41(sepl)
-        swed.fidat[ifno].tfend = do_fread8(aBuffer, index: index)
+        swed.fidat[ifno].tfend = do_fread8(buf, index: index)
         index = index + 8
 
         /*************************************
@@ -1309,7 +1300,7 @@ class SwissEph: NSObject {
          *************************************/
         // 090-091
         // semo:1, sepl:10(0x0a)
-        bufRet = do_fread2(aBuffer, index: index)
+        bufRet = do_fread2(buf, index: index)
         index = index + 2
 
         var nplan = bufRet.tmp
@@ -1325,28 +1316,20 @@ class SwissEph: NSObject {
         
         /* which ones?                       */
         if (nbytes_ipl == 4) {
-            for i in 0..<nplan {
-                bufRet = do_fread(aBuffer, index: index)
+            for _ in 0..<nplan {
+                bufRet = do_fread(buf, index: index)
                 index = index + 4
                 // swed.fidat[ifno].ipl[i] = bufRet.tmp だとコンパイル通らず
-                if (i == 0) {
-                    swed.fidat[ifno].ipl0 = bufRet.tmp
-                } else if (i == 1) {
-                    swed.fidat[ifno].ipl1 = bufRet.tmp
-                }
+                swed.fidat[ifno].ipl.append(bufRet.tmp)
             }
         } else {
             // こっちを通る
             // 092-093
             // semo:1, sepl:2
-            for i in 0..<nplan {
-                bufRet = do_fread2(aBuffer, index: index)
+            for _ in 0..<nplan {
+                bufRet = do_fread2(buf, index: index)
                 index = index + 2
-                if (i == 0) {
-                    swed.fidat[ifno].ipl0 = bufRet.tmp
-                } else if (i == 1) {
-                    swed.fidat[ifno].ipl1 = bufRet.tmp
-                }
+                swed.fidat[ifno].ipl.append(bufRet.tmp)
             }
         }
         
@@ -1379,15 +1362,15 @@ class SwissEph: NSObject {
          * these constants are currently not in use */
         var doubles: [Double] = [Double]()
 
-        doubles.append(do_fread8(aBuffer, index: index))
+        doubles.append(do_fread8(buf, index: index))
         index = index + 8
-        doubles.append(do_fread8(aBuffer, index: index))
+        doubles.append(do_fread8(buf, index: index))
         index = index + 8
-        doubles.append(do_fread8(aBuffer, index: index))
+        doubles.append(do_fread8(buf, index: index))
         index = index + 8
-        doubles.append(do_fread8(aBuffer, index: index))
+        doubles.append(do_fread8(buf, index: index))
         index = index + 8
-        doubles.append(do_fread8(aBuffer, index: index))
+        doubles.append(do_fread8(buf, index: index))
         index = index + 8
 
         swed.gcdat.clight = doubles[0]
@@ -1400,13 +1383,7 @@ class SwissEph: NSObject {
          *************************************/
         for kpl in 0..<swed.fidat[ifno].npl {
             /* get SEI_ planet number */
-            if (kpl == 0) {
-                ipli = swed.fidat[ifno].ipl0
-            } else if (kpl == 1) {
-                ipli = swed.fidat[ifno].ipl1
-            } else {
-                ipli = 0
-            }
+            ipli = swed.fidat[ifno].ipl[kpl]
             if (ipli >= (UInt)(SE_AST_OFFSET)) {
                 pdp_idx = SEI_ANYBODY
             }
@@ -1415,23 +1392,23 @@ class SwissEph: NSObject {
             }
             swed.pldat[pdp_idx].ibdy = (Int)(ipli)
             /* file position of planet's index */
-            bufRet = do_fread(aBuffer, index: index)
+            bufRet = do_fread(buf, index: index)
             index = index + 4
             swed.pldat[pdp_idx].lndx0 = (Int)(bufRet.tmp)
 
             /* flags: helio/geocentric, rotation, reference ellipse */
-            tmp = UInt(aBuffer[index])
+            tmp = UInt(buf[index])
             index = index + 1
             swed.pldat[pdp_idx].iflg = (Int)(tmp)
 
             /* number of chebyshew coefficients / segment  */
             /* = interpolation order +1                    */
-            tmp = UInt(aBuffer[index])
+            tmp = UInt(buf[index])
             index = index + 1
             swed.pldat[pdp_idx].ncoe = (Int)(tmp)
             
             /* rmax = normalisation factor */
-            bufRet = do_fread(aBuffer, index: index)
+            bufRet = do_fread(buf, index: index)
             index = index + 4
             let lng: Int = (Int)(bufRet.tmp)
             swed.pldat[pdp_idx].rmax = (Double)((Double)(lng) / 1000.0)
@@ -1440,25 +1417,25 @@ class SwissEph: NSObject {
             /* segment length, and orbital elements          */
             var doubles2: [Double] = [Double]()
             
-            doubles2.append(do_fread8(aBuffer, index: index))
+            doubles2.append(do_fread8(buf, index: index))
             index = index + 8
-            doubles2.append(do_fread8(aBuffer, index: index))
+            doubles2.append(do_fread8(buf, index: index))
             index = index + 8
-            doubles2.append(do_fread8(aBuffer, index: index))
+            doubles2.append(do_fread8(buf, index: index))
             index = index + 8
-            doubles2.append(do_fread8(aBuffer, index: index))
+            doubles2.append(do_fread8(buf, index: index))
             index = index + 8
-            doubles2.append(do_fread8(aBuffer, index: index))
+            doubles2.append(do_fread8(buf, index: index))
             index = index + 8
-            doubles2.append(do_fread8(aBuffer, index: index))
+            doubles2.append(do_fread8(buf, index: index))
             index = index + 8
-            doubles2.append(do_fread8(aBuffer, index: index))
+            doubles2.append(do_fread8(buf, index: index))
             index = index + 8
-            doubles2.append(do_fread8(aBuffer, index: index))
+            doubles2.append(do_fread8(buf, index: index))
             index = index + 8
-            doubles2.append(do_fread8(aBuffer, index: index))
+            doubles2.append(do_fread8(buf, index: index))
             index = index + 8
-            doubles2.append(do_fread8(aBuffer, index: index))
+            doubles2.append(do_fread8(buf, index: index))
             index = index + 8
             
             swed.pldat[pdp_idx].tfstart = doubles2[0]
@@ -1477,8 +1454,8 @@ class SwissEph: NSObject {
             /* if reference ellipse is used, read its coefficients */
             if ((swed.pldat[pdp_idx].iflg & SEI_FLG_ELLIPSE) > 0) {
                 swed.pldat[pdp_idx].refep.removeAll()
-                for _ in 0..<swed.pldat[pdp_idx].ncoe*2*8 {
-                    let refep: Double = do_fread8(aBuffer, index: index)
+                for _ in 0..<swed.pldat[pdp_idx].ncoe*2 {
+                    let refep: Double = do_fread8(buf, index: index)
                     swed.pldat[pdp_idx].refep.append(refep)
                     index = index + 8
                 }
@@ -1817,9 +1794,9 @@ class SwissEph: NSObject {
 
     func swi_fopen(ifno:Int, filename: String, ephepath: String) -> NSFileHandle {
         let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "se1")
-        fileHandle = NSFileHandle(forReadingAtPath: path!)
+        let fileHandle: NSFileHandle = NSFileHandle(forReadingAtPath: path!)!
         
-        return fileHandle!
+        return fileHandle
     }
     
     
