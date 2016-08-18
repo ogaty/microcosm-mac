@@ -320,7 +320,9 @@ class SwissEph: NSObject {
     var sd_idx : Int // sdポインタのindex
     var xs_idx : Int // xsポインタのindex
     var fileName: String
-    var buf: Array<UInt8>
+    var bufmo: Array<UInt8>
+    var bufpl: Array<UInt8>
+    var bufas: Array<UInt8>
     var hlib: SwissHLib = SwissHLib()
 
     override init() {
@@ -329,7 +331,9 @@ class SwissEph: NSObject {
         sd_idx = 0
         xs_idx = 0
         fileName = ""
-        buf = []
+        bufmo = []
+        bufas = []
+        bufpl = []
     }
     
     // tjd : Julian day, Universal time
@@ -894,9 +898,17 @@ class SwissEph: NSObject {
             let data : NSData = swed.fidat[ifno].fileHandle!.readDataToEndOfFile()
             var aBuffer = Array<UInt8>(count: data.length, repeatedValue: 0)
             data.getBytes(&aBuffer, length: data.length)
-            buf = aBuffer
+            if (ifno == SEI_FILE_MOON) {
+                bufmo = aBuffer
+                ret = read_const(ifno, buf: bufmo)
+            } else if (ifno == SEI_FILE_PLANET) {
+                bufpl = aBuffer
+                ret = read_const(ifno, buf: bufpl)
+            } else if (ifno == SEI_FILE_ANY_AST) {
+                bufas = aBuffer
+                ret = read_const(ifno, buf: bufas)
+            }
         
-            ret = read_const(ifno)
             if (ret.iflag == ERR) {
                 return ret
             }
@@ -920,7 +932,13 @@ class SwissEph: NSObject {
          ******************************/
         /* get new segment, if necessary */
         if (swed.pldat[ipli].segp.count == 0 || tjd < swed.pldat[ipli].tseg0 || tjd > swed.pldat[ipli].tseg1) {
-            retc = get_new_segment(tjd, ipli: ipl, ifno: ifno, buf: buf)
+            if (ifno == SEI_FILE_MOON) {
+                retc = get_new_segment(tjd, ipli: ipl, ifno: ifno, buf: bufmo)
+            } else if (ifno == SEI_FILE_PLANET) {
+                retc = get_new_segment(tjd, ipli: ipl, ifno: ifno, buf: bufpl)
+            } else if (ifno == SEI_FILE_ANY_AST) {
+                retc = get_new_segment(tjd, ipli: ipl, ifno: ifno, buf: bufas)
+            }
         }
         if (retc.iflag != OK) {
             return retc
@@ -1236,7 +1254,7 @@ class SwissEph: NSObject {
      * ifno         file #
      * serr         error string
      */
-    func read_const(ifno: Int) -> SweRet
+    func read_const(ifno: Int, buf: Array<UInt8>) -> SweRet
     {
         let ret: SweRet = SweRet()
         var index: Int
