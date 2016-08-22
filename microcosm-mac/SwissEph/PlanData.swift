@@ -11,6 +11,8 @@ import Cocoa
 class PlanData: NSObject {
     var x:[Double] = [0, 0, 0, 0, 0, 0]
     var xpmret:[Double] = [0, 0, 0, 0, 0, 0]
+    var xpsret:[Double] = [0, 0, 0, 0, 0, 0]
+    var xperet:[Double] = [0, 0, 0, 0, 0, 0]
     var xreturn:[Double] = [0,0,0,0,0,0,
                             0,0,0,0,0,0,
                             0,0,0,0,0,0,

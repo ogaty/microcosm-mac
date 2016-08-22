@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "microcosm-mac/I.swift"
-            timestampString = "492879328.66428"
+            filePath = "microcosm-mac/SwissEph/SwissEph.swift"
+            timestampString = "493569903.1577"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "applicationDidFinishLaunching(_:)"
+            startingLineNumber = "1349"
+            endingLineNumber = "1349"
+            landmarkName = "app_pos_etc_sun(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
