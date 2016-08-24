@@ -528,6 +528,8 @@ class SwissEph: NSObject {
                 }
                 swe_ret.iflag = ERR
                 return swe_ret
+            } else {
+               // sd->xsavesにはすでに入ってる
             }
             swed.savedat[sd_idx].iflgsave = ret.iflag
         
@@ -1098,18 +1100,19 @@ class SwissEph: NSObject {
             } else if (ifno == SEI_FILE_ANY_AST) {
                 retc = get_new_segment(tjd, ipli: ipl, ifno: ifno, buf: bufas)
             }
-        }
-        if (retc.iflag != OK) {
-            return retc
+            if (retc.iflag != OK) {
+                return retc
+            }
+
+            /* rotate cheby coeffs back to equatorial system.
+             * if necessary, add reference orbit. */
+            if ((swed.pldat[ipli].iflg & SEI_FLG_ROTATE) > 0) {
+                rot_back(ipli)
+            } else {
+                swed.pldat[ipli].neval = swed.pldat[ipli].ncoe
+            }
         }
 
-        /* rotate cheby coeffs back to equatorial system.
-         * if necessary, add reference orbit. */
-        if ((swed.pldat[ipli].iflg & SEI_FLG_ROTATE) > 0) {
-            rot_back(ipli)
-        } else {
-            swed.pldat[ipli].neval = swed.pldat[ipli].ncoe
-        }
         /* evaluate chebyshew polynomial for tjd */
         t = (tjd - swed.pldat[ipli].tseg0) / swed.pldat[ipli].dseg
         t = t * 2 - 1
@@ -1160,7 +1163,7 @@ class SwissEph: NSObject {
              * to force new computation, set pedp->teval = 0 and restore it
              * after call of sweph(EMB).
              */
-            tsv = swed.pldat[ipli].teval
+            tsv = swed.pldat[SEI_EARTH].teval
             swed.pldat[ipli].teval = 0
             retc = sweph(tjd, ipli: SEI_EMB, ifno: ifno, xsunb: sunb, iflag: iflag | SEFLG_SPEED, do_save: NO_SAVE)
             if (retc.iflag != OK) {
@@ -1220,9 +1223,16 @@ class SwissEph: NSObject {
         var retc: SweRet = SweRet()
         var flg1: Int
         var flg2: Int
+//        var niter: Int
         var xx: [Double] = [0, 0, 0, 0, 0, 0]
+        var dx: [Double] = [0, 0, 0]
+        var xsun: [Double] = [0, 0, 0, 0, 0, 0]
+        var xearth: [Double] = [0, 0, 0, 0, 0, 0]
         var xobs: [Double] = [0, 0, 0, 0, 0, 0]
         var xxsv: [Double] = [0, 0, 0, 0, 0, 0]
+        var dt: Double
+        var t: Double
+        let sunb: SweSunb = SweSunb()
 
         /* if the same conversions have already been done for the same
          * date, then return */
@@ -1294,6 +1304,65 @@ class SwissEph: NSObject {
                 swed.pldat[SEI_EARTH].iephe == SEFLG_SWIEPH
                 || (iflag & SEFLG_HELCTR) > 0
                 || (iflag & SEFLG_BARYCTR) > 0) {
+                for i in 0..<5 {
+                    xearth[i] = xobs[i]
+                    if (swed.pldat[SEI_EARTH].iephe == SEFLG_MOSEPH) {
+                        xsun[i] = 0
+                    } else {
+                        xsun[i] = swed.pldat[SEI_SUNBARY].x[i]
+                    }
+                }
+                //niter = 1   /* # of iterations */
+                for _ in 0..<2 {
+                    /* distance earth-sun */
+                    for i in 0..<3 {
+                        dx[i] = xearth[i]
+                        if ((iflag & SEFLG_BARYCTR) == 0) {
+                            dx[i] = dx[i] - xsun[i]
+                        }
+                    }
+                    /* new t */
+                    let tmp1: Double = dx[0] * dx[0]
+                    let tmp2: Double = dx[1] * dx[1]
+                    let tmp3: Double = dx[2] * dx[2]
+                    dt = sqrt(tmp1 + tmp2 + tmp3) * AUNIT / CLIGHT / 86400.0
+                    t = swed.pldat[SEI_EARTH].teval - dt
+                    /* new position */
+                    switch(swed.pldat[SEI_EARTH].iephe) {
+                    case SEFLG_JPLEPH:
+                        // not implement
+                        break
+                    case SEFLG_SWIEPH:
+                        if ((iflag & SEFLG_HELCTR) > 0 || (iflag & SEFLG_BARYCTR) > 0) {
+                            retc = sweplan(t, ipli: SEI_EARTH, ifno: SEI_FILE_PLANET, iflag: iflag, do_save: NO_SAVE)
+                            for i in 0..<6 {
+                                xearth[i] = retc.tmpDbl6[i]
+                            }
+                        } else {
+                            retc = sweph(t, ipli: SEI_SUNBARY, ifno: SEI_FILE_PLANET, xsunb: sunb, iflag: iflag, do_save: NO_SAVE)
+                            for i in 0..<6 {
+                                xsun[i] = retc.tmpDbl6[i]
+                            }
+                        }
+
+                        break
+                    case SEFLG_MOSEPH:
+                        // not implement
+                        break
+                    default:
+                        break
+                    }
+                    if (retc.iflag != OK) {
+                        return retc
+                    }
+                }
+                /* apparent heliocentric earth */
+                for i in 0..<6 {
+                    xx[i] = xearth[i]
+                    if ((iflag & SEFLG_BARYCTR) == 0) {
+                        xx[i] = xx[i] - xsun[i]
+                    }
+                }
             }
         }
         if ((iflag & SEFLG_SPEED) == 0) {
@@ -1335,7 +1404,7 @@ class SwissEph: NSObject {
         var oe_flag : Int = 0
         if ((iflag & SEFLG_J2000) == 0) {
             retc = swi_precess(xx, J: swed.pldat[SEI_EARTH].teval, iflag: iflag, direction: J2000_TO_J);/**/
-            for i in 0..<6 {
+            for i in 0..<3 {
                 xx[i] = retc.tmpDbl6[i]
             }
 
@@ -3016,19 +3085,18 @@ class SwissEph: NSObject {
         var j: Int = 0
         if (direction == -1) {
             for i in 0..<3 {
+                j = i * 3
                 let R0:Double = R[0] * retc.tmpDbl6[j + 0]
                 let R1:Double = R[1] * retc.tmpDbl6[j + 1]
                 let R2:Double = R[2] * retc.tmpDbl6[j + 2]
                 x[i] = R0 + R1 + R2
-                j = i * 3
             }
         } else {
             for i in 0..<3 {
-                let R0:Double = R[0] * retc.tmpDbl6[j + 0]
-                let R1:Double = R[1] * retc.tmpDbl6[j + 3]
-                let R2:Double = R[2] * retc.tmpDbl6[j + 6]
+                let R0:Double = R[0] * retc.tmpDbl6[i + 0]
+                let R1:Double = R[1] * retc.tmpDbl6[i + 3]
+                let R2:Double = R[2] * retc.tmpDbl6[i + 6]
                 x[i] = R0 + R1 + R2
-                j = i * 3
             }
         }
         for i in 0..<3 {
@@ -3226,13 +3294,16 @@ class SwissEph: NSObject {
                     xxx[i + 3] = retc.tmpDbl6[i]
                 }
             }
-            if (!((iflag & SEFLG_NONUT) > 0)) {
+            if ((iflag & SEFLG_NONUT) == 0) {
                 retc = swi_coortrf2(xxx, sineps: swed.nut.snut, coseps: swed.nut.cnut)
                 for i in 0..<3 {
                     tmpCoortrf2[i] = xxx[i + 3]
                 }
                 if ((iflag & SEFLG_SPEED) > 0) {
                     retc = swi_coortrf2(tmpCoortrf2, sineps: swed.nut.snut, coseps: swed.nut.cnut)
+                    for i in 0..<3 {
+                        xxx[i + 3] = retc.tmpDbl6[i]
+                    }
                 }
             }
         } else {
@@ -3252,7 +3323,7 @@ class SwissEph: NSObject {
                 }
             }
 
-            if (!((iflag & SEFLG_NONUT) > 0)) {
+            if ((iflag & SEFLG_NONUT) == 0) {
                 retc = swi_coortrf2(xxx, sineps: swed.nut.snut, coseps: swed.nut.cnut)
                 for i in 0..<3 {
                     xxx[i] = retc.tmpDbl6[i]

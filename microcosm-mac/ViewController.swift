@@ -33,11 +33,16 @@ class ViewController: NSViewController {
         moonPositionLabel.stringValue = (String)(ret.xx[0])
 
         
+        let now = NSDate()
+        
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        
         userNameLbl.stringValue = "現在時刻"
-        userBirthStrLbl.stringValue = "2016/8/9 12:00:00"
+        userBirthStrLbl.stringValue = formatter.stringFromDate(now)
         userBirthPlaceLbl.stringValue = "神奈川県川崎市高津区"
-        userLatLbl.stringValue = "38.0"
-        userLngLbl.stringValue = "139.0"
+        userLatLbl.stringValue = ""
+        userLngLbl.stringValue = ""
 
         let a = 0
     }
