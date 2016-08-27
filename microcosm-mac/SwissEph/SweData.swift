@@ -27,6 +27,7 @@ class SweData: NSObject {
     var swed_is_initialised: Bool = true
     var init_dt_done: Bool = false
     var sidd: SideData = SideData()
+    var topd: TopoData = TopoData()
     var astro_models : [Int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     

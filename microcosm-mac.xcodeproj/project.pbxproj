@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674421D71455000B26AA5 /* SweTimeRet.swift */; };
+		C63674451D71D69600B26AA5 /* TopoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674441D71D69600B26AA5 /* TopoData.swift */; };
 		C6E9FDB31D4C8030008FDE6B /* GenConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E9FDB21D4C8030008FDE6B /* GenConst.swift */; };
 		C6E9FDBD1D538A23008FDE6B /* seas_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */; };
 		C6E9FDBE1D538A23008FDE6B /* semo_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */; };
@@ -30,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C63674421D71455000B26AA5 /* SweTimeRet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweTimeRet.swift; path = SwissEph/SweTimeRet.swift; sourceTree = "<group>"; };
+		C63674441D71D69600B26AA5 /* TopoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopoData.swift; path = SwissEph/TopoData.swift; sourceTree = "<group>"; };
 		C6E9FDB21D4C8030008FDE6B /* GenConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenConst.swift; path = SwissEph/GenConst.swift; sourceTree = "<group>"; };
 		C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = seas_18.se1; sourceTree = "<group>"; };
 		C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = semo_18.se1; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 				C6F4C3131D60ABE100108545 /* SideData.swift */,
 				C6F4C3151D60AEA900108545 /* SweEpsilon.swift */,
 				C6F4C32B1D61C03D00108545 /* SweNut.swift */,
+				C63674421D71455000B26AA5 /* SweTimeRet.swift */,
+				C63674441D71D69600B26AA5 /* TopoData.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -188,6 +194,8 @@
 				C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */,
 				C6F4C3161D60AEA900108545 /* SweEpsilon.swift in Sources */,
 				C6F4C32C1D61C03D00108545 /* SweNut.swift in Sources */,
+				C63674451D71D69600B26AA5 /* TopoData.swift in Sources */,
+				C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */,
 				C6F4C3141D60ABE100108545 /* SideData.swift in Sources */,
 				C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */,
 				C6FA05C61D4C64E6002F5BA3 /* FileData.swift in Sources */,

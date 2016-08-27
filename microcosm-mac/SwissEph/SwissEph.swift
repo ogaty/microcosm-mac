@@ -32,6 +32,10 @@ let SEFLG_DEFAULTEPH: Int = 2
 
 let SE_AST_OFFSET: Int = 10000
 
+let IS_PLANET = 0
+let IS_MOON = 1
+let IS_ANY_BODY = 2
+let IS_MAIN_ASTEROID = 3
 
 let SEFLG_EQUATORIAL: Int = (2*1024)    /* equatorial positions are wanted */
 let SEFLG_XYZ: Int        = (4*1024)    /* cartesian, not polar, coordinates */
@@ -69,6 +73,9 @@ let SE_MEAN_APOG: Int = 12
 let SE_OSCU_APOG: Int = 13
 let SE_EARTH: Int = 14
 let SE_NPLANETS: Int = 21
+
+let SE_JUL_CAL: Bool = false
+let SE_GREG_CAL: Bool = true
 
 
 
@@ -121,8 +128,6 @@ let PREC_IAU_2000_CTIES: Double = 2.0
 let PREC_IAU_2006_CTIES: Double = 75.0
 
 let NDCOR_EPS_JPL = 51
-
-let SE_GREG_CAL: Bool = true
 
 let SE_TIDAL_DE200: Double = -23.8946
 let SE_TIDAL_DE403: Double = -25.580
@@ -187,8 +192,12 @@ let NPER_PECL: Int = 8
 let NPOL_PEQU: Int = 4
 let NPER_PEQU: Int = 14
 
-let NPOL_PEPS = 4
-let NPER_PEPS = 10
+let NPOL_PEPS: Int = 4
+let NPER_PEPS: Int = 10
+
+let J1972: Double = 2441317.5
+let NLEAP_SECONDS: Int = 26
+let NLEAP_INIT: Int = 10
 
 let pnoext2int: [Int] = [
     SEI_SUN,
@@ -337,6 +346,36 @@ let pepol: [[Double]] = [
     [+0.000000271, -0.000000110]
 ]
 
+let leap_seconds: [Int] = [
+    19720630,
+    19721231,
+    19731231,
+    19741231,
+    19751231,
+    19761231,
+    19771231,
+    19781231,
+    19791231,
+    19810630,
+    19820630,
+    19830630,
+    19850630,
+    19871231,
+    19891231,
+    19901231,
+    19920630,
+    19930630,
+    19940630,
+    19951231,
+    19970630,
+    19981231,
+    20051231,
+    20081231,
+    20120630,
+    20150630,
+    0  /* keep this 0 as end mark */
+]
+
 class SwissEph: NSObject {
 
     var swe_date: SweDate
@@ -350,6 +389,7 @@ class SwissEph: NSObject {
     var bufpl: Array<UInt8>
     var bufas: Array<UInt8>
     var hlib: SwissHLib = SwissHLib()
+    var init_leapseconds_done: Bool = false
 
     override init() {
         swe_date = SweDate()
@@ -602,7 +642,7 @@ class SwissEph: NSObject {
             epheflag = SEFLG_SWIEPH
             iflagInt = iflag | SEFLG_SWIEPH
         }
-        let deltatRet:SweRet = swe_deltat_ex(swed, tjd: tjd_ut, iflag: iflag)
+        let deltatRet:SweRet = swe_deltat_ex(tjd_ut, iflag: iflag)
         if (deltatRet.iflag == ERR) {
             return deltatRet
         }
@@ -1418,6 +1458,160 @@ class SwissEph: NSObject {
         return app_pos_rest(SEI_EARTH, iflag: iflag, oe_flag: oe_flag, xx: xx)
     }
 
+    /* converts planets from barycentric to geocentric,
+     * apparent positions
+     * precession and nutation
+     * according to flags
+     * ipli         planet number
+     * iflag        flags
+     * serr         error string
+     */
+    func app_pos_etc_plan(ipli: Int, iflag: Int) -> SweRet
+    {
+        let ret: SweRet = SweRet()
+        let epheflag: Int = iflag & SEFLG_EPHMASK
+        var ifno: Int = 0
+        var ibody: Int = 0
+        var pdp_idx: Int = 0
+        var t: Double = 0
+        var flg1: Int = 0
+        var flg2: Int = 0
+        var xx: [Double] = [0, 0, 0, 0, 0, 0]
+        var dx: [Double] = [0, 0, 0]
+        var dt: Double = 0
+        var xxsv: [Double] = [0, 0, 0, 0, 0, 0]
+        var xxsp: [Double] = [0, 0, 0, 0, 0, 0]
+        var xobs: [Double] = [0, 0, 0, 0, 0, 0]
+        var dtsave_for_defl: Double = 0      /* dummy assignment to silence gcc */
+        var niter: Int
+        /* ephemeris file */
+        if (ipli > SE_AST_OFFSET) {
+            ifno = SEI_FILE_ANY_AST
+            ibody = IS_ANY_BODY
+            pdp_idx = SEI_ANYBODY
+        } else if (ipli == SEI_CHIRON
+            || ipli == SEI_PHOLUS
+            || ipli == SEI_CERES
+            || ipli == SEI_PALLAS
+            || ipli == SEI_JUNO
+            || ipli == SEI_VESTA) {
+            ifno = SEI_FILE_MAIN_AST
+            ibody = IS_MAIN_ASTEROID
+            pdp_idx = ipli
+        } else {
+            ifno = SEI_FILE_PLANET
+            ibody = IS_PLANET
+            pdp_idx = ipli
+        }
+        /* if the same conversions have already been done for the same
+         * date, then return */
+        flg1 = iflag & ~SEFLG_EQUATORIAL
+        flg1 = flg1 & ~SEFLG_XYZ
+        flg2 = swed.pldat[pdp_idx].xflgs & ~SEFLG_EQUATORIAL
+        flg2 = flg2 & ~SEFLG_XYZ
+        if (flg1 == flg2) {
+            swed.pldat[pdp_idx].xflgs = iflag
+            swed.pldat[pdp_idx].iephe = iflag & SEFLG_EPHMASK
+            return ret
+        }
+
+        /* the conversions will be done with xx[]. */
+        for i in 0..<6 {
+            xx[i] = swed.pldat[pdp_idx].x[i]
+        }
+        /* if heliocentric position is wanted */
+        if ((iflag & SEFLG_HELCTR) > 0) {
+            if (swed.pldat[SEI_SUNBARY].iephe == SEFLG_JPLEPH || swed.pldat[SEI_SUNBARY].iephe == SEFLG_SWIEPH) {
+                for i in 0..<6 {
+                    xx[i] = xx[i] - swed.pldat[SEI_SUNBARY].x[i]
+                }
+            }
+        }
+        /************************************
+         * observer: geocenter or topocenter
+         ************************************/
+        /* if topocentric position is wanted  */
+        if ((iflag & SEFLG_TOPOCTR) > 0) {
+            if (swed.topd.teval != swed.pldat[SEI_EARTH].teval
+                || swed.topd.teval == 0) {
+                let retc: SweRet = swi_get_observer(swed.pldat[SEI_EARTH].teval, iflag: iflag | SEFLG_NONUT, do_save: DO_SAVE)
+                if (retc.iflag != OK) {
+                    ret.iflag = ERR
+                    return ret
+                }
+            } else {
+                for i in 0..<6 {
+                    xobs[i] = swed.topd.xobs[i]
+                }
+            }
+            /* barycentric position of observer */
+            for i in 0..<6 {
+                xobs[i] = xobs[i] + swed.pldat[SEI_EARTH].x[i]
+            }
+        } else {
+            /* barycentric position of geocenter */
+            for i in 0..<6 {
+                xobs[i] = swed.pldat[SEI_EARTH].x[i]
+            }
+        }
+
+        /*******************************
+         * light-time geocentric       *
+         *******************************/
+        if ((iflag & SEFLG_TRUEPOS) == 0) {
+            /* number of iterations - 1 */
+            if (swed.pldat[pdp_idx].iephe == SEFLG_JPLEPH || swed.pldat[pdp_idx].iephe == SEFLG_SWIEPH) {
+                // swiftの都合上1増やす
+                niter = 2
+            } else {       /* SEFLG_MOSEPH or planet from osculating elements */
+                niter = 1
+            }
+            if ((iflag & SEFLG_SPEED) > 0) {
+                /*
+                 * Apparent speed is influenced by the fact that dt changes with
+                 * time. This makes a difference of several hundredths of an
+                 * arc second / day. To take this into account, we compute
+                 * 1. true position - apparent position at time t - 1.
+                 * 2. true position - apparent position at time t.
+                 * 3. the difference between the two is the part of the daily motion
+                 * that results from the change of dt.
+                 */
+                for i in 0..<3 {
+                    xxsv[i] = xx[i] - xx[i+3]
+                    xxsp[i] = xx[i] - xx[i+3]
+                }
+                for j in 0..<niter {
+                    for i in 0..<3 {
+                        dx[i] = xxsp[i];
+                        if ((iflag & SEFLG_HELCTR) == 0 && (iflag & SEFLG_BARYCTR) == 0) {
+                            dx[i] = dx[i] - (xobs[i] - xobs[i+3])
+                        }
+                    }
+                    /* new dt */
+                    let tmp1: Double = dx[0] * dx[0]
+                    let tmp2: Double = dx[1] * dx[1]
+                    let tmp3: Double = dx[2] * dx[2]
+                    dt = sqrt(tmp1 + tmp2 + tmp3) * AUNIT / CLIGHT / 86400.0;
+                    for i in 0..<3 {       /* rough apparent position at t-1 */
+                        xxsp[i] = xxsv[i] - dt * swed.pldat[pdp_idx].x[i+3]
+                    }
+                }
+                /* true position - apparent position at time t-1 */
+                for i in 0..<3 {
+                    xxsp[i] = xxsv[i] - xxsp[i]
+                }
+            }
+
+            // まだまだ続くよ
+        }
+        return ret
+    }
+    
+    func swi_get_observer(tjd: Double, iflag: Int, do_save: Bool) -> SweRet {
+        let ret: SweRet = SweRet()
+
+        return ret
+    }
     
     /* transforms the position of the moon:
      * heliocentric position
@@ -2407,7 +2601,7 @@ class SwissEph: NSObject {
         return (bj - bf) * 0.5
     }
     
-    func swe_deltat_ex(swed: SweData, tjd: Double, iflag: Int) -> SweRet {
+    func swe_deltat_ex(tjd: Double, iflag: Int) -> SweRet {
         var ret:SweRet = SweRet()
         
         if (swed.delta_t_userdef_is_set) {
@@ -2799,11 +2993,11 @@ class SwissEph: NSObject {
         /* if tjd > 1600 then gregorian calendar */
         let swe_ret: SweRet
         if (tjd >= 2305447.5) {
-            gregflag = true
+            gregflag = SE_GREG_CAL
             swe_ret = swe_date.swe_revjul(tjd, gregflag: gregflag)
             /* else julian calendar */
         } else {
-            gregflag = false
+            gregflag = SE_JUL_CAL
             swe_ret = swe_date.swe_revjul(tjd, gregflag: gregflag)
         }
         jyear = swe_ret.date.year
@@ -3910,5 +4104,249 @@ class SwissEph: NSObject {
         
         return ret
     }
- 
+    
+    func swe_utc_time_zone(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Double, timezone: Double) -> SweTimeRet {
+        let ret: SweTimeRet = SweTimeRet()
+        var retc: SweRet = SweRet()
+        var tjd: Double = 0
+        var d: Double = 0
+        var have_leapsec: Bool = false
+        var dhour: Double = (Double)(hour)
+        var dsecond: Double = second
+        if (second >= 60.0) {
+            have_leapsec = true
+            dsecond = dsecond -  1.0
+        }
+
+        dhour = (Double)(hour) + (Double)(minute) / 60.0 + dsecond / 3600.0
+        tjd = swe_julday(year, month: month, day: day, dhour: 0, gregflag: SE_GREG_CAL)
+        dhour = dhour - timezone
+        if (dhour < 0.0) {
+            tjd -= 1.0
+            dhour += 24.0
+        }
+        if (dhour >= 24.0) {
+            tjd += 1.0
+            dhour -= 24.0
+        }
+        retc = swe_date.swe_revjul(tjd + 0.001, gregflag: SE_GREG_CAL)
+        ret.year = retc.date.year
+        ret.month = retc.date.month
+        ret.day = retc.date.day
+        ret.hour = (Int)(dhour)
+        d = (dhour - (Double)(ret.hour)) * 60
+        ret.minute = (Int)(d)
+        ret.second = (d - (Double)(ret.minute)) * 60
+        if (have_leapsec) {
+            ret.second = ret.second + 1
+        }
+        
+        return ret
+    }
+    
+    func swe_julday(year: Int, month: Int, day: Int, dhour: Double, gregflag: Bool) -> Double {
+        var jd: Double = 0
+        var u: Double = (Double)(year)
+        var u0: Double = 0
+        var u1: Double = 0
+        var u2: Double = 0
+        
+        if (month < 3) {
+            u = u - 1
+        }
+        u0 = u + 4712.0
+        u1 = (Double)(month) + 1.0
+        if (u1 < 4) {
+            u1 = u1 + 12.0
+        }
+        jd = floor(u0*365.25)
+        jd = jd
+            + floor(30.6*u1+0.000001)
+        jd = jd
+            + (Double)(day) + dhour/24.0 - 63.5
+
+        if (gregflag == SE_GREG_CAL) {
+            u2 = floor(fabs(u) / 100) - floor(fabs(u) / 400)
+            if (u < 0.0) {
+                u2 = -u2
+            }
+            jd = jd - u2 + 2;
+            if ((u < 0.0) && (u/100 == floor(u/100)) && (u/400 != floor(u/400))) {
+                jd = jd - 1
+            }
+        }
+        return jd
+    }
+
+    func utc_to_jd(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Double, gregflag: Bool) -> SweRet {
+        var ret: SweRet = SweRet()
+        var tjd_et: Double = 0.0
+        var tjd_et_1972: Double = 0.0
+        var tjd_ut1: Double = 0
+        var dhour: Double = 0
+        var gregflagBool: Bool = gregflag
+        var nleap: Int = 0
+        var tabsiz_nleap: Int = 0
+        var ndat: Int = 0
+        var d: Double = 0
+        
+        
+        tjd_ut1 = swe_julday(year, month: month, day: day, dhour: 0, gregflag: gregflagBool)
+        var retc: SweRet = swe_date.swe_revjul(tjd_ut1, gregflag: gregflagBool)
+        
+        var ryear: Int = retc.date.year
+        var rmonth: Int = retc.date.month
+        var rday: Int = retc.date.day
+        d = retc.jut
+        
+        if (year != ryear || month != rmonth || day != rday) {
+            if (retc.serr != "") {
+                ret.serr = "invalid date"
+            }
+            ret.iflag = ERR
+            return ret
+        }
+        if (hour < 0 || hour > 23) {
+            ret.serr = "invalid time"
+        }
+        if (minute < 0 || minute > 59) {
+            ret.serr = "invalid time"
+            ret.iflag = ERR
+            return ret
+        }
+        if (second < 0 || second > 61) {
+            ret.serr = "invalid time"
+            ret.iflag = ERR
+            return ret
+        }
+        if (second > 60 && (minute < 59 || hour < 23 || tjd_ut1 < J1972)) {
+            ret.serr = "invalid time"
+            ret.iflag = ERR
+            return ret
+        }
+        dhour = (Double)(hour) + ((Double)(minute)) / 60.0 + (Double)(second) / 3600.0
+        /*
+         * before 1972, we treat input date as UT1
+         */
+        if (tjd_ut1 < J1972) {
+            ret.tmpDbl6[1] = swe_julday(year, month: month, day: day, dhour: dhour, gregflag: gregflag)
+            let retc: SweRet = swe_deltat_ex(ret.tmpDbl6[1], iflag: -1)
+            ret.tmpDbl6[0] = ret.tmpDbl6[1] + retc.deltat
+            return ret
+        }
+        /*
+         * if gregflag = Julian calendar, convert to gregorian calendar
+         */
+        if (gregflag == SE_JUL_CAL) {
+            gregflagBool = SE_GREG_CAL
+            retc = swe_date.swe_revjul(tjd_ut1, gregflag: gregflagBool)
+            ryear = retc.date.year
+            rmonth = retc.date.month
+            rday = retc.date.day
+        }
+        /*
+         * number of leap seconds since 1972:
+         */
+        tabsiz_nleap = init_leapsec()
+        nleap = NLEAP_INIT /* initial difference between UTC and TAI in 1972 */
+        ndat = ryear * 10000 + rmonth * 100 + rday
+        for i in 0..<tabsiz_nleap {
+            if (ndat <= leap_seconds[i]) {
+                break
+            }
+            nleap = nleap + 1
+        }
+        /*
+         * For input dates > today:
+         * If leap seconds table is not up to date, we'd better interpret the
+         * input time as UT1, not as UTC. How do we find out?
+         * Check, if delta_t - nleap - 32.184 > 0.9
+         */
+        ret = swe_deltat_ex(tjd_ut1, iflag: -1)
+        d = ret.deltat * 86400.0
+        if (d - (Double)(nleap) - 32.184 >= 1.0) {
+            ret.tmpDbl6[1] = tjd_ut1 + dhour / 24.0
+            retc = swe_deltat_ex(ret.tmpDbl6[1], iflag: -1)
+            ret.tmpDbl6[0] = ret.tmpDbl6[1] + retc.deltat
+            return ret
+        }
+        /*
+         * if input second is 60: is it a valid leap second ?
+         */
+        var j: Int = 0
+        if (second >= 60) {
+            for i in 0..<tabsiz_nleap {
+                if (ndat == leap_seconds[i]) {
+                    j = 1
+                    break
+                }
+            }
+            if (j != 1) {
+                    ret.serr = "invalid time (no leap second!)"
+                ret.iflag = ERR
+                return ret
+            }
+        }
+        /*
+         * convert UTC to ET and UT1
+         */
+        /* the number of days between input date and 1 jan 1972: */
+        d = tjd_ut1 - J1972
+        /* SI time since 1972, ignoring leap seconds: */
+        let tmphour: Double = (Double)(hour) / 24.0
+        let tmpmin: Double = (Double)(minute) / 1440.0
+        let tmpsec: Double = (Double)(second) / 86400.0
+        d = d + tmphour + tmpmin + tmpsec
+        /* ET (TT) */
+        tjd_et_1972 = J1972 + (32.184 + (Double)(NLEAP_INIT)) / 86400.0
+        tjd_et = tjd_et_1972 + d + ((Double)(nleap - NLEAP_INIT)) / 86400.0
+        retc = swe_deltat_ex(tjd_et, iflag: -1)
+        ret.deltat = retc.deltat
+        retc = swe_deltat_ex(tjd_et - d, iflag: -1)
+        tjd_ut1 = tjd_et - retc.deltat
+        ret.tmpDbl6[0] = tjd_et
+        ret.tmpDbl6[1] = tjd_ut1
+
+        return ret
+    }
+
+    // うるう秒計算
+    // とりあえずいいや
+    func init_leapsec() -> Int {
+        return NLEAP_SECONDS
+//        FILE *fp;
+//        int ndat, ndat_last;
+//        var ndat_last: Int = 0
+//        var tabsiz: Int = 0;
+//        int i;
+//        char s[AS_MAXCH];
+//        char *sp;
+//        if (!init_leapseconds_done) {
+//            init_leapseconds_done = true
+//            tabsiz = NLEAP_SECONDS;
+//            ndat_last = leap_seconds[NLEAP_SECONDS - 1]
+            /* no error message if file is missing */
+//            if ((fp = swi_fopen(-1, "seleapsec.txt", swed.ephepath, NULL)) == NULL) {
+//                return NLEAP_SECONDS
+//            }
+//            while(fgets(s, AS_MAXCH, fp) != NULL) {
+//                sp = s;
+//                while (*sp == ' ' || *sp == '\t') sp++;
+//                sp++;
+//                if (*sp == '#' || *sp == '\n')
+//                continue;
+//                ndat = atoi(s);
+//                if (ndat <= ndat_last)
+//                continue;
+//                /* table space is limited. no error msg, if exceeded */
+//                if (tabsiz >= NLEAP_SECONDS_SPACE)
+//                return tabsiz;
+//                leap_seconds[tabsiz] = ndat;
+//                tabsiz++;
+//            }
+//            if (tabsiz > NLEAP_SECONDS) leap_seconds[tabsiz] = 0; /* end mark */
+//            fclose(fp);
+//            return tabsiz;
+//        }
+    }
 }

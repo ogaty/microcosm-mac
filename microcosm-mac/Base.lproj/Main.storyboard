@@ -722,7 +722,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GBc-LH-3nN">
-                                <rect key="frame" x="247" y="227" width="118" height="17"/>
+                                <rect key="frame" x="247" y="227" width="127" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="sunLabel" id="tGa-Ry-WFj">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -745,10 +745,27 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WvG-PX-SSu">
+                                <rect key="frame" x="207" y="184" width="37" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="☿" id="oww-z0-Zim">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9We-JN-ebm">
+                                <rect key="frame" x="247" y="184" width="127" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="mercuryLabel" id="rJ4-Q9-x4i">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="moonPositionLabel" destination="vFZ-Uu-zUu" id="E4o-pr-4lP"/>
+                        <outlet property="mercuryPositionLabel" destination="9We-JN-ebm" id="1MU-Le-dRd"/>
+                        <outlet property="moonPositionLabel" destination="vFZ-Uu-zUu" id="QfM-t3-R8i"/>
                         <outlet property="sunPositionLabel" destination="GBc-LH-3nN" id="JjG-Wr-gO2"/>
                         <outlet property="userBirthPlaceLbl" destination="pin-5I-fsc" id="eRG-RO-mG3"/>
                         <outlet property="userBirthStrLbl" destination="xyr-as-sD5" id="5It-bw-YUL"/>
