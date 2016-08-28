@@ -22,6 +22,7 @@ let SEFLG_SPEED3: Int = 128
 /* speed from 3 positions (do not use it,
  SEFLG_SPEED is faster and more precise.) */
 let SEFLG_SPEED: Int	= 256     /* high precision speed  */
+let SEFLG_NOGDEFL: Int = 512 /* turn off gravitational deflection */
 let SEFLG_NOABERR: Int = 1024 /* turn off 'annual' aberration of light */
 let J2000: Double = 2451545.0
 
@@ -122,6 +123,7 @@ let DO_SAVE: Bool = true
 let NO_SAVE: Bool = false
 
 let J2000_TO_J: Int = -1
+let J_TO_J2000: Int = 1
 
 let PREC_IAU_1976_CTIES: Double = 2.0
 let PREC_IAU_2000_CTIES: Double = 2.0
@@ -992,6 +994,10 @@ class SwissEph: NSObject {
                 ret.xx[i] = swed.pldat[SEI_MOON].x[i]
             }
         } else if (ipli == SEI_EARTH) {
+            for i in 0..<6 {
+                swed.pldat[SEI_SUNBARY].x[i] = xpm[i]
+                ret.xx[i] = xpe[i]
+            }
         } else if (ipli == SEI_SUN) {
             for i in 0..<6 {
                 swed.pldat[SEI_SUNBARY].x[i] = xpm[i]
@@ -999,7 +1005,43 @@ class SwissEph: NSObject {
             }
         } else {
             /* planet */
-            // todo
+            if (tjd == swed.pldat[ipli].teval
+                && swed.pldat[ipli].iephe == SEFLG_SWIEPH) {
+                if (!do_save) {
+                    for i in 0..<6 {
+                        ret.tmpDbl6[i] = swed.pldat[ipli].x[i]
+                    }
+                }
+                return ret
+            } else {
+                let retc: SweRet = sweph(tjd, ipli: ipli, ifno: ifno, xsunb: sunb, iflag: iflag, do_save: do_save)
+                if (retc.iflag == ERR) {
+                    return retc
+                }
+                /* if planet is heliocentric, it must be transformed to barycentric */
+                if ((swed.pldat[ipli].iflg & SEI_FLG_HELIO) > 0) {
+                    /* now barycentric planet */
+                    if (do_save) {
+                        for i in 0..<3 {
+                            swed.pldat[ipli].x[i] += xps[i];
+                        }
+                        if (do_save || (iflag & SEFLG_SPEED) > 0) {
+                            for i in 3..<6 {
+                                swed.pldat[ipli].x[i] += xps[i]
+                            }
+                        }
+                    } else {
+                        for i in 0..<3 {
+                            ret.xx[i] += xps[i];
+                        }
+                        if (do_save || (iflag & SEFLG_SPEED) > 0) {
+                            for i in 3..<6 {
+                                ret.xx[i] += xps[i]
+                            }
+                        }
+                    }
+                }
+            }
         }
         
         ret.iflag = 0
@@ -1023,7 +1065,7 @@ class SwissEph: NSObject {
             }
             else
             {
-//                retc = app_pos_etc_plan(ipli, iflag)
+                retc = app_pos_etc_plan(ipli, iflag: iflag)
             }
             if (retc.iflag == ERR) {
                 return ret
@@ -1449,7 +1491,7 @@ class SwissEph: NSObject {
             }
 
             if ((iflag & SEFLG_SPEED) > 0) {
-//                swi_precess_speed(xx, swed.pldat[SEI_EARTH].teval, iflag, J2000_TO_J);/**/
+                swi_precess_speed(xx, t: swed.pldat[SEI_EARTH].teval, iflag: iflag, direction: J2000_TO_J);/**/
             }
             oe_flag = 0
         } else {
@@ -1469,6 +1511,7 @@ class SwissEph: NSObject {
     func app_pos_etc_plan(ipli: Int, iflag: Int) -> SweRet
     {
         let ret: SweRet = SweRet()
+        var retc: SweRet = SweRet()
         let epheflag: Int = iflag & SEFLG_EPHMASK
         var ifno: Int = 0
         var ibody: Int = 0
@@ -1482,6 +1525,8 @@ class SwissEph: NSObject {
         var xxsv: [Double] = [0, 0, 0, 0, 0, 0]
         var xxsp: [Double] = [0, 0, 0, 0, 0, 0]
         var xobs: [Double] = [0, 0, 0, 0, 0, 0]
+        var xobs2: [Double] = [0, 0, 0, 0, 0, 0]
+        var xearth: [Double] = [0, 0, 0, 0, 0, 0]
         var dtsave_for_defl: Double = 0      /* dummy assignment to silence gcc */
         var niter: Int
         /* ephemeris file */
@@ -1580,7 +1625,7 @@ class SwissEph: NSObject {
                     xxsv[i] = xx[i] - xx[i+3]
                     xxsp[i] = xx[i] - xx[i+3]
                 }
-                for j in 0..<niter {
+                for _ in 0..<niter {
                     for i in 0..<3 {
                         dx[i] = xxsp[i];
                         if ((iflag & SEFLG_HELCTR) == 0 && (iflag & SEFLG_BARYCTR) == 0) {
@@ -1601,16 +1646,294 @@ class SwissEph: NSObject {
                     xxsp[i] = xxsv[i] - xxsp[i]
                 }
             }
+            /* dt and t(apparent) */
+            for _ in 0..<niter {
+                for i in 0..<3 {
+                    dx[i] = xx[i]
+                    if ((iflag & SEFLG_HELCTR) == 0 && (iflag & SEFLG_BARYCTR) == 0) {
+                        dx[i] = dx[i] - xobs[i]
+                    }
+                }
+                let tmp1: Double = dx[0] * dx[0]
+                let tmp2: Double = dx[1] * dx[1]
+                let tmp3: Double = dx[2] * dx[2]
 
-            // まだまだ続くよ
+                dt = sqrt(tmp1 + tmp2 + tmp3) * AUNIT / CLIGHT / 86400.0
+                /* new t */
+                t = swed.pldat[pdp_idx].teval - dt
+                dtsave_for_defl = dt
+                for i in 0..<3 {          /* rough apparent position at t*/
+                    xx[i] = swed.pldat[pdp_idx].x[i] - dt * swed.pldat[pdp_idx].x[i+3]
+                }
+            }
+            /* part of daily motion resulting from change of dt */
+            if ((iflag & SEFLG_SPEED) > 0) {
+                for i in 0..<3 {
+                    xxsp[i] = swed.pldat[pdp_idx].x[i] - xx[i] - xxsp[i]
+                }
+            }
+            /* new position, accounting for light-time (accurate) */
+            switch(epheflag) {
+            case SEFLG_JPLEPH:
+                break
+            case SEFLG_SWIEPH:
+                if (ibody == IS_PLANET) {
+                    retc = sweplan(t, ipli: ipli, ifno: ifno, iflag: iflag, do_save: NO_SAVE)
+                } else {                /*asteroid*/
+                    retc = sweplan(t, ipli: SEI_EARTH, ifno: SEI_FILE_PLANET, iflag: iflag, do_save: NO_SAVE)
+                    if (retc.iflag == OK) {
+                        let sunb: SweSunb = SweSunb()
+                        retc = sweph(t, ipli: ipli, ifno: ifno, xsunb: sunb, iflag: iflag, do_save: NO_SAVE)
+                    }
+                }
+                if (retc != OK) {
+                    return retc
+                }
+                break
+            case SEFLG_MOSEPH:
+                fallthrough
+            default:
+                break
+                
+            }
+            if ((iflag & SEFLG_HELCTR) > 0) {
+                if (swed.pldat[pdp_idx].iephe == SEFLG_JPLEPH || swed.pldat[pdp_idx].iephe == SEFLG_SWIEPH) {
+                    for i in 0..<6 {
+                        xx[i] = xx[i] - swed.pldat[SEI_SUNBARY].x[i]
+                    }
+                }
+            }
+            if ((iflag & SEFLG_SPEED) > 0) {
+                /* observer position for t(light-time) */
+                if ((iflag & SEFLG_TOPOCTR) > 0) {
+                    let retc: SweRet = swi_get_observer(swed.pldat[SEI_EARTH].teval, iflag: iflag | SEFLG_NONUT, do_save: DO_SAVE)
+                    if (retc.iflag != OK) {
+                        ret.iflag = ERR
+                        return ret
+                    }
+                    for i in 0..<6 {
+                        xobs2[i] = xobs2[i] + xearth[i];
+                    }
+                } else {
+                    for i in 0..<6 {
+                        xobs2[i] = xearth[i]
+                    }
+                }
+            }
+        }
+        /*******************************
+         * conversion to geocenter     *
+         *******************************/
+        if ((iflag & SEFLG_HELCTR) == 0 && (iflag & SEFLG_BARYCTR) == 0) {
+            /* subtract earth */
+            for i in 0..<6 {
+                xx[i] -= xobs[i];
+            }
+            if ((iflag & SEFLG_TRUEPOS) == 0 ) {
+                /*
+                 * Apparent speed is also influenced by
+                 * the change of dt during motion.
+                 * Neglect of this would result in an error of several 0.01"
+                 */
+                if ((iflag & SEFLG_SPEED) > 0) {
+                    for i in 3..<6 {
+                        xx[i] = xx[i] - xxsp[i-3]
+                    }
+                }
+            }
+        }
+        if ((iflag & SEFLG_SPEED) == 0) {
+            for i in 3..<6 {
+                xx[i] = 0
+            }
+        }
+        /************************************
+         * relativistic deflection of light *
+         ************************************/
+        if ((iflag & SEFLG_TRUEPOS) == 0 && (iflag & SEFLG_NOGDEFL) == 0) {
+            /* SEFLG_NOGDEFL is on, if SEFLG_HELCTR or SEFLG_BARYCTR */
+            swi_deflect_light(xx, dtsave_for_defl: dtsave_for_defl, iflag: iflag);
+        }
+        /**********************************
+         * 'annual' aberration of light   *
+         **********************************/
+        if ((iflag & SEFLG_TRUEPOS) == 0 && (iflag & SEFLG_NOABERR) == 0) {
+            /* SEFLG_NOABERR is on, if SEFLG_HELCTR or SEFLG_BARYCTR */
+//            swi_aberr_light(xx, xobs, iflag);
+            /*
+             * Apparent speed is also influenced by
+             * the difference of speed of the earth between t and t-dt.
+             * Neglecting this would involve an error of several 0.1"
+             */
+            if ((iflag & SEFLG_SPEED) > 0) {
+                for i in 3..<6 {
+                    xx[i] = xx[i] + xobs[i] - xobs2[i]
+                }
+            }
+        }
+
+        if ((iflag & SEFLG_SPEED) == 0) {
+            for i in 3..<6 {
+                xx[i] = 0
+            }
+        }
+
+        /* ICRS to J2000 */
+//        if ((iflag & SEFLG_ICRS) == 0 && get_denum(ipli, epheflag) >= 403) {
+//            swi_bias(xx, t, iflag, FALSE);
+//        }/**/
+        /* save J2000 coordinates; required for sidereal positions */
+        for i in 0..<6 {
+            xxsv[i] = xx[i]
+        }
+        /************************************************
+         * precession, equator 2000 -> equator of date *
+         ************************************************/
+        var oe_flag : Int = 0
+        if ((iflag & SEFLG_J2000) == 0) {
+            retc = swi_precess(xx, J: swed.pldat[pdp_idx].teval, iflag: iflag, direction: J2000_TO_J);/**/
+            for i in 0..<3 {
+                xx[i] = retc.tmpDbl6[i]
+            }
+            if ((iflag & SEFLG_SPEED) > 0) {
+                swi_precess_speed(xx, t: swed.pldat[pdp_idx].teval, iflag: iflag, direction: J2000_TO_J);
+            }
+            oe_flag = 0
+        } else {
+            oe_flag = 1
+        }
+        return app_pos_rest(pdp_idx, iflag: iflag, oe_flag: oe_flag, xx: xx)
+    }
+
+    func swi_get_observer(tjd: Double, iflag: Int, do_save: Bool) -> SweRet {
+        let ret: SweRet = SweRet()
+        var retc: SweRet = SweRet()
+        var delt: Double = 0
+        var sidt: Double = 0
+        var tjd_ut: Double = 0
+        var eps: Double = 0
+        var nut: Double = 0
+        var cosfi: Double = 0
+        var sinfi: Double = 0
+        var cosl: Double = 0
+        var sinl: Double = 0
+        var f: Double = 0
+        var h: Double = 0
+        var re: Double = 0
+        var cc: Double = 0
+        var ss: Double = 0
+        var nutlo: [Double] = [0, 0]
+        var xobs: [Double] = [0, 0, 0, 0, 0, 0]
+        /* geocentric position of observer depends on sidereal time,
+         * which depends on UT.
+         * compute UT from ET. this UT will be slightly different
+         * from the user's UT, but this difference is extremely small.
+         */
+        retc = swe_deltat_ex(tjd, iflag: iflag)
+        delt = retc.tmpDbl6[0]
+        tjd_ut = tjd - delt
+        if (swed.oec.teps == tjd && swed.nut.tnut == tjd) {
+            eps = swed.oec.eps;
+            nutlo[1] = swed.nut.nutlo[1]
+            nutlo[0] = swed.nut.nutlo[0]
+        } else {
+//            eps = swi_epsiln(tjd, iflag);
+            if ((iflag & SEFLG_NONUT) == 0) {
+//                swi_nutation(tjd, iflag, nutlo)
+            }
+        }
+        if ((iflag & SEFLG_NONUT) > 0) {
+            nut = 0;
+        } else {
+            eps += nutlo[1];
+            nut = nutlo[0];
+        }
+        /* mean or apparent sidereal time, depending on whether or
+         * not SEFLG_NONUT is set */
+//        sidt = swe_sidtime0(tjd_ut, eps * RADTODEG, nut * RADTODEG);
+        sidt *= 15;   /* in degrees */
+        /* length of position and speed vectors;
+         * the height above sea level must be taken into account.
+         * with the moon, an altitude of 3000 m makes a difference
+         * of about 2 arc seconds.
+         * height is referred to the average sea level. however,
+         * the spheroid (geoid), which is defined by the average
+         * sea level (or rather by all points of same gravitational
+         * potential), is of irregular shape and cannot easily
+         * be taken into account. therefore, we refer height to
+         * the surface of the ellipsoid. the resulting error
+         * is below 500 m, i.e. 0.2 - 0.3 arc seconds with the moon.
+         */
+        cosfi = cos(swed.topd.geolat * DEG_TO_RAD);
+        sinfi = sin(swed.topd.geolat * DEG_TO_RAD);
+        cc = 1 / sqrt(cosfi * cosfi + (1-f) * (1-f) * sinfi * sinfi);
+        ss = (1-f) * (1-f) * cc;
+        /* neglect polar motion (displacement of a few meters), as long as
+         * we use the earth ellipsoid */
+        /* ... */
+        /* add sidereal time */
+        cosl = cos((swed.topd.geolon + sidt) * DEG_TO_RAD);
+        sinl = sin((swed.topd.geolon + sidt) * DEG_TO_RAD);
+        h = swed.topd.geoalt;
+        xobs[0] = (re * cc + h) * cosfi * cosl;
+        xobs[1] = (re * cc + h) * cosfi * sinl;
+        xobs[2] = (re * ss + h) * sinfi;
+        /* polar coordinates */
+        retc = swi_cartpol(xobs)
+        for i in 0..<3 {
+            xobs[i] = retc.tmpDbl6[i]
+        }
+        /* speed */
+        xobs[3] = (7.2921151467e-5 * 86400)
+        xobs[4] = 0
+        xobs[5] = 0
+        retc = swi_polcart_sp(xobs)
+        for i in 3..<6 {
+            xobs[i] = retc.tmpDbl6[i]
+        }
+        /* to AUNIT */
+        for i in 0..<6 {
+            xobs[i] /= AUNIT
+        }
+        /* subtract nutation, set backward flag */
+        if ((iflag & SEFLG_NONUT) == 0) {
+            swi_coortrf2(xobs, sineps: -swed.nut.snut, coseps: swed.nut.cnut)
+            /* speed of xobs is always required, namely for aberration!!! */
+            /*if (iflag & SEFLG_SPEED)*/
+            swi_coortrf2(xobs, sineps: -swed.nut.snut, coseps: swed.nut.cnut)
+            swi_nutate(xobs, iflag: iflag | SEFLG_SPEED, backward: true)
+        }
+        /* precess to J2000 */
+        retc = swi_precess(xobs, J: tjd, iflag: iflag, direction: J_TO_J2000)
+        for i in 0..<6 {
+            ret.xx[i] = retc.tmpDbl6[i]
+        }
+        /*if (iflag & SEFLG_SPEED)*/
+        retc = swi_precess_speed(xobs, t: tjd, iflag: iflag, direction: J_TO_J2000)
+        for i in 0..<6 {
+            ret.xx[i] = retc.tmpDbl6[i]
+        }
+
+        /* neglect frame bias (displacement of 45cm) */
+        /* ... */
+        /* save */
+        if (do_save) {
+            for i in 0..<6 {
+                swed.topd.xobs[i] = xobs[i];
+                swed.topd.teval = tjd;
+                swed.topd.tjd_ut = tjd_ut;  /* -> save area */
+            }
         }
         return ret
     }
     
-    func swi_get_observer(tjd: Double, iflag: Int, do_save: Bool) -> SweRet {
+    func swi_nutate(xx: [Double], iflag: Int, backward: Bool) -> SweRet {
         let ret: SweRet = SweRet()
-
         return ret
+    }
+    
+    func swi_deflect_light(xx: [Double], dtsave_for_defl: Double, iflag: Int) -> Void {
+        
     }
     
     /* transforms the position of the moon:
@@ -1805,28 +2128,14 @@ class SwissEph: NSObject {
                 xx[i] = retc.tmpDbl6[i]
             }
             if ((iflag & SEFLG_SPEED) > 0) {
-                
+                swi_precess_speed(xx, t: swed.pldat[SEI_MOON].teval, iflag: iflag, direction: J2000_TO_J);
             }
-//            swi_precess_speed(xx, pdp->teval, iflag, J2000_TO_J);
             oe_flag = 0
         } else {
             oe_flag = 1
         }
         
         return app_pos_rest(SEI_MOON, iflag: iflag, oe_flag: oe_flag, xx: xx)
-    }
-
-    /* converts planets from barycentric to geocentric,
-     * apparent positions
-     * precession and nutation
-     * according to flags
-     * ipli         planet number
-     * iflag        flags
-     * serr         error string
-     */
-    func app_pos_etc_plan(iflag: Int) -> SweRet {
-        let ret: SweRet = SweRet()
-        return ret
     }
     
     /* SWISSEPH
@@ -3460,8 +3769,8 @@ class SwissEph: NSObject {
         /************************************************
          * nutation                                     *
          ************************************************/
-        if (!((iflag & SEFLG_NONUT) > 0)) {
-//            swi_nutate(xx, iflag, FALSE);
+        if ((iflag & SEFLG_NONUT) == 0) {
+            swi_nutate(xx, iflag: iflag, backward: false)
         }
         /* now we have equatorial cartesian coordinates; save them */
         for i in 0..<6 {
@@ -3641,26 +3950,25 @@ class SwissEph: NSObject {
     {
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
-        let oe: SweEpsilon = SweEpsilon()
         var xx1: [Double] = [0, 0, 0]
         var xx2: [Double] = [0, 0, 0]
-//        var fac: Double = 0
+        var fac: Double = 0
         for i in 0..<3 {
             xx1[i] = xx[i]
         }
         for i in 0..<3 {
             xx2[i] = xx[i + 3]
         }
-//        double tprec = (t - J2000) / 36525.0;
+        let tprec: Double = (t - J2000) / 36525.0
         var prec_model: Int = swed.astro_models[SE_MODEL_PREC_LONGTERM]
         if (prec_model == 0) {
             prec_model = SEMOD_PREC_DEFAULT
         }
         if (direction == J2000_TO_J) {
-//            fac = 1
+            fac = 1
 //                oe = &swed.oec;
         } else {
-//            fac = -1
+            fac = -1
 //            oe = &swed.oec2000;
         }
         /* first correct rotation.
@@ -3668,8 +3976,14 @@ class SwissEph: NSObject {
          * involve an error > 1"/day */
         swi_precess(xx2, J: t, iflag: iflag, direction: direction)
         /* then add 0.137"/day */
-        swi_coortrf2(xx1, sineps: oe.seps, coseps: oe.ceps)
-        swi_coortrf2(xx2, sineps: oe.seps, coseps: oe.ceps)
+        if (direction == J2000_TO_J) {
+            swi_coortrf2(xx1, sineps: swed.oec.seps, coseps: swed.oec.ceps)
+            swi_coortrf2(xx2, sineps: swed.oec.seps, coseps: swed.oec.ceps)
+        } else {
+            swi_coortrf2(xx1, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
+            swi_coortrf2(xx2, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
+        }
+
         retc = swi_cartpol_sp(xx)
         for i in 0..<3 {
             ret.tmpDbl6[i] = retc.tmpDbl6[i]
@@ -3679,7 +3993,7 @@ class SwissEph: NSObject {
 //            swi_ldp_peps(t + 1, &dpre2, NULL);
 //            xx[3] += (dpre2 - dpre) * fac;
         } else {
-//            xx[3] += (50.290966 + 0.0222226 * tprec) / 3600 / 365.25 * DEGTORAD * fac;
+            xx1[3] = xx[3] + (50.290966 + 0.0222226 * tprec) / 3600 / 365.25 * DEG_TO_RAD * fac
             /* formula from Montenbruck, German 1994, p. 18 */
         }
         retc = swi_polcart_sp(xx)
@@ -3689,14 +4003,26 @@ class SwissEph: NSObject {
         for i in 0..<3 {
             xx2[i] = retc.tmpDbl6[i + 3]
         }
-        retc = swi_coortrf2(xx1, sineps: -1 * oe.seps, coseps: oe.ceps)
-        for i in 0..<3 {
-            ret.tmpDbl6[i] = retc.tmpDbl6[i]
+        if (direction == J2000_TO_J) {
+            retc = swi_coortrf2(xx1, sineps: -1 * swed.oec.seps, coseps: swed.oec.ceps)
+            for i in 0..<3 {
+                ret.tmpDbl6[i] = retc.tmpDbl6[i]
+            }
+            retc = swi_coortrf2(xx2, sineps: -1 * swed.oec.seps, coseps: swed.oec.ceps)
+            for i in 0..<3 {
+                ret.tmpDbl6[i + 3] = retc.tmpDbl6[i]
+            }
+        } else {
+            retc = swi_coortrf2(xx1, sineps: -1 * swed.oec2000.seps, coseps: swed.oec2000.ceps)
+            for i in 0..<3 {
+                ret.tmpDbl6[i] = retc.tmpDbl6[i]
+            }
+            retc = swi_coortrf2(xx2, sineps: -1 * swed.oec2000.seps, coseps: swed.oec2000.ceps)
+            for i in 0..<3 {
+                ret.tmpDbl6[i + 3] = retc.tmpDbl6[i]
+            }
         }
-        retc = swi_coortrf2(xx2, sineps: -1 * oe.seps, coseps: oe.ceps)
-        for i in 0..<3 {
-            ret.tmpDbl6[i + 3] = retc.tmpDbl6[i]
-        }
+
         
         return ret
     }
