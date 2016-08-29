@@ -1686,7 +1686,7 @@ class SwissEph: NSObject {
                         retc = sweph(t, ipli: ipli, ifno: ifno, xsunb: sunb, iflag: iflag, do_save: NO_SAVE)
                     }
                 }
-                if (retc != OK) {
+                if (retc.iflag != OK) {
                     return retc
                 }
                 break
