@@ -97,19 +97,7 @@ class ViewController: NSViewController {
         userLatLbl.stringValue = ""
         userLngLbl.stringValue = ""
 
-        let pi = CGFloat(M_PI)
-        let start:CGFloat = 0.0 // 開始の角度
-        let end :CGFloat = pi // 終了の角度
-        
-        
-        let path: NSBezierPath = NSBezierPath();
-        path.moveToPoint(CGPointMake(self.view.frame.width/2, self.view.frame.height/2))
-        
-        let layer = CAShapeLayer()
-//        layer.path = path.CGPath
-        
-//        self.view.layer!.addSublayer(layer)
-
+//        self.view
         //        let a = 0
     }
 

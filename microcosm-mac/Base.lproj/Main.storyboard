@@ -873,6 +873,12 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <containerView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9lf-0C-9nZ" customClass="MainChart" customModule="microcosm_mac" customModuleProvider="target">
+                                <rect key="frame" x="195" y="20" width="275" height="260"/>
+                                <connections>
+                                    <segue destination="6z3-EP-kXV" kind="embed" id="bz5-8w-uob"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                     </view>
                     <connections>
@@ -896,6 +902,18 @@
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="670"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="6gg-bn-ZhQ">
+            <objects>
+                <viewController id="6z3-EP-kXV" sceneMemberID="viewController">
+                    <view key="view" id="qvF-mX-Vgj">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="JUk-sg-23R" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
 </document>
