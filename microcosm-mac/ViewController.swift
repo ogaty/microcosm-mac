@@ -11,6 +11,8 @@ import Cocoa
 class ViewController: NSViewController {
     var swiss : SwissEph = SwissEph()
     let swed: SweData = SweData()
+    let common: CommonData = CommonData()
+    @IBOutlet weak var chart: MainChart!
     
     @IBOutlet weak var userNameLbl: NSTextField!
     @IBOutlet weak var userBirthStrLbl: NSTextField!
@@ -57,37 +59,47 @@ class ViewController: NSViewController {
                                                        timezone: 9.0)
         ret = swiss.utc_to_jd(retc.year, month: retc.month, day: retc.day, hour: retc.hour, minute: retc.minute, second: retc.second, gregflag: true)
         let ut: Double = ret.tmpDbl6[0]
-        ret = swiss.swe_calc_ut(ut, ipl: 0, iflag: iflag)
+        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_SUN, iflag: iflag)
 //        ret = swiss.swe_calc_ut(2457605.0919465744, ipl: 0, iflag: iflag)
         sunPositionLabel.stringValue = (String)(ret.xx[0])
+        let sunDegree : Double = ret.xx[0]
         
-        ret = swiss.swe_calc_ut(ut, ipl: 1, iflag: iflag)
+        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_MOON, iflag: iflag)
 //        ret = swiss.swe_calc_ut(2457605.0919465744, ipl: 1, iflag: iflag)
         moonPositionLabel.stringValue = (String)(ret.xx[0])
+        let moonDegree : Double = ret.xx[0]
 
-        ret = swiss.swe_calc_ut(ut, ipl: 2, iflag: iflag)
+        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_MERCURY, iflag: iflag)
         mercuryPositionLabel.stringValue = (String)(ret.xx[0])
+        let mercuryDegree : Double = ret.xx[0]
         
-        ret = swiss.swe_calc_ut(ut, ipl: 3, iflag: iflag)
+        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_VENUS, iflag: iflag)
         venusPositionLabel.stringValue = (String)(ret.xx[0])
+        let venusDegree : Double = ret.xx[0]
 
-        ret = swiss.swe_calc_ut(ut, ipl: 4, iflag: iflag)
+        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_MARS, iflag: iflag)
         marsPositionLabel.stringValue = (String)(ret.xx[0])
+        let marsDegree : Double = ret.xx[0]
 
-        ret = swiss.swe_calc_ut(ut, ipl: 5, iflag: iflag)
+        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_JUPITER, iflag: iflag)
         jupiterPositionLabel.stringValue = (String)(ret.xx[0])
+        let jupiterDegree : Double = ret.xx[0]
 
-        ret = swiss.swe_calc_ut(ut, ipl: 6, iflag: iflag)
+        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_SATURN, iflag: iflag)
         saturnPositionLabel.stringValue = (String)(ret.xx[0])
+        let saturnDegree : Double = ret.xx[0]
         
-        ret = swiss.swe_calc_ut(ut, ipl: 7, iflag: iflag)
+        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_URANUS, iflag: iflag)
         uranusPositionLabel.stringValue = (String)(ret.xx[0])
+        let uranusDegree : Double = ret.xx[0]
         
-        ret = swiss.swe_calc_ut(ut, ipl: 8, iflag: iflag)
+        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_NEPTUNE, iflag: iflag)
         neptunePositionLabel.stringValue = (String)(ret.xx[0])
+        let neptuneDegree : Double = ret.xx[0]
         
-        ret = swiss.swe_calc_ut(ut, ipl: 9, iflag: iflag)
+        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_PLUTO, iflag: iflag)
         plutoPositionLabel.stringValue = (String)(ret.xx[0])
+        let plutoDegree : Double = ret.xx[0]
         
         formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         
@@ -96,9 +108,21 @@ class ViewController: NSViewController {
         userBirthPlaceLbl.stringValue = "神奈川県川崎市高津区"
         userLatLbl.stringValue = ""
         userLngLbl.stringValue = ""
+        
+        chart.setPlanetPosition(common.ZODIAC_SUN, degree: sunDegree)
+        chart.setPlanetPosition(common.ZODIAC_MOON, degree: moonDegree)
+        chart.setPlanetPosition(common.ZODIAC_MERCURY, degree: mercuryDegree)
+        chart.setPlanetPosition(common.ZODIAC_VENUS, degree: venusDegree)
+        chart.setPlanetPosition(4, degree: marsDegree)
+        chart.setPlanetPosition(5, degree: jupiterDegree)
+        chart.setPlanetPosition(6, degree: saturnDegree)
+        chart.setPlanetPosition(7, degree: uranusDegree)
+        chart.setPlanetPosition(8, degree: neptuneDegree)
+        chart.setPlanetPosition(9, degree: plutoDegree)
 
 //        self.view
         //        let a = 0
+        
     }
 
     override var representedObject: AnyObject? {

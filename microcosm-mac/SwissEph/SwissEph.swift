@@ -1817,9 +1817,9 @@ class SwissEph: NSObject {
         var sinfi: Double = 0
         var cosl: Double = 0
         var sinl: Double = 0
-        var f: Double = 0
+        let f: Double = 0
         var h: Double = 0
-        var re: Double = 0
+        let re: Double = 0
         var cc: Double = 0
         var ss: Double = 0
         var nutlo: [Double] = [0, 0]
