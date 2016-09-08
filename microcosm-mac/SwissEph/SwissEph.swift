@@ -78,7 +78,11 @@ let SE_NPLANETS: Int = 21
 let SE_JUL_CAL: Bool = false
 let SE_GREG_CAL: Bool = true
 
-
+let SEMOD_NUT_IAU_1980: Int = 1
+let SEMOD_NUT_IAU_CORR_1987: Int = 2
+let SEMOD_NUT_IAU_2000A: Int = 3
+let SEMOD_NUT_IAU_2000B: Int = 4
+let SEMOD_NUT_DEFAULT: Int = 4
 
 let SEI_EMB: Int = 0
 let SEI_EARTH: Int = 0
@@ -144,6 +148,8 @@ let SE_DE_NUMBER: Int = 431
 let SE_TIDAL_DEFAULT: Double = SE_TIDAL_DE431
 let SE_MODEL_PREC_LONGTERM: Int = 0
 let SE_MODEL_PREC_SHORTTERM: Int = 1
+let SE_MODEL_NUT: Int = 2
+let SE_MODEL_SIDT: Int = 3
 let SE_MODEL_BIAS: Int = 4
 let SE_MODEL_JPLHOR_MODE: Int = 5
 let SE_MODEL_JPLHORA_MODE: Int = 6
@@ -4676,9 +4682,67 @@ class SwissEph: NSObject {
 //        }
     }
     
-    func swe_houses() -> SweRet {
+    func swi_nutation(J: Double, iflag: Int) -> SweRet {
+        var ret: SweRet = SweRet()
+        var nut_model: Int = swed.astro_models[SE_MODEL_NUT];
+        var jplhor_model: Int = swed.astro_models[SE_MODEL_JPLHOR_MODE];
+        var jplhora_model: Int = swed.astro_models[SE_MODEL_JPLHORA_MODE];
+        if (nut_model == 0) {
+            nut_model = SEMOD_NUT_DEFAULT;
+        }
+        if (jplhor_model == 0) {
+            jplhor_model = SEMOD_JPLHOR_DEFAULT;
+        }
+        if (jplhora_model == 0) {
+            jplhora_model = SEMOD_JPLHORA_DEFAULT;
+        }
+
+        /*if ((iflag & SEFLG_JPLHOR) && (jplhor_model & SEMOD_JPLHOR_DAILY_DATA)) {*/
+        if ((iflag & SEFLG_JPLHOR) > 0/* && INCLUDE_CODE_FOR_DPSI_DEPS_IAU1980*/) {
+//            swi_nutation_iau1980(J, nutlo);
+        } else if (nut_model == SEMOD_NUT_IAU_1980 || nut_model == SEMOD_NUT_IAU_CORR_1987) {
+//            swi_nutation_iau1980(J, nutlo);
+        } else if (nut_model == SEMOD_NUT_IAU_2000A || nut_model == SEMOD_NUT_IAU_2000B) {
+            ret = swi_nutation_iau2000ab(J);
+/*if ((iflag & SEFLG_JPLHOR_APPROX) && FRAME_BIAS_APPROX_HORIZONS) {*/
+/*if ((iflag & SEFLG_JPLHOR_APPROX) && !APPROXIMATE_HORIZONS_ASTRODIENST) {*/
+            if (((iflag & SEFLG_JPLHOR_APPROX) > 0) && jplhora_model != SEMOD_JPLHORA_1) {
+                ret.tmpDbl6[0] += -41.7750 / 3600.0 / 1000.0 * DEG_TO_RAD;
+                ret.tmpDbl6[1] += -6.8192 / 3600.0 / 1000.0 * DEG_TO_RAD;
+            }
+        }
+        if ((iflag & SEFLG_JPLHOR) > 0/* && INCLUDE_CODE_FOR_DPSI_DEPS_IAU1980*/) {
+//            n = (int) (swed.eop_tjd_end - swed.eop_tjd_beg + 0.000001);
+//            J2 = J;
+//            if (J < swed.eop_tjd_beg_horizons)
+//            J2 = swed.eop_tjd_beg_horizons;
+//            dpsi = bessel(swed.dpsi, n + 1, J2 - swed.eop_tjd_beg);
+//            deps = bessel(swed.deps, n + 1, J2 - swed.eop_tjd_beg);
+//            nutlo[0] += dpsi / 3600.0 * DEGTORAD;
+//            nutlo[1] += deps / 3600.0 * DEGTORAD;
+        }
+        
+        return ret
+    }
+    
+    func swi_nutation_iau2000ab(J: Double) -> SweRet {
         var ret: SweRet = SweRet()
         
         return ret
     }
+    
+    func swe_houses(tjd_ut: Double, geolat: Double, geolon: Double, hsys: Int) -> SweRet {
+        var ret: SweRet = SweRet()
+        var retc: SweRet = swe_deltat_ex(tjd_ut, iflag: -1)
+        let tjde: Double = tjd_ut + retc.tmpDbl6[0]
+        let eps: Double = swi_epsiln(tjde, iflag: 0) * RAD_TO_DEG;
+        retc = swi_nutation(tjde, iflag: 0)
+        
+        
+        return ret
+    }
+
+
+
+
 }
