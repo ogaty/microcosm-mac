@@ -4675,4 +4675,10 @@ class SwissEph: NSObject {
 //            return tabsiz;
 //        }
     }
+    
+    func swe_houses() -> SweRet {
+        var ret: SweRet = SweRet()
+        
+        return ret
+    }
 }

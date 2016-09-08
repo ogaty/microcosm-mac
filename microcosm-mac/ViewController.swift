@@ -9,9 +9,7 @@
 import Cocoa
 
 class ViewController: NSViewController {
-    var swiss : SwissEph = SwissEph()
     let swed: SweData = SweData()
-    let common: CommonData = CommonData()
     @IBOutlet weak var chart: MainChart!
     
     @IBOutlet weak var userNameLbl: NSTextField!
@@ -33,74 +31,25 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.        
-        let iflag: Int = SEFLG_SWIEPH | SEFLG_SPEED
-        var ret: SweRet = SweRet()
-        let now = NSDate()
-        let cal: NSCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
-        var cal_comp: NSDateComponents = cal.components([.Year, .Month, .Day, .Weekday], fromDate:now)
-        let year: Int = cal_comp.year
-        let month: Int = cal_comp.month
-        let day: Int = cal_comp.day
-            cal_comp = cal.components([.NSHourCalendarUnit, .NSMinuteCalendarUnit, .NSSecondCalendarUnit],
-                                      fromDate:now)
-        let hour: Int = cal_comp.hour
-        let minute: Int = cal_comp.minute
-        let second: Double = (Double)(cal_comp.second)
         let formatter = NSDateFormatter()
+        let now = NSDate()
+        let common: CommonData = CommonData()
+        let config: ConfigData = ConfigData()
 
-        swiss.swe_set_ephe_path("")
+        let calc: AstroCalc = AstroCalc(path: "")
+        let plist: [PlanetData] = calc.PositionCalc()
+        
+        sunPositionLabel.stringValue = (String)(plist[0].absolute_position)
+        moonPositionLabel.stringValue = (String)(plist[1].absolute_position)
+        mercuryPositionLabel.stringValue = (String)(plist[2].absolute_position)
+        venusPositionLabel.stringValue = (String)(plist[3].absolute_position)
+        marsPositionLabel.stringValue = (String)(plist[4].absolute_position)
+        jupiterPositionLabel.stringValue = (String)(plist[5].absolute_position)
+        saturnPositionLabel.stringValue = (String)(plist[6].absolute_position)
+        uranusPositionLabel.stringValue = (String)(plist[7].absolute_position)
+        neptunePositionLabel.stringValue = (String)(plist[8].absolute_position)
+        plutoPositionLabel.stringValue = (String)(plist[9].absolute_position)
 
-//        let retc: SweTimeRet = swiss.swe_utc_time_zone(2012, month: 12, day: 21,
-//                                                       hour: 12, minute: 0, second: 0,
-//                                                       timezone: 9.0)
-        
-        let retc: SweTimeRet = swiss.swe_utc_time_zone(year, month: month, day: day,
-                                                       hour: hour, minute: minute, second: second,
-                                                       timezone: 9.0)
-        ret = swiss.utc_to_jd(retc.year, month: retc.month, day: retc.day, hour: retc.hour, minute: retc.minute, second: retc.second, gregflag: true)
-        let ut: Double = ret.tmpDbl6[0]
-        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_SUN, iflag: iflag)
-//        ret = swiss.swe_calc_ut(2457605.0919465744, ipl: 0, iflag: iflag)
-        sunPositionLabel.stringValue = (String)(ret.xx[0])
-        let sunDegree : Double = ret.xx[0]
-        
-        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_MOON, iflag: iflag)
-//        ret = swiss.swe_calc_ut(2457605.0919465744, ipl: 1, iflag: iflag)
-        moonPositionLabel.stringValue = (String)(ret.xx[0])
-        let moonDegree : Double = ret.xx[0]
-
-        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_MERCURY, iflag: iflag)
-        mercuryPositionLabel.stringValue = (String)(ret.xx[0])
-        let mercuryDegree : Double = ret.xx[0]
-        
-        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_VENUS, iflag: iflag)
-        venusPositionLabel.stringValue = (String)(ret.xx[0])
-        let venusDegree : Double = ret.xx[0]
-
-        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_MARS, iflag: iflag)
-        marsPositionLabel.stringValue = (String)(ret.xx[0])
-        let marsDegree : Double = ret.xx[0]
-
-        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_JUPITER, iflag: iflag)
-        jupiterPositionLabel.stringValue = (String)(ret.xx[0])
-        let jupiterDegree : Double = ret.xx[0]
-
-        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_SATURN, iflag: iflag)
-        saturnPositionLabel.stringValue = (String)(ret.xx[0])
-        let saturnDegree : Double = ret.xx[0]
-        
-        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_URANUS, iflag: iflag)
-        uranusPositionLabel.stringValue = (String)(ret.xx[0])
-        let uranusDegree : Double = ret.xx[0]
-        
-        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_NEPTUNE, iflag: iflag)
-        neptunePositionLabel.stringValue = (String)(ret.xx[0])
-        let neptuneDegree : Double = ret.xx[0]
-        
-        ret = swiss.swe_calc_ut(ut, ipl: common.ZODIAC_PLUTO, iflag: iflag)
-        plutoPositionLabel.stringValue = (String)(ret.xx[0])
-        let plutoDegree : Double = ret.xx[0]
-        
         formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         
         userNameLbl.stringValue = "現在時刻"
@@ -109,18 +58,18 @@ class ViewController: NSViewController {
         userLatLbl.stringValue = ""
         userLngLbl.stringValue = ""
         
-        chart.setPlanetPosition(common.ZODIAC_SUN, degree: sunDegree)
-        chart.setPlanetPosition(common.ZODIAC_MOON, degree: moonDegree)
-        chart.setPlanetPosition(common.ZODIAC_MERCURY, degree: mercuryDegree)
-        chart.setPlanetPosition(common.ZODIAC_VENUS, degree: venusDegree)
-        chart.setPlanetPosition(4, degree: marsDegree)
-        chart.setPlanetPosition(5, degree: jupiterDegree)
-        chart.setPlanetPosition(6, degree: saturnDegree)
-        chart.setPlanetPosition(7, degree: uranusDegree)
-        chart.setPlanetPosition(8, degree: neptuneDegree)
-        chart.setPlanetPosition(9, degree: plutoDegree)
+        
+        chart.setPlanetPosition(common.ZODIAC_SUN, degree: plist[0].absolute_position)
+        chart.setPlanetPosition(common.ZODIAC_MOON, degree: plist[1].absolute_position)
+        chart.setPlanetPosition(common.ZODIAC_MERCURY, degree: plist[2].absolute_position)
+        chart.setPlanetPosition(common.ZODIAC_VENUS, degree: plist[3].absolute_position)
+        chart.setPlanetPosition(4, degree: plist[4].absolute_position)
+        chart.setPlanetPosition(5, degree: plist[5].absolute_position)
+        chart.setPlanetPosition(6, degree: plist[6].absolute_position)
+        chart.setPlanetPosition(7, degree: plist[7].absolute_position)
+        chart.setPlanetPosition(8, degree: plist[8].absolute_position)
+        chart.setPlanetPosition(9, degree: plist[9].absolute_position)
 
-//        self.view
         //        let a = 0
         
     }

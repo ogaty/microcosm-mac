@@ -10,6 +10,7 @@ import Cocoa
 
 class MainChart: NSView {
     var pos: Double = 0.0
+    var config: ConfigData = ConfigData()
     
 
     override func drawRect(dirtyRect: NSRect) {
@@ -17,16 +18,30 @@ class MainChart: NSView {
 
         // Drawing code here.
 //        let color = NSColor(calibratedRed: 1, green: 0, blue: 0, alpha: 1)
-        let circleRect = NSMakeRect(10, 10, 270, 270)
+        // 外側円
+        let circleRect = NSMakeRect((CGFloat)(config.zodiacPaddingLeft), (CGFloat)(config.zodiacPaddingTop),
+                                    (CGFloat)(config.zodiacOuterWidth), (CGFloat)(config.zodiacOuterWidth))
         let path: NSBezierPath = NSBezierPath(ovalInRect: circleRect);
         path.stroke()
-        let circleRect2 = NSMakeRect(95, 95, 100, 100)
+
+        // 中心円
+        let circleRect2 = NSMakeRect((CGFloat)(config.zodiacPaddingLeft) + (CGFloat)(config.zodiacOuterWidth - config.zodiacCenter) / 2,
+                                     (CGFloat)(config.zodiacPaddingLeft) + (CGFloat)(config.zodiacOuterWidth - config.zodiacCenter) / 2,
+                                     (CGFloat)(config.zodiacCenter), (CGFloat)(config.zodiacCenter))
         let path2: NSBezierPath = NSBezierPath(ovalInRect: circleRect2);
         path2.stroke()
 
-        let startX: Double = 135
+        // 内側円
+        let circleRect3 = NSMakeRect((CGFloat)(config.zodiacPaddingLeft) + (CGFloat)(config.zodiacWidth) / 2,
+                                     (CGFloat)(config.zodiacPaddingLeft) + (CGFloat)(config.zodiacWidth) / 2,
+                                     (CGFloat)(config.zodiacOuterWidth - config.zodiacWidth),
+                                     (CGFloat)(config.zodiacOuterWidth - config.zodiacWidth))
+        let path3: NSBezierPath = NSBezierPath(ovalInRect: circleRect3);
+        path3.stroke()
+        
+        let startX: Double = (Double)(config.zodiacOuterWidth - config.zodiacWidth) / 2
         let startY: Double = 0
-        let endX: Double = 50
+        let endX: Double = (Double)(config.zodiacCenter) / 2
         let endY: Double = 0
 
         for i in 0..<12 {
@@ -34,8 +49,15 @@ class MainChart: NSView {
             let startPt: NSPoint = rotate((CGFloat)(startX), y: (CGFloat)(startY), degree: (CGFloat)(degree))
             let endPt: NSPoint = rotate((CGFloat)(endX), y: (CGFloat)(endY), degree: (CGFloat)(degree))
             let pathLine: NSBezierPath = NSBezierPath()
-            pathLine.moveToPoint(NSPoint(x: startPt.x + 145.0, y:startPt.y + 145.0))
-            pathLine.lineToPoint(NSPoint(x: endPt.x + 145.0, y:endPt.y + 145.0))
+            pathLine.moveToPoint(NSPoint(
+                x: startPt.x + (CGFloat)(config.zodiacPaddingLeft) +
+                    (CGFloat)(config.zodiacOuterWidth) / 2,
+                y:startPt.y + (CGFloat)(config.zodiacPaddingTop) +
+                    (CGFloat)(config.zodiacOuterWidth) / 2))
+            pathLine.lineToPoint(NSPoint(x: endPt.x + (CGFloat)(config.zodiacPaddingLeft) +
+                    (CGFloat)(config.zodiacOuterWidth) / 2,
+                y:endPt.y + (CGFloat)(config.zodiacPaddingTop) +
+                    (CGFloat)(config.zodiacOuterWidth) / 2))
             pathLine.stroke()
             
         }
@@ -55,14 +77,19 @@ class MainChart: NSView {
     }
 
     func setPlanetPosition(ipl: Int, degree: Double) -> Void {
-        let x: Double = 115
+        let x: Double = (Double)(config.zodiacOuterWidth - config.zodiacWidth - 50) / 2
         let y: Double = 0
         let pt: NSPoint = rotate((CGFloat)(x), y: (CGFloat)(y), degree: (CGFloat)(degree))
         
         let planets: [String] = ["☉", "☽", "☿", "♀", "♂", "♃", "♄", "♅", "♆", "♇"]
 
         
-        let lbl: NSTextView = NSTextView(frame: CGRectMake(pt.x + 125, pt.y + 125, 30, 30))
+        let lbl: NSTextView = NSTextView(frame: CGRectMake(
+            pt.x + (CGFloat)(config.zodiacPaddingLeft) +
+                (CGFloat)(config.zodiacOuterWidth) / 2 - 20,
+            pt.y + (CGFloat)(config.zodiacPaddingLeft) +
+                (CGFloat)(config.zodiacOuterWidth) / 2 - 20,
+            30, 30))
         lbl.textStorage!.mutableString.setString(planets[ipl])
         //        lbl.stringValue = "aaa"
         lbl.drawsBackground = false

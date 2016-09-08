@@ -300,6 +300,8 @@ class CommonData: NSObject {
             return "MC";
         case ZODIAC_DH_TRUENODE:
             return "D.H.";
+        default:
+            break
         }
         return "";
     }

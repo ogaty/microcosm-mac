@@ -30,4 +30,7 @@ class SweRet: NSObject {
                              0, 0, 0, 0, 0, 0]
     var jut: Double = 0
     
+    var cusps: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    var ascmc: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    
 }
