@@ -6185,11 +6185,11 @@ class SwissEph: NSObject {
         M  = hlib.swe_degnorm(tmp / 3600.0) * DEG_TO_RAD;
         /* Mean anomaly of the Sun */
         tmp = T*( -0.00001149 )
-        SM = hlib.swe_degnorm((1287104.79305 +
-                T*(  129596581.0481 +
-                T*(        -0.5532 +
-                T*(          0.000136 +
-                tmp)))) / 3600.0) * DEG_TO_RAD;
+        tmp = T*( 0.000136 + tmp )
+        tmp = T*( -0.5532 + tmp )
+        tmp = T*( 129596581.0481 + tmp )
+        tmp = 1287104.79305 + tmp
+        SM = hlib.swe_degnorm(tmp / 3600.0) * DEG_TO_RAD;
         /* Mean argument of the latitude of the Moon. */
         tmp = T*( 0.00000417 )
         F   = hlib.swe_degnorm(( 335779.526232 +
@@ -6221,9 +6221,9 @@ class SwissEph: NSObject {
              j = i * 5;
             tmp = (Double)((Double)(nls[j + 0]) * M)
             tmp += (Double) ((Double)(nls[j + 1]) * SM)
+            tmp += (Double) ((Double)(nls[j + 2]) * F)
             /*
              darg = hlib.swe_radnorm(tmp  +
-                                     (Double) (nls[j + 2] * F)   +
                                      (Double) (nls[j + 3] * D)   +
                                      (Double) (nls[j + 4] * OM));
  */
@@ -6247,7 +6247,6 @@ class SwissEph: NSObject {
         let eps: Double = swi_epsiln(tjde, iflag: 0) * RAD_TO_DEG;
         var armc: Double = 0
         var nutlo: [Double] = [0, 0]
-        var xp: [Double] = [0, 0, 0, 0, 0, 0]
         retc = swi_nutation(tjde, iflag: 0)
         
         for i in 0..<2 {
@@ -6256,7 +6255,7 @@ class SwissEph: NSObject {
         
         armc = hlib.swe_degnorm(swe_sidtime0(tjd_ut, eps: eps + nutlo[1], nut: nutlo[0]) * 15 + geolon);
         if (hsys ==  "I") {  // compute sun declination for sunshine houses
-            var flags: Int = SEFLG_SPEED | SEFLG_EQUATORIAL;
+            let flags: Int = SEFLG_SPEED | SEFLG_EQUATORIAL;
             ret = swe_calc_ut(tjd_ut, ipl: SE_SUN, iflag: flags);
             if (ret.iflag < 0) {
                 ret.iflag = ERR
@@ -6265,7 +6264,7 @@ class SwissEph: NSObject {
             retc.ascmc[9] = ret.xx[1];   // declination in ascmc[9];
         }
 
-//        retc = swe_houses_armc(armc, geolat, eps + nutlo[1], hsys);
+        retc = swe_houses_armc(armc, geolat: geolat, eps: eps + nutlo[1], hsys: hsys, ascmc9: (Int)(retc.ascmc[9]));
 
         return retc
     }
@@ -6277,7 +6276,7 @@ class SwissEph: NSObject {
         var ito: Int = 0;
         var saved_sundec: Double = 99
 
-        if (hsys == "G" || hsys == "g") {
+        if (hsys == "G" || hsys == "g") { // Gauquelin sector
             ito = 36;
         } else {
             ito = 12;
