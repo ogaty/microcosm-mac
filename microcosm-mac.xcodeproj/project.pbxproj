@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C60997521D8840CD00D0FA1C /* Houses.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60997511D8840CD00D0FA1C /* Houses.swift */; };
 		C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674421D71455000B26AA5 /* SweTimeRet.swift */; };
 		C63674451D71D69600B26AA5 /* TopoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674441D71D69600B26AA5 /* TopoData.swift */; };
 		C63674471D75DB1900B26AA5 /* MainChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674461D75DB1900B26AA5 /* MainChart.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C60997511D8840CD00D0FA1C /* Houses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Houses.swift; path = SwissEph/Houses.swift; sourceTree = "<group>"; };
 		C63674421D71455000B26AA5 /* SweTimeRet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweTimeRet.swift; path = SwissEph/SweTimeRet.swift; sourceTree = "<group>"; };
 		C63674441D71D69600B26AA5 /* TopoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopoData.swift; path = SwissEph/TopoData.swift; sourceTree = "<group>"; };
 		C63674461D75DB1900B26AA5 /* MainChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChart.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				C63674541D818A6800B26AA5 /* PlanetData.swift */,
 				C63674561D818B4F00B26AA5 /* AstroCalc.swift */,
 				C63674581D81901900B26AA5 /* ConfigData.swift */,
+				C60997511D8840CD00D0FA1C /* Houses.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 				C63674551D818A6900B26AA5 /* PlanetData.swift in Sources */,
 				C6FA05BC1D48F047002F5BA3 /* SavePositions.swift in Sources */,
 				C6F4C2F11D5C0C5A00108545 /* SwissHLib.swift in Sources */,
+				C60997521D8840CD00D0FA1C /* Houses.swift in Sources */,
 				C6FA05BE1D48F059002F5BA3 /* SweData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
