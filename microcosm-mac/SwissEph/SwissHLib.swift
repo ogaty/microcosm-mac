@@ -13,13 +13,13 @@ class SwissHLib: NSObject {
     override init() {
     }
 
-    func square_sum(x: Double, y: Double, z: Double) -> Double {
+    func square_sum(_ x: Double, y: Double, z: Double) -> Double {
         return x*x+y*y+z*z
     }
     
     /* Reduce x modulo 360 degrees
      */
-    func swe_degnorm(x: Double) -> Double
+    func swe_degnorm(_ x: Double) -> Double
     {
         var y: Double = fmod(x, 360.0);
         if (fabs(y) < 1e-13) {
@@ -33,7 +33,7 @@ class SwissHLib: NSObject {
     
     /* Reduce x modulo TWOPI degrees
      */
-    func swe_radnorm(x: Double) -> Double
+    func swe_radnorm(_ x: Double) -> Double
     {
         var y: Double = fmod(x, TWOPI);
         if (fabs(y) < 1e-13) {

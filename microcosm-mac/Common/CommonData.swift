@@ -49,7 +49,7 @@ class CommonData: NSObject {
 
     
     // タイムゾーンを返す
-    func  getTimezone(timezone: String) -> Double
+    func  getTimezone(_ timezone: String) -> Double
     {
         switch (timezone)
         {
@@ -62,7 +62,7 @@ class CommonData: NSObject {
     }
 
     // (日本標準)とかの文字列を返す
-    func  getTimezoneLongText(timezone: String) -> String
+    func  getTimezoneLongText(_ timezone: String) -> String
     {
         switch (timezone)
         {
@@ -75,7 +75,7 @@ class CommonData: NSObject {
     }
 
     // JSTのみを返す
-    func getTimezoneShortText(index: Int) -> String
+    func getTimezoneShortText(_ index: Int) -> String
     {
         switch (index)
         {
@@ -88,7 +88,7 @@ class CommonData: NSObject {
     }
 
     // SelectBoxのIndexを返す
-    func getTimezoneIndex(timezone: String) -> Int
+    func getTimezoneIndex(_ timezone: String) -> Int
     {
         switch (timezone)
         {
@@ -103,7 +103,7 @@ class CommonData: NSObject {
     }
 
     // 番号を引数に天体のシンボルを返す
-    func getPlanetSymbol(number: Int) -> String
+    func getPlanetSymbol(_ number: Int) -> String
     {
         switch (number)
         {
@@ -143,7 +143,7 @@ class CommonData: NSObject {
     }
 
     // 番号を引数に天体の文字列を返す
-    func getPlanetText(number: Int) -> String
+    func getPlanetText(_ number: Int) -> String
     {
         switch (number)
         {
@@ -186,7 +186,7 @@ class CommonData: NSObject {
     }
 
     // 番号を引数にサインのシンボルを返す
-    func getSignSymbol(number: Int) -> String
+    func getSignSymbol(_ number: Int) -> String
     {
         switch (number)
         {
@@ -221,7 +221,7 @@ class CommonData: NSObject {
     }
 
     // 番号を引数にサインルーラーのシンボルを返す
-    func getSignRulersSymbol(number: Int) -> String
+    func getSignRulersSymbol(_ number: Int) -> String
     {
         switch (number)
         {
@@ -268,7 +268,7 @@ class CommonData: NSObject {
     }
 
     // 番号を引数に感受点のシンボルを返す
-    func getSensitiveSymbol(number: Int) -> String
+    func getSensitiveSymbol(_ number: Int) -> String
     {
         switch (number)
         {
@@ -290,7 +290,7 @@ class CommonData: NSObject {
     }
 
     // 番号を引数に感受点の文字列を返す
-    func getSensitiveText(number: Int) -> String
+    func getSensitiveText(_ number: Int) -> String
     {
         switch (number)
         {
@@ -307,7 +307,7 @@ class CommonData: NSObject {
     }
     
     // 色を返す
-    func getPlanetColor(number: Int) -> Int
+    func getPlanetColor(_ number: Int) -> Int
     {
         if (number == ZODIAC_SUN)
         {
@@ -380,19 +380,19 @@ class CommonData: NSObject {
 
 
     // サイン番号を返す(0:牡羊座、11:魚座)
-    func getSign(absolute_position: Double) -> Int
+    func getSign(_ absolute_position: Double) -> Int
     {
         return (Int)((Int)(absolute_position) / 30)
     }
     
     // サインテキストを返す(0:♈、11:♓)
-    func getSignText(absolute_position: Double) -> String
+    func getSignText(_ absolute_position: Double) -> String
     {
         return getSignSymbol((Int)((Int)(absolute_position) / 30));
     }
 
     // サインテキストを返す(0:♈、11:♓)
-    func getSignTextJp(absolute_position: Double) -> String
+    func getSignTextJp(_ absolute_position: Double) -> String
     {
         switch((Int)((Int)(absolute_position) / 30))
         {
@@ -427,7 +427,7 @@ class CommonData: NSObject {
     }
 
     // サイン色を返す
-    func getSignColor(absolute_position: Double) -> Int
+    func getSignColor(_ absolute_position: Double) -> Int
     {
         switch((Int)((Int)(absolute_position) / 30))
         {
@@ -487,13 +487,13 @@ class CommonData: NSObject {
     }
     
     // サイン度数を返す(0～29.9)
-    func getDeg(absolute_position: Double) -> Double
+    func getDeg(_ absolute_position: Double) -> Double
     {
-        return (absolute_position % 30)
+        return (absolute_position.truncatingRemainder(dividingBy: 30))
     }
 
     // レトログレード文字を返す
-    func getRetrograde(speed: Double) -> String
+    func getRetrograde(_ speed: Double) -> String
     {
         if (speed < 0)
         {

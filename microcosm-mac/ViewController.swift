@@ -31,12 +31,30 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.        
-        let formatter = NSDateFormatter()
-        let now = NSDate()
+        let formatter = DateFormatter()
+        let now = Date()
         let common: CommonData = CommonData()
         let config: ConfigData = ConfigData()
-
+        var documents = NSSearchPathForDirectoriesInDomains(
+            .documentDirectory,
+            .userDomainMask, true)[0]
+        let fileManager = FileManager.defaultManager
+        
+        let cal = NSCalendar.current
+        let year = cal.component(.year, from: now)
+        let month = cal.component(.month, from: now)
+        let day = cal.component(.day, from: now)
+        let hour = cal.component(.hour, from: now)
+        let minute = cal.component(.minute, from: now)
+        let second = cal.component(.second, from: now)
+        
         let calc: AstroCalc = AstroCalc(path: "")
+        let cusps: [Double] = calc.CuspCalc(year, month: month, day: day, hour: hour, min: minute, sec: (Double)(second), lat: 35.67, lng: 139.77, houseKind: 0)
+
+        let rect: NSRect = NSMakeRect(200, 20, 400, 400);
+        var chart: MainChart = MainChart(frame: rect, configinfo: config, cuspsinfo: cusps)
+        self.view.addSubview(chart)
+
         let plist: [PlanetData] = calc.PositionCalc()
         
         sunPositionLabel.stringValue = (String)(plist[0].absolute_position)
@@ -53,32 +71,23 @@ class ViewController: NSViewController {
         formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         
         userNameLbl.stringValue = "現在時刻"
-        userBirthStrLbl.stringValue = formatter.stringFromDate(now)
+        userBirthStrLbl.stringValue = formatter.string(from: now)
         userBirthPlaceLbl.stringValue = "神奈川県川崎市高津区"
         userLatLbl.stringValue = ""
         userLngLbl.stringValue = ""
-        
-        
-        chart.setPlanetPosition(common.ZODIAC_SUN, degree: plist[0].absolute_position)
-        chart.setPlanetPosition(common.ZODIAC_MOON, degree: plist[1].absolute_position)
-        chart.setPlanetPosition(common.ZODIAC_MERCURY, degree: plist[2].absolute_position)
-        chart.setPlanetPosition(common.ZODIAC_VENUS, degree: plist[3].absolute_position)
-        chart.setPlanetPosition(4, degree: plist[4].absolute_position)
-        chart.setPlanetPosition(5, degree: plist[5].absolute_position)
-        chart.setPlanetPosition(6, degree: plist[6].absolute_position)
-        chart.setPlanetPosition(7, degree: plist[7].absolute_position)
-        chart.setPlanetPosition(8, degree: plist[8].absolute_position)
-        chart.setPlanetPosition(9, degree: plist[9].absolute_position)
 
+
+        chart.houseCuspRender(cusps: cusps)
+        
+        for i in 0..<10 {
+            chart.setPlanetPosition(i, degree: plist[i].absolute_position, startDegree: cusps[1])
+        }
+        
+        chart.zodiacRender(cusps[1])
         //        let a = 0
         
     }
 
-    override var representedObject: AnyObject? {
-        didSet {
-        // Update the view, if already loaded.
-        }
-    }
 
 
 }

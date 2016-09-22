@@ -21,7 +21,7 @@ class SweRet: NSObject {
     var denum: Int = 0
     var deltat: Double = 0
 
-    var date: NSDateComponents = NSDateComponents()
+    var date: DateComponents = DateComponents()
     var tmp: UInt = 0
     var tmpInt: Int = 0
     var tmpDbl6: [Double] = [0, 0, 0, 0, 0, 0,

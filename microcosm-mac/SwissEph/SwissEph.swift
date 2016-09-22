@@ -176,6 +176,7 @@ let SEMOD_JPLHORA_1: Int = 1
 let SEMOD_JPLHORA_DEFAULT: Int = 1
 
 let SEMOD_SIDT_LONGTERM: Int = 1
+let SEMOD_SIDT_IERS_CONV_2010: Int = 2
 let SEMOD_SIDT_DEFAULT: Int = 1
 
 let SEFLG_JPLHOR: Int = (256*1024)
@@ -1802,7 +1803,7 @@ class SwissEph: NSObject {
     // iflag : setting flags
     // xx: array(longitude, latitude, distance, speed in lng, speed in lat, speed in dist)
     // 本移植版ではiflag,serr,xxをクラスにぶちこんで返す
-    func swe_calc ( tjd: Double, ipl: Int, iflag: Int) -> SweRet {
+    func swe_calc ( _ tjd: Double, ipl: Int, iflag: Int) -> SweRet {
         var i: Int
         var epheflag: Int
         var iflgcoor: Int
@@ -2029,7 +2030,7 @@ class SwissEph: NSObject {
         return swe_ret
     }
 
-    func swe_calc_ut ( tjd_ut: Double, ipl: Int, iflag: Int) -> SweRet {
+    func swe_calc_ut ( _ tjd_ut: Double, ipl: Int, iflag: Int) -> SweRet {
         var epheflag:Int = iflag & SEFLG_EPHMASK
         var iflagInt:Int = iflag
         nouseDmyInt(iflagInt)
@@ -2055,7 +2056,7 @@ class SwissEph: NSObject {
         return retval
     }
 
-    func swe_set_ephe_path(path: String) -> Void {
+    func swe_set_ephe_path(_ path: String) -> Void {
         swed.ephe_path_is_set = true
         swed.ephepath = path
 
@@ -2071,7 +2072,7 @@ class SwissEph: NSObject {
     }
     
     
-    func swecalc (tjd: Double, ipl: Int, iflag: Int) -> SweRet {
+    func swecalc (_ tjd: Double, ipl: Int, iflag: Int) -> SweRet {
         let ret: SweRet = SweRet()
         var iflagInt:Int = iflag
         let epheflag:Int = SEFLG_SWIEPH
@@ -2221,7 +2222,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func plaus_iflag(iflag: Int, ipl: Int, tjd: Double) -> Int {
+    func plaus_iflag(_ iflag: Int, ipl: Int, tjd: Double) -> Int {
         var iflagRet: Int = iflag
         var epheflag: Int  = 0
         /* if no_precession bit is set, set also no_nutation bit */
@@ -2258,7 +2259,7 @@ class SwissEph: NSObject {
      * xp - xpm can be NULL. if do_save is TRUE, all of them can be NULL.
      * the positions will be written into the save area (swed.pldat[ipli].x)
      */
-    func sweplan(tjd:Double, ipli: Int, ifno: Int, iflag: Int, do_save: Bool) -> SweRet {
+    func sweplan(_ tjd:Double, ipli: Int, ifno: Int, iflag: Int, do_save: Bool) -> SweRet {
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
         var do_earth: Bool = false
@@ -2441,7 +2442,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func main_planet(tjd: Double, ipli: Int, epheflag: Int, iflag: Int) -> SweRet {
+    func main_planet(_ tjd: Double, ipli: Int, epheflag: Int, iflag: Int) -> SweRet {
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
         switch(epheflag) {
@@ -2489,7 +2490,7 @@ class SwissEph: NSObject {
      * xp           return array of 6 doubles for planet's position
      * serr         error string
      */
-    func sweph(tjd: Double, ipli: Int, ifno: Int, xsunb: SweSunb, iflag: Int, do_save: Bool) -> SweRet
+    func sweph(_ tjd: Double, ipli: Int, ifno: Int, xsunb: SweSunb, iflag: Int, do_save: Bool) -> SweRet
     {
         var ret:SweRet = SweRet()
         var retc:SweRet = SweRet()
@@ -2531,9 +2532,9 @@ class SwissEph: NSObject {
         if (swed.fidat[ifno].fileHandle == nil) {
             fileName = swi_gen_filename(tjd, ipli: ipli)
             swed.fidat[ifno].fileHandle = swi_fopen(ifno, filename: fileName, ephepath: swed.ephepath)
-            let data : NSData = swed.fidat[ifno].fileHandle!.readDataToEndOfFile()
-            var aBuffer = Array<UInt8>(count: data.length, repeatedValue: 0)
-            data.getBytes(&aBuffer, length: data.length)
+            let data : Data = swed.fidat[ifno].fileHandle!.readDataToEndOfFile()
+            var aBuffer = Array<UInt8>(repeating: 0, count: data.count)
+            (data as NSData).getBytes(&aBuffer, length: data.count)
             if (ifno == SEI_FILE_MOON) {
                 bufmo = aBuffer
                 ret = read_const(ifno, buf: bufmo)
@@ -2693,7 +2694,7 @@ class SwissEph: NSObject {
      * iflag        flags
      * serr         error string
      */
-    func app_pos_etc_sun(iflag: Int) -> SweRet {
+    func app_pos_etc_sun(_ iflag: Int) -> SweRet {
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
         var flg1: Int
@@ -2901,7 +2902,7 @@ class SwissEph: NSObject {
      * iflag        flags
      * serr         error string
      */
-    func app_pos_etc_plan(ipli: Int, iflag: Int) -> SweRet
+    func app_pos_etc_plan(_ ipli: Int, iflag: Int) -> SweRet
     {
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
@@ -3198,7 +3199,7 @@ class SwissEph: NSObject {
         return app_pos_rest(pdp_idx, iflag: iflag, oe_flag: oe_flag, xx: xx)
     }
 
-    func swi_get_observer(tjd: Double, iflag: Int, do_save: Bool) -> SweRet {
+    func swi_get_observer(_ tjd: Double, iflag: Int, do_save: Bool) -> SweRet {
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
         var delt: Double = 0
@@ -3243,7 +3244,7 @@ class SwissEph: NSObject {
         }
         /* mean or apparent sidereal time, depending on whether or
          * not SEFLG_NONUT is set */
-        sidt = swe_sidtime0(tjd_ut, eps: eps * RAD_TO_DEG, nut: nut * RAD_TO_DEG);
+        sidt = swe_sidtime0(tjd: tjd_ut, eps: eps * RAD_TO_DEG, nut: nut * RAD_TO_DEG);
         sidt *= 15;   /* in degrees */
         /* length of position and speed vectors;
          * the height above sea level must be taken into account.
@@ -3320,12 +3321,12 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func swi_nutate(xx: [Double], iflag: Int, backward: Bool) -> SweRet {
+    func swi_nutate(_ xx: [Double], iflag: Int, backward: Bool) -> SweRet {
         let ret: SweRet = SweRet()
         return ret
     }
     
-    func swi_deflect_light(xx: [Double], dtsave_for_defl: Double, iflag: Int) -> Void {
+    func swi_deflect_light(_ xx: [Double], dtsave_for_defl: Double, iflag: Int) -> Void {
         
     }
     
@@ -3343,7 +3344,7 @@ class SwissEph: NSObject {
      * consider the motions of the earth and the moon
      * related to the solar system barycenter.
      */
-    func app_pos_etc_moon(iflag: Int) -> SweRet {
+    func app_pos_etc_moon(_ iflag: Int) -> SweRet {
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
         var xx: [Double] = [0, 0, 0, 0, 0, 0]
@@ -3536,7 +3537,7 @@ class SwissEph: NSObject {
      * ifno         file #
      * serr         error string
      */
-    func read_const(ifno: Int, buf: Array<UInt8>) -> SweRet
+    func read_const(_ ifno: Int, buf: Array<UInt8>) -> SweRet
     {
         let ret: SweRet = SweRet()
         var index: Int
@@ -3777,7 +3778,7 @@ class SwissEph: NSObject {
      * 
      * ここら辺は論文でも探さないと分からないよなあ
      */
-    func rot_back(ipli: Int) -> Void {
+    func rot_back(_ ipli: Int) -> Void {
         let t: Double = swed.pldat[ipli].tseg0 + swed.pldat[ipli].dseg / 2
         let tdiff: Double = (t - swed.pldat[ipli].telem) / 365250.0
         var dn: Double
@@ -3898,7 +3899,7 @@ class SwissEph: NSObject {
         }
     }
 
-    func get_new_segment(tjd: Double, ipli: Int, ifno: Int, buf: Array<UInt8>) -> SweRet {
+    func get_new_segment(_ tjd: Double, ipli: Int, ifno: Int, buf: Array<UInt8>) -> SweRet {
         let ret: SweRet = SweRet()
         var bufRet: SweRet = SweRet()
         var fpos: Int
@@ -4113,9 +4114,9 @@ class SwissEph: NSObject {
         return ret
     }
 
-    func swi_fopen(ifno:Int, filename: String, ephepath: String) -> NSFileHandle {
-        let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "se1")
-        let fileHandle: NSFileHandle = NSFileHandle(forReadingAtPath: path!)!
+    func swi_fopen(_ ifno:Int, filename: String, ephepath: String) -> FileHandle {
+        let path = Bundle.main.path(forResource: fileName, ofType: "se1")
+        let fileHandle: FileHandle = FileHandle(forReadingAtPath: path!)!
         
         return fileHandle
     }
@@ -4129,7 +4130,7 @@ class SwissEph: NSObject {
         
     }
 
-    func do_fread(buf: Array<UInt8>, index: Int) -> SweRet {
+    func do_fread(_ buf: Array<UInt8>, index: Int) -> SweRet {
         let ret: SweRet = SweRet()
         var tmp: UInt
         
@@ -4142,7 +4143,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func do_fread2(buf: Array<UInt8>, index: Int) -> SweRet {
+    func do_fread2(_ buf: Array<UInt8>, index: Int) -> SweRet {
         let ret: SweRet = SweRet()
         var tmp: UInt
         
@@ -4153,7 +4154,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func do_fread8(buf: Array<UInt8>, index: Int) -> Double {
+    func do_fread8(_ buf: Array<UInt8>, index: Int) -> Double {
         var ret: Double = 0
         var tmp: Double = 0
 
@@ -4194,44 +4195,44 @@ class SwissEph: NSObject {
         ret = pow2(2, b: eI)
         var dbl: Double = 0.5
         var mask: UInt = 0x08
-        for i in (0..<4).reverse() {
+        for i in (0..<4).reversed() {
             tmp = tmp + dbl * (Double)((b7I & mask) >> (UInt)(i))
             dbl = dbl / 2
             mask = mask / 2
         }
         
         mask = 0x80
-        for i in (0..<8).reverse() {
+        for i in (0..<8).reversed() {
             tmp = tmp + dbl * (Double)((b6I & mask) >> (UInt)(i))
             dbl = dbl / 2
             mask = mask / 2
         }
         mask = 0x80
-        for i in (0..<8).reverse() {
+        for i in (0..<8).reversed() {
             tmp = tmp + dbl * (Double)((b5I & mask) >> (UInt)(i))
             dbl = dbl / 2
             mask = mask / 2
         }
         mask = 0x80
-        for i in (0..<8).reverse() {
+        for i in (0..<8).reversed() {
             tmp = tmp + dbl * (Double)((b4I & mask) >> (UInt)(i))
             dbl = dbl / 2
             mask = mask / 2
         }
         mask = 0x80
-        for i in (0..<8).reverse() {
+        for i in (0..<8).reversed() {
             tmp = tmp + dbl * (Double)((b3I & mask) >> (UInt)(i))
             dbl = dbl / 2
             mask = mask / 2
         }
         mask = 0x80
-        for i in (0..<8).reverse() {
+        for i in (0..<8).reversed() {
             tmp = tmp + dbl * (Double)((b2I & mask) >> (UInt)(i))
             dbl = dbl / 2
             mask = mask / 2
         }
         mask = 0x80
-        for i in (0..<8).reverse() {
+        for i in (0..<8).reversed() {
             tmp = tmp + dbl * (Double)((b1I & mask) >> (UInt)(i))
             dbl = dbl / 2
             mask = mask / 2
@@ -4251,14 +4252,14 @@ class SwissEph: NSObject {
      *  with ncf terms at x in [-1,1]. Communications of the ACM, algorithm 446,
      *  April 1973 (vol. 16 no.4) by Dr. Roger Broucke.
      */
-    func swi_echeb(x: Double, coef:[Double], ncf: Int, index: Int) -> Double
+    func swi_echeb(_ x: Double, coef:[Double], ncf: Int, index: Int) -> Double
     {
         let x2: Double = x * 2
         var br: Double = 0.0
         var brp2: Double = 0.0 /* dummy assign to silence gcc warning */
         var brpp: Double = 0.0
         
-        for j in (0..<ncf).reverse() {
+        for j in (0..<ncf).reversed() {
             brp2 = brpp
             brpp = br
             br = x2 * brpp - brp2 + coef[index + j]
@@ -4270,7 +4271,7 @@ class SwissEph: NSObject {
     /*
      * evaluates derivative of chebyshev series, see echeb
      */
-    func swi_edcheb(x: Double, coef: [Double], ncf: Int, index: Int) -> Double
+    func swi_edcheb(_ x: Double, coef: [Double], ncf: Int, index: Int) -> Double
     {
         var bjpl: Double
         var xjpl: Double
@@ -4290,7 +4291,7 @@ class SwissEph: NSObject {
         xjpl = 0.0
         bjp2 = 0.0
         bjpl = 0.0
-        for j in (1..<ncf).reverse() {
+        for j in (1..<ncf).reversed() {
             dj = (Double)(j + j)
             xj = coef[index + j] * dj + xjp2
             bj = x2 * bjpl - bjp2 + xj
@@ -4303,7 +4304,7 @@ class SwissEph: NSObject {
         return (bj - bf) * 0.5
     }
     
-    func swe_deltat_ex(tjd: Double, iflag: Int) -> SweRet {
+    func swe_deltat_ex(_ tjd: Double, iflag: Int) -> SweRet {
         var ret:SweRet = SweRet()
         
         if (swed.delta_t_userdef_is_set) {
@@ -4314,7 +4315,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func calc_deltat(swed: SweData, tjd: Double, iflag: Int) -> SweRet {
+    func calc_deltat(_ swed: SweData, tjd: Double, iflag: Int) -> SweRet {
         let ret:SweRet = SweRet()
         let retc: SweRet
         let deltat_model: Int = swed.astro_models[SE_MODEL_DELTAT]
@@ -4395,7 +4396,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func swi_set_tid_acc(tjd_ut: Double, iflag: Int, denum: Int) -> SweRet
+    func swi_set_tid_acc(_ tjd_ut: Double, iflag: Int, denum: Int) -> SweRet
     {
         var retc: SweRet = SweRet()
         retc.iflag = iflag
@@ -4407,7 +4408,7 @@ class SwissEph: NSObject {
         return retc
     }
     
-    func swi_get_tid_acc(swed: SweData, tjd_ut: Double, iflag: Int, denum: Int) -> SweRet {
+    func swi_get_tid_acc(_ swed: SweData, tjd_ut: Double, iflag: Int, denum: Int) -> SweRet {
         //        var xx: [Double] = [0, 0, 0, 0, 0, 0]
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
@@ -4490,13 +4491,13 @@ class SwissEph: NSObject {
     
     /* Function initialises swed structure.
      * Returns 1 if initialisation is done, otherwise 0 */
-    func swi_init_swed_if_start(swed: SweData) -> Int
+    func swi_init_swed_if_start(_ swed: SweData) -> Int
     {
         // コンストラクタですべて初期化される
         return 0
     }
     
-    func deltat_espenak_meeus_1620(tjd: Double, tid_acc: Double) -> Double {
+    func deltat_espenak_meeus_1620(_ tjd: Double, tid_acc: Double) -> Double {
         var ans: Double = 0
         var Ygreg: Double
         var u: Double
@@ -4552,7 +4553,7 @@ class SwissEph: NSObject {
      * Entries after 1955 are referred to atomic time standards and
      * are not affected by errors in Lunar or planetary theory.
      */
-    func adjust_for_tidacc(ans: Double, Y: Double, tid_acc: Double) -> Double
+    func adjust_for_tidacc(_ ans: Double, Y: Double, tid_acc: Double) -> Double
     {
         var B: Double
         var ans_ret : Double = ans
@@ -4563,14 +4564,14 @@ class SwissEph: NSObject {
         return ans_ret
     }
     
-    func deltat_longterm_morrison_stephenson(tjd: Double) -> Double
+    func deltat_longterm_morrison_stephenson(_ tjd: Double) -> Double
     {
         let Ygreg: Double =  2000.0 + (tjd - J2000)/365.2425
         let u: Double = (Ygreg  - 1820) / 100.0
         return (-20 + 32 * u * u)
     }
     
-    func deltat_stephenson_morrison_1600(tjd: Double, tid_acc: Double) -> Double {
+    func deltat_stephenson_morrison_1600(_ tjd: Double, tid_acc: Double) -> Double {
         var ans: Double = 0
         var ans2: Double = 0
         var ans3: Double = 0
@@ -4634,7 +4635,7 @@ class SwissEph: NSObject {
      * ipli         = number of planet
      * fname        = ephemeris file name
      */
-    func swi_gen_filename(tjd:Double, ipli:Int) -> String {
+    func swi_gen_filename(_ tjd:Double, ipli:Int) -> String {
         var ret: String
         var gregflag: Bool // グレゴリオかどうか
         var sgn: Int // 符号、BC(-1) or AD(1)
@@ -4702,7 +4703,7 @@ class SwissEph: NSObject {
             gregflag = SE_JUL_CAL
             swe_ret = swe_date.swe_revjul(tjd, gregflag: gregflag)
         }
-        jyear = swe_ret.date.year
+        jyear = swe_ret.date.year!
         /* start century of file containing tjd */
         if (jyear < 0) {
             sgn = -1
@@ -4730,7 +4731,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func deltat_aa(tjd: Double, tid_acc: Double) -> Double {
+    func deltat_aa(_ tjd: Double, tid_acc: Double) -> Double {
         var ans: Double = 0
         var ans2: Double = 0
         var ans3: Double = 0
@@ -4854,7 +4855,7 @@ class SwissEph: NSObject {
      * first go from J1 to J2000, then call the program again
      * to go from J2000 to J2.
      */
-    func swi_precess(R: [Double], J: Double, iflag: Int, direction: Int ) -> SweRet
+    func swi_precess(_ R: [Double], J: Double, iflag: Int, direction: Int ) -> SweRet
     {
         var ret: SweRet = SweRet()
 //        let T: Double = (J - J2000)/36525.0
@@ -4953,17 +4954,17 @@ class SwissEph: NSObject {
      * Laskar's data, retaining powers up to T**10 in the result.
      *
      */
-    func precess_1(R: [Double], J: Double, direction: Int, prec_method: Int) -> Int
+    func precess_1(_ R: [Double], J: Double, direction: Int, prec_method: Int) -> Int
     {
         return 0
     }
 
-    func precess_2(R: [Double], J: Double, iflag: Int, direction: Int, prec_method: Int) -> Int
+    func precess_2(_ R: [Double], J: Double, iflag: Int, direction: Int, prec_method: Int) -> Int
     {
         return 0
     }
     
-    func precess_3(R: [Double], J: Double, direction: Int, prec_meth: Int) -> SweRet
+    func precess_3(_ R: [Double], J: Double, direction: Int, prec_meth: Int) -> SweRet
     {
         let ret: SweRet = SweRet()
         var retc: SweRet
@@ -5001,7 +5002,7 @@ class SwissEph: NSObject {
         return ret
     }
 
-    func pre_pmat(tjd: Double) -> SweRet {
+    func pre_pmat(_ tjd: Double) -> SweRet {
         let ret: SweRet = SweRet()
         var retc1: SweRet
         var retc2: SweRet
@@ -5036,7 +5037,7 @@ class SwissEph: NSObject {
         return ret
     }
 
-    func pre_pequ(tjd: Double) -> SweRet {
+    func pre_pequ(_ tjd: Double) -> SweRet {
         let ret: SweRet = SweRet()
         let npol: Int = NPOL_PEQU
         let nper: Int = NPER_PEQU
@@ -5081,7 +5082,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func pre_pecl(tjd: Double) -> SweRet {
+    func pre_pecl(_ tjd: Double) -> SweRet {
         let ret: SweRet = SweRet()
         let npol: Int = NPOL_PECL
         let nper: Int = NPER_PECL
@@ -5139,7 +5140,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func swi_cross_prod(a: [Double], b: [Double]) -> SweRet {
+    func swi_cross_prod(_ a: [Double], b: [Double]) -> SweRet {
         let ret: SweRet = SweRet()
         ret.tmpDbl6[0] = a[1]*b[2] - a[2]*b[1]
         ret.tmpDbl6[1] = a[2]*b[0] - a[0]*b[2]
@@ -5147,7 +5148,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func app_pos_rest(pdp_idx: Int, iflag: Int, oe_flag: Int, xx: [Double]) -> SweRet {
+    func app_pos_rest(_ pdp_idx: Int, iflag: Int, oe_flag: Int, xx: [Double]) -> SweRet {
         let daya: Double = 0
         var xxsv: [Double] = [0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0,
@@ -5322,7 +5323,7 @@ class SwissEph: NSObject {
      * coseps            cos(eps)
      * for ecl. to equ.  sineps must be -sin(eps)
      */
-    func swi_coortrf2(xpo: [Double], sineps: Double, coseps: Double) -> SweRet
+    func swi_coortrf2(_ xpo: [Double], sineps: Double, coseps: Double) -> SweRet
     {
         let ret: SweRet = SweRet()
         var x: [Double] = [0, 0, 0]
@@ -5339,7 +5340,7 @@ class SwissEph: NSObject {
     /* influence of precession on speed
      * xx           position and speed of planet in equatorial cartesian
      *              coordinates */
-    func swi_precess_speed(xx: [Double], t: Double, iflag: Int, direction: Int) -> SweRet
+    func swi_precess_speed(_ xx: [Double], t: Double, iflag: Int, direction: Int) -> SweRet
     {
         let ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
@@ -5420,7 +5421,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func swi_cartpol_sp(x: [Double]) -> SweRet {
+    func swi_cartpol_sp(_ x: [Double]) -> SweRet {
         let ret: SweRet = SweRet()
         var retc: SweRet
         var rxy: Double = 0
@@ -5498,7 +5499,7 @@ class SwissEph: NSObject {
      * x = l is allowed.
      * if |x| = 0, then lon, lat and rad := 0.
      */
-    func swi_cartpol(x: [Double]) -> SweRet
+    func swi_cartpol(_ x: [Double]) -> SweRet
     {
         let ret: SweRet = SweRet()
         var rxy: Double = 0
@@ -5538,7 +5539,7 @@ class SwissEph: NSObject {
      * x = l is allowed
      * explanation s. swi_cartpol_sp()
      */
-    func swi_polcart_sp(l: [Double]) -> SweRet
+    func swi_polcart_sp(_ l: [Double]) -> SweRet
     {
         let ret: SweRet = SweRet()
         var sinlon: Double = 0
@@ -5586,7 +5587,7 @@ class SwissEph: NSObject {
     /* conversion from polar (l[3]) to cartesian coordinates (x[3]).
      * x = l is allowed.
      */
-    func swi_polcart(l: [Double]) -> SweRet
+    func swi_polcart(_ l: [Double]) -> SweRet
     {
         let ret: SweRet = SweRet()
         var xx:[Double] = [0, 0, 0]
@@ -5603,7 +5604,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func swi_check_ecliptic(tjd: Double, iflag: Int)
+    func swi_check_ecliptic(_ tjd: Double, iflag: Int)
     {
         if (swed.oec2000.teps != J2000) {
             swed.oec2000.teps = J2000
@@ -5626,7 +5627,7 @@ class SwissEph: NSObject {
         }
     }
 
-    func swi_epsiln(J: Double, iflag: Int) -> Double
+    func swi_epsiln(_ J: Double, iflag: Int) -> Double
     {
         var T: Double
         var eps: Double = 0
@@ -5727,7 +5728,7 @@ class SwissEph: NSObject {
         return eps
     }
     
-    func swi_ldp_peps(tjd : Double) -> SweRet {
+    func swi_ldp_peps(_ tjd : Double) -> SweRet {
         let ret: SweRet = SweRet()
         let nper:Int = NPER_PEPS
         let npol:Int = NPOL_PEPS
@@ -5769,36 +5770,36 @@ class SwissEph: NSObject {
     }
 
     // 未使用warning対策ダミー
-    func nouseDmyInt(a: Int) -> Void {
+    func nouseDmyInt(_ a: Int) -> Void {
         return
     }
     
     // 未使用warning対策ダミー
-    func nouseDmyUInt(a: UInt) -> Void {
+    func nouseDmyUInt(_ a: UInt) -> Void {
         return
     }
     
     // 未使用warning対策ダミー
-    func nouseDmyDbl(a: Double) -> Void {
+    func nouseDmyDbl(_ a: Double) -> Void {
         return
     }
     
     // 空リターン
-    func retInt(a: Int) -> Int {
+    func retInt(_ a: Int) -> Int {
         return a
     }
     
     // 空リターン
-    func retUInt(a: UInt) -> UInt {
+    func retUInt(_ a: UInt) -> UInt {
         return a
     }
 
     // 空リターン
-    func retRet(a: SweRet) -> SweRet {
+    func retRet(_ a: SweRet) -> SweRet {
         return a
     }
     
-    func pow2(a: Double, b: Int) -> Double {
+    func pow2(_ a: Double, b: Int) -> Double {
         var ret: Double = a
         let bb: UInt
         if (b >= 0) {
@@ -5824,7 +5825,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func swe_utc_time_zone(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Double, timezone: Double) -> SweTimeRet {
+    func swe_utc_time_zone(_ year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Double, timezone: Double) -> SweTimeRet {
         let ret: SweTimeRet = SweTimeRet()
         var retc: SweRet = SweRet()
         var tjd: Double = 0
@@ -5849,9 +5850,9 @@ class SwissEph: NSObject {
             dhour -= 24.0
         }
         retc = swe_date.swe_revjul(tjd + 0.001, gregflag: SE_GREG_CAL)
-        ret.year = retc.date.year
-        ret.month = retc.date.month
-        ret.day = retc.date.day
+        ret.year = retc.date.year!
+        ret.month = retc.date.month!
+        ret.day = retc.date.day!
         ret.hour = (Int)(dhour)
         d = (dhour - (Double)(ret.hour)) * 60
         ret.minute = (Int)(d)
@@ -5863,7 +5864,7 @@ class SwissEph: NSObject {
         return ret
     }
     
-    func swe_julday(year: Int, month: Int, day: Int, dhour: Double, gregflag: Bool) -> Double {
+    func swe_julday(_ year: Int, month: Int, day: Int, dhour: Double, gregflag: Bool) -> Double {
         var jd: Double = 0
         var u: Double = (Double)(year)
         var u0: Double = 0
@@ -5897,7 +5898,7 @@ class SwissEph: NSObject {
         return jd
     }
 
-    func utc_to_jd(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Double, gregflag: Bool) -> SweRet {
+    func utc_to_jd(_ year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Double, gregflag: Bool) -> SweRet {
         var ret: SweRet = SweRet()
         var tjd_et: Double = 0.0
         var tjd_et_1972: Double = 0.0
@@ -5913,9 +5914,9 @@ class SwissEph: NSObject {
         tjd_ut1 = swe_julday(year, month: month, day: day, dhour: 0, gregflag: gregflagBool)
         var retc: SweRet = swe_date.swe_revjul(tjd_ut1, gregflag: gregflagBool)
         
-        var ryear: Int = retc.date.year
-        var rmonth: Int = retc.date.month
-        var rday: Int = retc.date.day
+        var ryear: Int = retc.date.year!
+        var rmonth: Int = retc.date.month!
+        var rday: Int = retc.date.day!
         d = retc.jut
         
         if (year != ryear || month != rmonth || day != rday) {
@@ -5959,9 +5960,9 @@ class SwissEph: NSObject {
         if (gregflag == SE_JUL_CAL) {
             gregflagBool = SE_GREG_CAL
             retc = swe_date.swe_revjul(tjd_ut1, gregflag: gregflagBool)
-            ryear = retc.date.year
-            rmonth = retc.date.month
-            rday = retc.date.day
+            ryear = retc.date.year!
+            rmonth = retc.date.month!
+            rday = retc.date.day!
         }
         /*
          * number of leap seconds since 1972:
@@ -6069,7 +6070,7 @@ class SwissEph: NSObject {
 //        }
     }
     
-    func swi_nutation(J: Double, iflag: Int) -> SweRet {
+    func swi_nutation(_ J: Double, iflag: Int) -> SweRet {
         var ret: SweRet = SweRet()
         var nut_model: Int = swed.astro_models[SE_MODEL_NUT];
         var jplhor_model: Int = swed.astro_models[SE_MODEL_JPLHOR_MODE];
@@ -6157,7 +6158,7 @@ class SwissEph: NSObject {
  * - ftp://maia.usno.navy.mil/conv2000/chapter5/IAU2000A.
  * - http://www.iau-sofa.rl.ac.uk/2005_0901/Downloads.html
  */
-    func swi_nutation_iau2000ab(J: Double) -> SweRet {
+    func swi_nutation_iau2000ab(_ J: Double) -> SweRet {
         var ret: SweRet = SweRet()
         var inls: Int
         var M: Double
@@ -6227,7 +6228,7 @@ class SwissEph: NSObject {
         } else {
             inls = NLS;
         }
-        for i in (0..<inls).reverse() {
+        for i in (0..<inls).reversed() {
             j = i * 5;
             tmp = (Double)((Double)(nls[j + 0]) * M)
             tmp += (Double) ((Double)(nls[j + 1]) * SM)
@@ -6263,7 +6264,7 @@ class SwissEph: NSObject {
             retc.tmpDbl6[i] *= RAD_TO_DEG;
         }
         
-        let tmp: Double = swe_sidtime0(tjd_ut, eps: eps + nutlo[1], nut: nutlo[0])
+        let tmp: Double = swe_sidtime0(tjd: tjd_ut, eps: eps + nutlo[1], nut: nutlo[0])
         
         armc = hlib.swe_degnorm(tmp * 15 + geolon);
         if (hsys ==  "I") {  // compute sun declination for sunshine houses
@@ -6281,9 +6282,10 @@ class SwissEph: NSObject {
         return retc
     }
 
-    func swe_houses_armc(armc: Double, geolat: Double, eps: Double, hsys: String, ascmc9: Int) -> SweRet
+    func swe_houses_armc(_ armc: Double, geolat: Double, eps: Double, hsys: String, ascmc9: Int) -> SweRet
     {
         let h: Houses = Houses()
+        var ret: SweRet = SweRet()
         var retc: SweRet = SweRet()
         var ito: Int = 0;
         var saved_sundec: Double = 99
@@ -6308,25 +6310,34 @@ class SwissEph: NSObject {
         retc = CalcH(armc1, fi: geolat, ekl: eps, hsy: hsys, iteration_count: 2);
         retc.cusps[0] = 0;
         for i in 1..<ito+1 {
-            retc.cusps[i] = h.cusp[i];
+            ret.cusps[i] = retc.cusps[i];
         }
-        retc.ascmc[0] = h.ac;        /* Asc */
-        retc.ascmc[1] = h.mc;        /* Mid */
-        retc.ascmc[2] = armc;
-        retc.ascmc[3] = h.vertex;
-        retc.ascmc[4] = h.equasc;
-        retc.ascmc[5] = h.coasc1;  /* "co-ascendant" (W. Koch) */
-        retc.ascmc[6] = h.coasc2;  /* "co-ascendant" (M. Munkasey) */
-        retc.ascmc[7] = h.polasc;  /* "polar ascendant" (M. Munkasey) */
+        ret.ascmc[0] = h.ac;        /* Asc */
+        ret.ascmc[1] = h.mc;        /* Mid */
+        ret.ascmc[2] = armc;
+        ret.ascmc[3] = h.vertex;
+        ret.ascmc[4] = h.equasc;
+        ret.ascmc[5] = h.coasc1;  /* "co-ascendant" (W. Koch) */
+        ret.ascmc[6] = h.coasc2;  /* "co-ascendant" (M. Munkasey) */
+        ret.ascmc[7] = h.polasc;  /* "polar ascendant" (M. Munkasey) */
         for i in SE_NASCMC..<10 {
             retc.ascmc[i] = 0;
         }
         return retc;
     }
 
-    func swe_sidtime0( tjd: Double, eps: Double, nut: Double ) -> Double
+    func swe_sidtime0(tjd: Double, eps: Double, nut: Double ) -> Double
     {
+        var jd: Double = 0
+        var jd0: Double = 0
+        var jdrel: Double = 0
+        var tu: Double = 0
+        var tt: Double = 0
+        var secs: Double = 0
         var gmst: Double = 0
+        var msday: Double = 0
+        var dadd: Double = 0
+        var eqeq: Double = 0
         var prec_model_short: Int = swed.astro_models[SE_MODEL_PREC_SHORTTERM];
         var sidt_model: Int = swed.astro_models[SE_MODEL_SIDT];
         if (prec_model_short == 0)  {
@@ -6354,11 +6365,60 @@ class SwissEph: NSObject {
 //                goto sidtime_done;
             }
         }
-        return 0
+        /* Julian day at given UT */
+        jd = tjd;
+        jd0 = floor(jd);
+        secs = tjd - jd0;
+        if( secs < 0.5 ) {
+            jd0 -= 0.5;
+            secs += 0.5;
+        } else {
+            jd0 += 0.5;
+            secs -= 0.5;
+        }
+        secs *= 86400.0;
+        tu = (jd0 - J2000)/36525.0; /* UT1 in centuries after J2000 */
+        if (sidt_model == SEMOD_SIDT_IERS_CONV_2010 || sidt_model == SEMOD_SIDT_LONGTERM) {
+            /*  ERA-based expression for for Greenwich Sidereal Time (GST) based
+             *  on the IAU 2006 precession */
+            jdrel = tjd - J2000;
+            let deltaRet: SweRet = swe_deltat_ex(tjd, iflag: -1)
+            tt = (tjd + deltaRet.tmpDbl6[0] - J2000) / 36525.0;
+            gmst = hlib.swe_degnorm((0.7790572732640 + 1.00273781191135448 * jdrel) * 360);
+            gmst += (0.014506 + tt * (4612.156534 +  tt * (1.3915817 + tt * (-0.00000044 + tt * (-0.000029956 + tt * -0.0000000368))))) / 3600.0;
+            dadd = sidtime_non_polynomial_part(tt: tt);
+            gmst = hlib.swe_degnorm(gmst + dadd);
+            /*printf("gmst iers=%f \n", gmst);*/
+            gmst = gmst / 15.0 * 3600.0;
+            /* sidt_model == SEMOD_SIDT_PREC_MODEL, older standards according to precession model */
+        } else if (prec_model_short >= SEMOD_PREC_IAU_2006) {
+            let deltaRet: SweRet = swe_deltat_ex(tjd, iflag: -1)
+            tt = (jd0 + deltaRet.tmpDbl6[0] - J2000)/36525.0; /* TT in centuries after J2000 */
+            gmst = (((-0.000000002454*tt - 0.00000199708)*tt - 0.0000002926)*tt + 0.092772110)*tt*tt + 307.4771013*(tt-tu) + 8640184.79447825*tu + 24110.5493771;
+            /* mean solar days per sidereal day at date tu;
+             * for the derivative of gmst, we can assume UT1 =~ TT */
+            msday = 1 + ((((-0.000000012270*tt - 0.00000798832)*tt - 0.0000008778)*tt + 0.185544220)*tt + 8640184.79447825)/(86400.0*36525.0);
+            gmst += msday * secs;
+            /* SEMOD_SIDT_IAU_1976 */
+        } else {  /* IAU 1976 formula */
+            /* Greenwich Mean Sidereal Time at 0h UT of date */
+            gmst = (( -6.2e-6*tu + 9.3104e-2)*tu + 8640184.812866)*tu + 24110.54841;
+            /* mean solar days per sidereal day at date tu, = 1.00273790934 in 1986 */
+            msday = 1.0 + ((-1.86e-5*tu + 0.186208)*tu + 8640184.812866)/(86400.0*36525.0);
+            gmst += msday * secs;
+        }
+        /* Local apparent sidereal time at given UT at Greenwich */
+        eqeq = 240.0 * nut * cos(eps * DEG_TO_RAD);
+        gmst = gmst + eqeq  /* + 240.0*tlong */;
+        /* Sidereal seconds modulo 1 sidereal day */
+        gmst = gmst - 86400.0 * floor( gmst/86400.0 );
+        /* return in hours */
+        gmst /= 3600;
+        return gmst
     }
 
     func CalcH(
-        th: Double, fi: Double, ekl: Double, hsy: String,
+        _ th: Double, fi: Double, ekl: Double, hsy: String,
         iteration_count: Int) -> SweRet {
     /* *********************************************************
      *  Arguments: th = sidereal time (angle 0..360 degrees
@@ -6376,8 +6436,8 @@ class SwissEph: NSObject {
      *                   K  Koch
      *                   L  Pullen SD "sinusoidal delta", ex Neo-Porphyry
      *                   M  Morinus
- *                   N  equal/1=Aries
- *                   O  Porphyry
+     *                   N  equal/1=Aries
+     *                   O  Porphyry
      *                   P  Placidus
      *                   Q  Pullen SR "sinusoidal ratio"
      *                   R  Regiomontanus
@@ -6410,7 +6470,7 @@ class SwissEph: NSObject {
         var tanfi: Double
         var tant: Double
         var acmc: Double
-        var rad = ekl * 180 / PI
+        var rad = ekl * PI / 180
         var fi1 : Double = fi
         var fh1: Double
         var fh2: Double
@@ -6444,16 +6504,17 @@ class SwissEph: NSObject {
                 fi1 = 90 - VERY_SMALL;
             }
         }
-        var fi2 : Double = fi1 * 180 / PI
+        var fi2 : Double = fi1 * PI / 180
         tanfi = tan(fi2);
         /* mc */
         if (fabs(th - 90) > VERY_SMALL
             && fabs(th - 270) > VERY_SMALL) {
-            var th1: Double = th * 180 / PI
+            var th1: Double = th * PI / 180
             tant = tan(th1);
             var tmp: Double = tant / cose
             
-            hsp.mc = atan(tmp * 180 / PI);
+            hsp.mc = atan(tmp);
+            hsp.mc = hsp.mc * 180 / PI
             if (th > 90 && th <= 270) {
                 hsp.mc = hlib.swe_degnorm(hsp.mc + 180);
             }
@@ -6605,7 +6666,7 @@ class SwissEph: NSObject {
             } else {
                 retc = sunshine_solution_makransky(th, lat: fi, ecl: ekl);
             }
-            if (retc == ERR) {  // only Makransky version does this
+            if (retc.iflag == ERR) {  // only Makransky version does this
 //                strcpy(hsp->serr, "within polar circle, switched to Porphyry");
 //                hsy = "O";
 //                goto porphyry;
@@ -7047,12 +7108,12 @@ class SwissEph: NSObject {
             hsp.cusp[28] = hlib.swe_degnorm(hsp.mc + 180);
             break;
         case "U": /* Krusinski-Pisa */
-/*
- * The following code was written by Bogdan Krusinski in 2006.
- * bogdan@astrologia.pl
- *
- * Definition:
- * "Krusinski - house system based on the great circle passing through
+            /*
+             * The following code was written by Bogdan Krusinski in 2006.
+             * bogdan@astrologia.pl
+             *
+             * Definition:
+             * "Krusinski - house system based on the great circle passing through
              * ascendant and zenith. This circle is divided into 12 equal parts
              * (1st cusp is ascendent, 10th cusp is zenith), then the resulting
              * points are projected onto the ecliptic through meridian circles.
@@ -7301,34 +7362,107 @@ class SwissEph: NSObject {
         }
         /* "polar ascendant" M. Munkasey */
         hsp.polasc = Asc1(th - 90, f: fi, sine: sine, cose: cose);
+        for i in 0..<13 {
+            retc.cusps[i] = hsp.cusp[i]
+        }
         return retc;
     } /* procedure houses */
 
-    func sind(deg: Double) -> Double {
-        return sin(deg * 180 / PI)
+    func sind(_ deg: Double) -> Double {
+        return sin(deg * PI / 180)
     }
     
-    func cosd(deg: Double) -> Double {
-        return cos(deg * 180 / PI)
+    func cosd(_ deg: Double) -> Double {
+        return cos(deg * PI / 180)
     }
     
-    func tand(deg: Double) -> Double {
-        return tan(deg * 180 / PI)
+    func tand(_ deg: Double) -> Double {
+        return tan(deg * PI / 180)
     }
 
-    func asind(deg: Double) -> Double {
-        return asin(deg * 180 / PI)
+    func asind(_ deg: Double) -> Double {
+        return asin(deg) * 180 / PI
     }
 
-    func atand(deg: Double) -> Double {
-        return atan(deg * 180 / PI)
+    func atand(_ deg: Double) -> Double {
+        return atan(deg) * 180 / PI
     }
     
-    func Asc1(x1: Double, f: Double, sine: Double, cose: Double) -> Double {
-        return 0
+    func Asc1(_ x1: Double, f: Double, sine: Double, cose: Double) -> Double {
+        var n: Int = 0
+        var ass: Double = 0
+        var x1dash = hlib.swe_degnorm(x1)
+        n  = (Int) ((x1dash / 90) + 1);   // n is quadrant 1..4
+        if (fabs(90 - f) < VERY_SMALL) { // near north pole
+            return 180;
+        }
+        if (fabs(90 + f) < VERY_SMALL) { // near south pole
+            return 0;
+        }
+        if (n == 1) {
+            ass = ( Asc2(x: x1dash, f: f, sine: sine, cose: cose));
+        }
+        else if (n == 2) {
+            ass = (180 - Asc2(x: 180 - x1dash, f: -f, sine: sine, cose: cose));
+        }
+        else if (n == 3) {
+            ass = (180 + Asc2(x: x1dash - 180, f: -f, sine: sine, cose: cose));
+        }
+        else {
+            ass = (360 - Asc2(x: 360 - x1dash,  f: f, sine: sine, cose: cose));
+        }
+        ass = hlib.swe_degnorm(ass);
+        if (fabs(ass - 90) < VERY_SMALL) {      /* rounding, e.g.: if */
+            ass = 90;                           /* fi = 0 & st = 0, ac = 89.999... */
+        }
+        if (fabs(ass - 180) < VERY_SMALL) {
+            ass = 180;
+        }
+        if (fabs(ass - 270) < VERY_SMALL) {     /* rounding, e.g.: if */
+            ass = 270;                          /* fi = 0 & st = 0, ac = 89.999... */
+        }
+        if (fabs(ass - 360) < VERY_SMALL) {
+            ass = 0;
+        }
+        return ass;
     }
+
+    func Asc2(x: Double, f: Double, sine: Double, cose: Double) -> Double
+    {
+        var ass: Double
+        var sinx: Double
+        ass = -1 * tand(f) * sine + cose * cosd(x);
+        if (fabs(ass) < VERY_SMALL) {
+            ass = 0;
+        }
+        sinx = sind(x);
+        if (fabs(sinx) < VERY_SMALL) {
+            sinx = 0;
+        }
+        if (sinx == 0) {
+            if (ass < 0) {
+                ass = -VERY_SMALL;
+            }
+            else {
+                ass = VERY_SMALL;
+            }
+        } else if (ass == 0) {
+            if (sinx < 0) {
+                ass = -90;
+            }
+            else {
+                ass = 90;
+            }
+        } else {
+            ass = atand(sinx / ass);
+        }
+        if (ass < 0) {
+            ass = 180 + ass;
+        }
+        return (ass);
+    } /* Asc2 */
     
-    func swe_difdeg2n(p1: Double, p2: Double) -> Double {
+    func swe_difdeg2n(_ p1: Double, p2: Double) -> Double {
         return 0
     }
     
@@ -7345,7 +7479,7 @@ class SwissEph: NSObject {
      * The algoritm provides exact agreement for epoch 1 Jan. 2003 with the
      * definition of sidereal time as given in the IERS Convention 2010.
      */
-    func sidtime_long_term(tjd_ut: Double, eps: Double, nut: Double) -> Double
+    func sidtime_long_term(_ tjd_ut: Double, eps: Double, nut: Double) -> Double
     {
         return 0
     }
@@ -7357,25 +7491,30 @@ class SwissEph: NSObject {
         return 0;
     }
     
-    func sunshine_solution_makransky(ramc: Double, lat: Double, ecl: Double) -> SweRet {
+    func sunshine_solution_makransky(_ ramc: Double, lat: Double, ecl: Double) -> SweRet {
         let ret: SweRet = SweRet()
     
         return ret
     }
     
-    func sunshine_solution_treindl(ramc: Double, lat: Double, ecl: Double) -> SweRet
+    func sunshine_solution_treindl(_ ramc: Double, lat: Double, ecl: Double) -> SweRet
     {
         let ret: SweRet = SweRet()
         return ret
     }
     
-    func swe_cotrans(xpo: [Double], xpn: [Double], eps: Double) -> SweRet
+    func swe_cotrans(_ xpo: [Double], xpn: [Double], eps: Double) -> SweRet
     {
         let ret: SweRet = SweRet()
         return ret
     }
 
-    func apc_sector(n: Int, ph: Double, e: Double, az: Double) -> Double
+    func apc_sector(_ n: Int, ph: Double, e: Double, az: Double) -> Double
+    {
+        return 0
+    }
+    
+    func sidtime_non_polynomial_part(tt: Double) -> Double
     {
         return 0
     }

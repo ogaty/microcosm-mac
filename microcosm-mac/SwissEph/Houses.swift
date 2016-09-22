@@ -9,7 +9,8 @@
 import Cocoa
 
 class Houses: NSObject {
-    var cusp: [Double] = [0, 0, 0, 0]
+    var cusp: [Double] = [0, 0, 0, 0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0, 0, 0, 0]
     var sundec: Double = 0
     var ac: Double = 0
     var mc: Double = 0

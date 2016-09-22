@@ -30,7 +30,7 @@ class SweDate: NSObject {
      with bug fix for year < -4711 16-aug-88 Alois Treindl
      *************************************************************************/
     // 時刻を求める
-    func swe_revjul (jd: Double, gregflag: Bool) -> SweRet
+    func swe_revjul (_ jd: Double, gregflag: Bool) -> SweRet
     {
         var u0: Double
         var u1: Double
@@ -50,8 +50,8 @@ class SweDate: NSObject {
         u3 = floor ( (u2 - 122.2) / 365.25)
         u4 = floor ( (u2 - floor (365.25 * u3) ) / 30.6001)
         ret.date.month = Int(u4 - 1.0)
-        if (ret.date.month > 12) {
-            ret.date.month = ret.date.month - 12
+        if (ret.date.month! > 12) {
+            ret.date.month = ret.date.month! - 12
         }
         ret.date.day = Int(u2 - floor (365.25 * u3) - floor (30.6001 * u4))
         ret.date.year = Int(u3 + floor ( (u4 - 2.0) / 12.0) - 4800)

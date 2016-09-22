@@ -9,7 +9,7 @@
 import Cocoa
 
 class FileData: NSObject {
-    var fileHandle: NSFileHandle? // FiilePointer
+    var fileHandle: FileHandle? // FiilePointer
     var sweph_denum: UInt = 0
     var tfstart: Double = 0
     var tfend: Double = 0

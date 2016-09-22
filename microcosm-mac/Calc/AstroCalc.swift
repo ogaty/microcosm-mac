@@ -21,17 +21,17 @@ class AstroCalc: NSObject {
         var ret: SweRet
         let iflag: Int = SEFLG_SWIEPH | SEFLG_SPEED
 
-        let now = NSDate()
-        let cal: NSCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
-        var cal_comp: NSDateComponents = cal.components([.Year, .Month, .Day, .Weekday], fromDate:now)
-        let year: Int = cal_comp.year
-        let month: Int = cal_comp.month
-        let day: Int = cal_comp.day
-        cal_comp = cal.components([.NSHourCalendarUnit, .NSMinuteCalendarUnit, .NSSecondCalendarUnit],
-                                  fromDate:now)
-        let hour: Int = cal_comp.hour
-        let minute: Int = cal_comp.minute
-        let second: Double = (Double)(cal_comp.second)
+        let now = Date()
+        let cal: Calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+        var cal_comp: DateComponents = (cal as NSCalendar).components([.year, .month, .day, .weekday], from:now)
+        let year: Int = cal_comp.year!
+        let month: Int = cal_comp.month!
+        let day: Int = cal_comp.day!
+        cal_comp = (cal as NSCalendar).components([.NSHourCalendarUnit, .NSMinuteCalendarUnit, .NSSecondCalendarUnit],
+                                  from:now)
+        let hour: Int = cal_comp.hour!
+        let minute: Int = cal_comp.minute!
+        let second: Double = (Double)(cal_comp.second!)
 
         
         //        let retc: SweTimeRet = swiss.swe_utc_time_zone(2012, month: 12, day: 21,
@@ -57,11 +57,24 @@ class AstroCalc: NSObject {
         return plist
     }
     
-    func CuspCalc(year: Int, month: Int, day: Int, hour: Int, min: Int, sec: Double, lat: Double, lng: Double, houseKind: Int) -> [Double]
+    func CuspCalc(_ year: Int, month: Int, day: Int, hour: Int, min: Int, sec: Double, lat: Double, lng: Double, houseKind: Int) -> [Double]
     {
-        var ret: [Double] = []
+        var ret: SweRet
+        var retd: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let retc: SweTimeRet = swiss.swe_utc_time_zone(year, month: month, day: day,
+                                                       hour: hour, minute: min, second: sec,
+                                                       timezone: 9.0)
+        ret = swiss.utc_to_jd(retc.year, month: retc.month, day: retc.day, hour: retc.hour, minute: retc.minute, second: retc.second, gregflag: true)
         
-        return ret
+        let ut: Double = ret.tmpDbl6[0]
+        
+        ret = swiss.swe_houses(tjd_ut:ut, geolat:  lat,geolon:  lng,hsys:  "P")
+
+        for i in 0..<13 {
+            retd[i] = ret.cusps[i]
+        }
+        
+        return retd
     }
 
 }
