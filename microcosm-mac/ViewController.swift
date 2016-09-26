@@ -38,7 +38,7 @@ class ViewController: NSViewController {
         var documents = NSSearchPathForDirectoriesInDomains(
             .documentDirectory,
             .userDomainMask, true)[0]
-        let fileManager = FileManager.defaultManager
+//        let fileManager = FileManager.default
         
         let cal = NSCalendar.current
         let year = cal.component(.year, from: now)
