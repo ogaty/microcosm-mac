@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C60997521D8840CD00D0FA1C /* Houses.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60997511D8840CD00D0FA1C /* Houses.swift */; };
 		C62735F71D99711100A5C017 /* DatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62735F61D99711100A5C017 /* DatabaseViewController.swift */; };
+		C62D35F51D9AB34200BAB3CE /* MenuClick.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62D35F41D9AB34200BAB3CE /* MenuClick.swift */; };
 		C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674421D71455000B26AA5 /* SweTimeRet.swift */; };
 		C63674451D71D69600B26AA5 /* TopoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674441D71D69600B26AA5 /* TopoData.swift */; };
 		C63674471D75DB1900B26AA5 /* MainChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674461D75DB1900B26AA5 /* MainChart.swift */; };
@@ -20,7 +21,7 @@
 		C6E9FDBD1D538A23008FDE6B /* seas_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */; };
 		C6E9FDBE1D538A23008FDE6B /* semo_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */; };
 		C6E9FDBF1D538A23008FDE6B /* sepl_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBC1D538A23008FDE6B /* sepl_18.se1 */; };
-		C6EAB1791D30C2FB0038C772 /* I.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1781D30C2FB0038C772 /* I.swift */; };
+		C6EAB1791D30C2FB0038C772 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */; };
 		C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EAB17A1D30C2FB0038C772 /* ViewController.swift */; };
 		C6EAB17D1D30C2FB0038C772 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */; };
 		C6EAB1801D30C2FB0038C772 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6EAB17E1D30C2FB0038C772 /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		C60997511D8840CD00D0FA1C /* Houses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Houses.swift; path = SwissEph/Houses.swift; sourceTree = "<group>"; };
 		C62735F61D99711100A5C017 /* DatabaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseViewController.swift; sourceTree = "<group>"; };
+		C62D35F41D9AB34200BAB3CE /* MenuClick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuClick.swift; sourceTree = "<group>"; };
 		C63674421D71455000B26AA5 /* SweTimeRet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweTimeRet.swift; path = SwissEph/SweTimeRet.swift; sourceTree = "<group>"; };
 		C63674441D71D69600B26AA5 /* TopoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopoData.swift; path = SwissEph/TopoData.swift; sourceTree = "<group>"; };
 		C63674461D75DB1900B26AA5 /* MainChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChart.swift; sourceTree = "<group>"; };
@@ -53,7 +55,7 @@
 		C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = semo_18.se1; sourceTree = "<group>"; };
 		C6E9FDBC1D538A23008FDE6B /* sepl_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sepl_18.se1; sourceTree = "<group>"; };
 		C6EAB1751D30C2FB0038C772 /* microcosm-mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "microcosm-mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C6EAB1781D30C2FB0038C772 /* I.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = I.swift; sourceTree = "<group>"; };
+		C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6EAB17A1D30C2FB0038C772 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6EAB17F1D30C2FB0038C772 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -110,7 +112,7 @@
 				C6FA05BF1D48F068002F5BA3 /* SweRet.swift */,
 				C6FA05BD1D48F059002F5BA3 /* SweData.swift */,
 				C6FA05BB1D48F047002F5BA3 /* SavePositions.swift */,
-				C6EAB1781D30C2FB0038C772 /* I.swift */,
+				C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */,
 				C6EAB17A1D30C2FB0038C772 /* ViewController.swift */,
 				C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */,
 				C6EAB17E1D30C2FB0038C772 /* Main.storyboard */,
@@ -134,6 +136,7 @@
 				C63674581D81901900B26AA5 /* ConfigData.swift */,
 				C60997511D8840CD00D0FA1C /* Houses.swift */,
 				C62735F61D99711100A5C017 /* DatabaseViewController.swift */,
+				C62D35F41D9AB34200BAB3CE /* MenuClick.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -225,7 +228,7 @@
 				C6FA05C61D4C64E6002F5BA3 /* FileData.swift in Sources */,
 				C63674531D7DAE4F00B26AA5 /* CommonData.swift in Sources */,
 				C63674591D81901900B26AA5 /* ConfigData.swift in Sources */,
-				C6EAB1791D30C2FB0038C772 /* I.swift in Sources */,
+				C6EAB1791D30C2FB0038C772 /* AppDelegate.swift in Sources */,
 				C62735F71D99711100A5C017 /* DatabaseViewController.swift in Sources */,
 				C6FA05C21D48F7A6002F5BA3 /* PlanData.swift in Sources */,
 				C6FA05C01D48F068002F5BA3 /* SweRet.swift in Sources */,
@@ -235,6 +238,7 @@
 				C6FA05BC1D48F047002F5BA3 /* SavePositions.swift in Sources */,
 				C6F4C2F11D5C0C5A00108545 /* SwissHLib.swift in Sources */,
 				C60997521D8840CD00D0FA1C /* Houses.swift in Sources */,
+				C62D35F51D9AB34200BAB3CE /* MenuClick.swift in Sources */,
 				C6FA05BE1D48F059002F5BA3 /* SweData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

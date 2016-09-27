@@ -28,6 +28,10 @@ class ViewController: NSViewController {
     @IBOutlet weak var uranusPositionLabel: NSTextField!
     @IBOutlet weak var neptunePositionLabel: NSTextField!
     @IBOutlet weak var plutoPositionLabel: NSTextField!
+    
+    var mainchartData: MainChart!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.        
@@ -52,8 +56,8 @@ class ViewController: NSViewController {
         let cusps: [Double] = calc.CuspCalc(year, month: month, day: day, hour: hour, min: minute, sec: (Double)(second), lat: 35.67, lng: 139.77, houseKind: 0)
 
         let rect: NSRect = NSMakeRect(200, 20, 400, 400);
-        var chart: MainChart = MainChart(frame: rect, configinfo: config, cuspsinfo: cusps)
-        self.view.addSubview(chart)
+        mainchartData = MainChart(frame: rect, configinfo: config, cuspsinfo: cusps)
+        self.view.addSubview(mainchartData)
 
         let plist: [PlanetData] = calc.PositionCalc()
         
@@ -77,18 +81,18 @@ class ViewController: NSViewController {
         userLngLbl.stringValue = ""
 
 
-        chart.houseCuspRender(cusps: cusps)
-        
         for i in 0..<10 {
-            chart.setPlanetPosition(i, degree: plist[i].absolute_position, startDegree: cusps[1])
+            mainchartData.setPlanetPosition(i, degree: plist[i].absolute_position, startDegree: cusps[1])
         }
         
-        chart.zodiacRender(cusps[1])
+        mainchartData.zodiacRender(cusps[1])
         //        let a = 0
         
     }
 
-
+    func abcde() {
+        
+    }
 
 }
 

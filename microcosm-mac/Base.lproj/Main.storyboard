@@ -62,6 +62,12 @@
                                                 <segue destination="rJz-w2-1lA" kind="show" id="xnd-EE-lxE"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Item" id="ovk-eO-azZ">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="itemClick:" target="Voe-Tx-rLC" id="bvE-gg-ZsF"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
