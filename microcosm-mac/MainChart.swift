@@ -154,5 +154,8 @@ class MainChart: NSView {
         
     }
 
+    @IBAction func itemClick(sender: AnyObject) {
+        NSLog("chart")
+    }
     
 }

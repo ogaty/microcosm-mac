@@ -19,8 +19,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    @IBAction func itemClick(_ sender: AnyObject) {
-        NSLog("clicked")
+    @IBAction func itemClicked(_ sender: AnyObject) {
+        if let window = NSApplication.shared().mainWindow {
+            let mainview: ViewController = (window.contentViewController as? ViewController)!
+            mainview.ReRender()
+        }
+        
+        
     }
 
 }

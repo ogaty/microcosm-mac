@@ -31,10 +31,25 @@ class ViewController: NSViewController {
     
     var mainchartData: MainChart!
     
+    var menuItem : NSMenuItem = NSMenuItem()
+    var mainMenu = NSMenu()
+    
+    class func loadFromNib() -> ViewController {
+        let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
+        return storyboard.instantiateController(withIdentifier: "mainview") as! ViewController
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.        
+        menuItem.title = "Holidays"
+        menuItem.action = "menucalled"
+        menuItem.target = nil
+        menuItem.keyEquivalent = "M"
+        menuItem.isEnabled = true
+        menuItem.target = self
+        mainMenu.addItem(menuItem)
+        
         let formatter = DateFormatter()
         let now = Date()
         let common: CommonData = CommonData()
@@ -89,10 +104,40 @@ class ViewController: NSViewController {
         //        let a = 0
         
     }
-
-    func abcde() {
+    
+    func ReCalc() {
         
     }
 
+    func ReRender() {
+        mainchartData.removeFromSuperview()
+        let now = Date()
+
+        let config: ConfigData = ConfigData()
+        let cal = NSCalendar.current
+        let year = cal.component(.year, from: now)
+        let month = cal.component(.month, from: now)
+        let day = cal.component(.day, from: now)
+        let hour = cal.component(.hour, from: now)
+        let minute = cal.component(.minute, from: now)
+        let second = cal.component(.second, from: now)
+        let calc: AstroCalc = AstroCalc(path: "")
+
+        
+        let cusps: [Double] = calc.CuspCalc(year, month: month, day: day, hour: hour, min: minute, sec: (Double)(second), lat: 35.67, lng: 139.77, houseKind: 0)
+        
+        let rect: NSRect = NSMakeRect(200, 20, 400, 400);
+
+        mainchartData = MainChart(frame: rect, configinfo: config, cuspsinfo: cusps)
+        self.view.addSubview(mainchartData)
+        let plist: [PlanetData] = calc.PositionCalc()
+
+        for i in 0..<10 {
+            mainchartData.setPlanetPosition(i, degree: plist[i].absolute_position, startDegree: cusps[1])
+        }
+        
+        mainchartData.zodiacRender(cusps[1])
+
+    }
 }
 

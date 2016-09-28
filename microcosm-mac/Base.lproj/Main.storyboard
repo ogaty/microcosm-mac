@@ -65,7 +65,7 @@
                                         <menuItem title="Item" id="ovk-eO-azZ">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="itemClick:" target="Voe-Tx-rLC" id="bvE-gg-ZsF"/>
+                                                <action selector="itemClicked:" target="Voe-Tx-rLC" id="Q9r-lJ-dOr"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -115,7 +115,7 @@
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="microcosm_mac" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainview" id="XfG-lQ-9wD" customClass="ViewController" customModule="microcosm_mac" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="570" height="396"/>
                         <autoresizingMask key="autoresizingMask"/>
