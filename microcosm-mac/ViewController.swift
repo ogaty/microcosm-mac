@@ -31,9 +31,6 @@ class ViewController: NSViewController {
     
     var mainchartData: MainChart!
     
-    var menuItem : NSMenuItem = NSMenuItem()
-    var mainMenu = NSMenu()
-    
     class func loadFromNib() -> ViewController {
         let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
         return storyboard.instantiateController(withIdentifier: "mainview") as! ViewController
@@ -42,13 +39,6 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.        
-        menuItem.title = "Holidays"
-        menuItem.action = "menucalled"
-        menuItem.target = nil
-        menuItem.keyEquivalent = "M"
-        menuItem.isEnabled = true
-        menuItem.target = self
-        mainMenu.addItem(menuItem)
         
         let formatter = DateFormatter()
         let now = Date()
@@ -58,7 +48,29 @@ class ViewController: NSViewController {
             .documentDirectory,
             .userDomainMask, true)[0]
 //        let fileManager = FileManager.default
+        let directoryName = "microcosm"  // 作成するディレクトリ名
+        let createPath = documents + "/" + directoryName    // 作成するディレクトリ名を含んだフルパス
         
+        let fileManager = FileManager.default
+        var isDir : ObjCBool = false
+        if fileManager.fileExists(atPath: createPath, isDirectory:&isDir) {
+            if isDir.boolValue {
+                // file exists and is a directory
+            } else {
+                // file exists and is not a directory
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "Message";
+                alert.informativeText = "Info";
+                alert.runModal();
+            }
+        } else {
+            do {
+                try FileManager.default.createDirectory(atPath: createPath, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                // Faild to wite folder
+            }
+        }
+
         let cal = NSCalendar.current
         let year = cal.component(.year, from: now)
         let month = cal.component(.month, from: now)
