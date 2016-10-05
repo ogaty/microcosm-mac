@@ -50,24 +50,45 @@ class ViewController: NSViewController {
 //        let fileManager = FileManager.default
         let directoryName = "microcosm"  // 作成するディレクトリ名
         let createPath = documents + "/" + directoryName    // 作成するディレクトリ名を含んだフルパス
+        let configName: String = "config.csm"
+        let settingName: String = "setting"
         
         let fileManager = FileManager.default
         var isDir : ObjCBool = false
         if fileManager.fileExists(atPath: createPath, isDirectory:&isDir) {
             if isDir.boolValue {
                 // file exists and is a directory
+                let configPath = NSURL(fileURLWithPath: createPath).appendingPathComponent(configName)
+                    
+                do {
+                    let text2 = try NSString(contentsOf: configPath!, encoding: String.Encoding.utf8.rawValue)
+                    NSLog((String)(text2))
+                }
+                catch {/* error handling here */
+                    let alert:NSAlert = NSAlert();
+                    alert.messageText = "エラー";
+                    alert.informativeText = "ファイルの読み込みに失敗しました。";
+                    alert.runModal();
+                    return
+                }
             } else {
                 // file exists and is not a directory
                 let alert:NSAlert = NSAlert();
-                alert.messageText = "Message";
-                alert.informativeText = "Info";
+                alert.messageText = "エラー";
+                alert.informativeText = "ファイルの読み込みに失敗しました。";
                 alert.runModal();
+                return
             }
         } else {
             do {
                 try FileManager.default.createDirectory(atPath: createPath, withIntermediateDirectories: true, attributes: nil)
             } catch {
                 // Faild to wite folder
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "ファイルの読み込みに失敗しました。";
+                alert.runModal();
+                return
             }
         }
 
