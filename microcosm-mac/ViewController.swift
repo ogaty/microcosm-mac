@@ -50,7 +50,7 @@ class ViewController: NSViewController {
 //        let fileManager = FileManager.default
         let directoryName = "microcosm"  // 作成するディレクトリ名
         let createPath = documents + "/" + directoryName    // 作成するディレクトリ名を含んだフルパス
-        let configName: String = "config.csm"
+        let configName: String = "config.mcsm"
         let settingName: String = "setting"
         
         let fileManager = FileManager.default
@@ -62,7 +62,25 @@ class ViewController: NSViewController {
                     
                 do {
                     let text2 = try NSString(contentsOf: configPath!, encoding: String.Encoding.utf8.rawValue)
-                    NSLog((String)(text2))
+                    text2.enumerateLines{
+                        line, stop in
+                        var arr = line.components(separatedBy: ":")
+                        NSLog(arr[0])
+                        switch(arr[0]) {
+                        case "ephepath":
+                            break
+                        default:
+                            break
+                        }
+                    }
+                    
+                    //                    let data = text2.data(using: String.Encoding.utf8.rawValue)
+
+//                    let xmlParser = XMLParser(data: data!)
+//                    xmlParser.delegate = configXmlParse()
+//                    xmlParser.parse()
+
+//                    NSLog((String)(text2))
                 }
                 catch {/* error handling here */
                     let alert:NSAlert = NSAlert();

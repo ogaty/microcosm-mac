@@ -1,0 +1,9 @@
+version: "Apple Swift version 3.0 (swiftlang-800.0.46.2 clang-800.0.38)"
+options: "52c3ecaa1b970bc6e4d8314caa405e9f"
+build_time: [529168923, 365748000]
+inputs:
+  "/Users/ogaty/Documents/AEXML-master/Sources/Document.swift": [528532524, 0]
+  "/Users/ogaty/Documents/AEXML-master/Sources/Element.swift": [528532524, 0]
+  "/Users/ogaty/Documents/AEXML-master/Sources/Error.swift": [528532524, 0]
+  "/Users/ogaty/Documents/AEXML-master/Sources/Options.swift": [528532524, 0]
+  "/Users/ogaty/Documents/AEXML-master/Sources/Parser.swift": [528532524, 0]

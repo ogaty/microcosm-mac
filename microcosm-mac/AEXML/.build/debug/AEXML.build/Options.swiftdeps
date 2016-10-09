@@ -1,0 +1,148 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "AEXMLOptions"
+provides-nominal:
+- "V5AEXML12AEXMLOptions"
+- "VV5AEXML12AEXMLOptions14DocumentHeader"
+- "VV5AEXML12AEXMLOptions14ParserSettings"
+provides-member:
+- ["V5AEXML12AEXMLOptions", ""]
+- ["VV5AEXML12AEXMLOptions14DocumentHeader", ""]
+- ["VV5AEXML12AEXMLOptions14ParserSettings", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- "BooleanLiteralType"
+- "AEXMLOptions"
+- "StringLiteralType"
+- "String"
+- "FloatLiteralType"
+depends-member:
+- ["V5AEXML12AEXMLOptions", "DocumentHeader"]
+- ["V5AEXML12AEXMLOptions", "ParserSettings"]
+- ["V5AEXML12AEXMLOptions", "String"]
+- ["V5AEXML12AEXMLOptions", "deinit"]
+- ["V5AEXML12AEXMLOptions", "documentHeader"]
+- ["V5AEXML12AEXMLOptions", "init"]
+- ["V5AEXML12AEXMLOptions", "parserSettings"]
+- ["Ps9AnyObject", "init"]
+- ["Sb", "deinit"]
+- ["Ps7CVarArg", "init"]
+- !private ["Vs9Character", "deinit"]
+- ["Ps10Comparable", "init"]
+- ["Ps28CustomDebugStringConvertible", "init"]
+- ["Ps29CustomPlaygroundQuickLookable", "init"]
+- ["Ps17CustomReflectable", "init"]
+- ["Ps23CustomStringConvertible", "init"]
+- ["VV5AEXML12AEXMLOptions14DocumentHeader", "String"]
+- ["VV5AEXML12AEXMLOptions14DocumentHeader", "deinit"]
+- ["VV5AEXML12AEXMLOptions14DocumentHeader", "encoding"]
+- ["VV5AEXML12AEXMLOptions14DocumentHeader", "init"]
+- ["VV5AEXML12AEXMLOptions14DocumentHeader", "standalone"]
+- ["VV5AEXML12AEXMLOptions14DocumentHeader", "version"]
+- ["VV5AEXML12AEXMLOptions14DocumentHeader", "xmlString"]
+- ["Sd", "deinit"]
+- ["Ps9Equatable", "init"]
+- ["Ps43ExpressibleByExtendedGraphemeClusterLiteral", "init"]
+- ["Ps32ExpressibleByStringInterpolation", "init"]
+- ["Ps26ExpressibleByStringLiteral", "init"]
+- ["Ps33ExpressibleByUnicodeScalarLiteral", "init"]
+- !private ["Sf", "deinit"]
+- ["Ps8Hashable", "init"]
+- !private ["Si", "deinit"]
+- !private ["Vs5Int16", "deinit"]
+- !private ["Vs5Int32", "deinit"]
+- !private ["Vs5Int64", "deinit"]
+- !private ["Vs4Int8", "deinit"]
+- ["Ps25LosslessStringConvertible", "init"]
+- ["Ps10MirrorPath", "init"]
+- ["PSo8NSCoding", "init"]
+- ["PSo9NSCopying", "init"]
+- ["PSo16NSMutableCopying", "init"]
+- ["CSo8NSObject", "init"]
+- ["PSo16NSObjectProtocol", "init"]
+- ["PSo14NSSecureCoding", "init"]
+- ["CSo8NSString", "init"]
+- ["VV5AEXML12AEXMLOptions14ParserSettings", "deinit"]
+- ["VV5AEXML12AEXMLOptions14ParserSettings", "init"]
+- ["VV5AEXML12AEXMLOptions14ParserSettings", "shouldProcessNamespaces"]
+- ["VV5AEXML12AEXMLOptions14ParserSettings", "shouldReportNamespacePrefixes"]
+- ["VV5AEXML12AEXMLOptions14ParserSettings", "shouldResolveExternalEntities"]
+- ["SS", "deinit"]
+- ["SS", "init"]
+- ["Ps16TextOutputStream", "init"]
+- ["Ps20TextOutputStreamable", "init"]
+- !private ["Su", "deinit"]
+- !private ["Vs6UInt16", "deinit"]
+- !private ["Vs6UInt32", "deinit"]
+- !private ["Vs6UInt64", "deinit"]
+- !private ["Vs5UInt8", "deinit"]
+- !private ["Sc", "deinit"]
+- ["Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral", "init"]
+- ["Ps34_ExpressibleByBuiltinStringLiteral", "init"]
+- ["Ps39_ExpressibleByBuiltinUTF16StringLiteral", "init"]
+- ["Ps41_ExpressibleByBuiltinUnicodeScalarLiteral", "init"]
+- ["Ps35_HasCustomAnyHashableRepresentation", "init"]
+- ["Ps9_Hashable", "init"]
+- ["Ps21_ObjectiveCBridgeable", "init"]
+depends-nominal:
+- "V5AEXML12AEXMLOptions"
+- "Ps9AnyObject"
+- "Sb"
+- "Ps7CVarArg"
+- !private "Vs9Character"
+- "Ps10Comparable"
+- "Ps28CustomDebugStringConvertible"
+- "Ps29CustomPlaygroundQuickLookable"
+- "Ps17CustomReflectable"
+- "Ps23CustomStringConvertible"
+- "VV5AEXML12AEXMLOptions14DocumentHeader"
+- "Sd"
+- "Ps9Equatable"
+- "Ps43ExpressibleByExtendedGraphemeClusterLiteral"
+- "Ps32ExpressibleByStringInterpolation"
+- "Ps26ExpressibleByStringLiteral"
+- "Ps33ExpressibleByUnicodeScalarLiteral"
+- !private "Sf"
+- "Ps8Hashable"
+- !private "Si"
+- !private "Vs5Int16"
+- !private "Vs5Int32"
+- !private "Vs5Int64"
+- !private "Vs4Int8"
+- "Ps25LosslessStringConvertible"
+- "Ps10MirrorPath"
+- "PSo8NSCoding"
+- "PSo9NSCopying"
+- "PSo16NSMutableCopying"
+- "CSo8NSObject"
+- "PSo16NSObjectProtocol"
+- "PSo14NSSecureCoding"
+- "CSo8NSString"
+- "VV5AEXML12AEXMLOptions14ParserSettings"
+- "SS"
+- "Ps16TextOutputStream"
+- "Ps20TextOutputStreamable"
+- !private "Su"
+- !private "Vs6UInt16"
+- !private "Vs6UInt32"
+- !private "Vs6UInt64"
+- !private "Vs5UInt8"
+- !private "Sc"
+- "Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral"
+- "Ps34_ExpressibleByBuiltinStringLiteral"
+- "Ps39_ExpressibleByBuiltinUTF16StringLiteral"
+- "Ps41_ExpressibleByBuiltinUnicodeScalarLiteral"
+- "Ps35_HasCustomAnyHashableRepresentation"
+- "Ps9_Hashable"
+- "Ps21_ObjectiveCBridgeable"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/IOKit.swiftmodule"
+interface-hash: "cecb0c5bfaec76c583a9fd7ab2555ba3"

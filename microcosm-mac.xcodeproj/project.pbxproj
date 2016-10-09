@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		C60997521D8840CD00D0FA1C /* Houses.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60997511D8840CD00D0FA1C /* Houses.swift */; };
+		C60A11D91DA7E59500C65F68 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C60A11D71DA7C24700C65F68 /* libxml2.tbd */; };
+		C60A11DB1DA7E61D00C65F68 /* configXmlParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60A11DA1DA7E61D00C65F68 /* configXmlParse.swift */; };
+		C60A11DD1DA7EB9600C65F68 /* SwissHCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */; };
 		C62735F71D99711100A5C017 /* DatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62735F61D99711100A5C017 /* DatabaseViewController.swift */; };
 		C62D35F51D9AB34200BAB3CE /* MenuClick.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62D35F41D9AB34200BAB3CE /* MenuClick.swift */; };
 		C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674421D71455000B26AA5 /* SweTimeRet.swift */; };
@@ -41,6 +44,9 @@
 
 /* Begin PBXFileReference section */
 		C60997511D8840CD00D0FA1C /* Houses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Houses.swift; path = SwissEph/Houses.swift; sourceTree = "<group>"; };
+		C60A11D71DA7C24700C65F68 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		C60A11DA1DA7E61D00C65F68 /* configXmlParse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = configXmlParse.swift; path = Config/configXmlParse.swift; sourceTree = "<group>"; };
+		C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissHCalc.swift; path = SwissEph/SwissHCalc.swift; sourceTree = "<group>"; };
 		C62735F61D99711100A5C017 /* DatabaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseViewController.swift; sourceTree = "<group>"; };
 		C62D35F41D9AB34200BAB3CE /* MenuClick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuClick.swift; sourceTree = "<group>"; };
 		C63674421D71455000B26AA5 /* SweTimeRet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweTimeRet.swift; path = SwissEph/SweTimeRet.swift; sourceTree = "<group>"; };
@@ -80,18 +86,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C60A11D91DA7E59500C65F68 /* libxml2.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C60A11D61DA7C24700C65F68 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C60A11D71DA7C24700C65F68 /* libxml2.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C6EAB16C1D30C2FB0038C772 = {
 			isa = PBXGroup;
 			children = (
 				C6EAB1771D30C2FB0038C772 /* microcosm-mac */,
 				C6EAB1761D30C2FB0038C772 /* Products */,
 				C6EAB1921D30E8990038C772 /* microcosm-mac-Bridging-Header.h */,
+				C60A11D61DA7C24700C65F68 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,6 +153,8 @@
 				C60997511D8840CD00D0FA1C /* Houses.swift */,
 				C62735F61D99711100A5C017 /* DatabaseViewController.swift */,
 				C62D35F41D9AB34200BAB3CE /* MenuClick.swift */,
+				C60A11DA1DA7E61D00C65F68 /* configXmlParse.swift */,
+				C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -168,7 +186,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Yuji Ogata";
 				TargetAttributes = {
 					C6EAB1741D30C2FB0038C772 = {
@@ -222,12 +240,14 @@
 				C6F4C32C1D61C03D00108545 /* SweNut.swift in Sources */,
 				C63674451D71D69600B26AA5 /* TopoData.swift in Sources */,
 				C63674471D75DB1900B26AA5 /* MainChart.swift in Sources */,
+				C60A11DB1DA7E61D00C65F68 /* configXmlParse.swift in Sources */,
 				C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */,
 				C6F4C3141D60ABE100108545 /* SideData.swift in Sources */,
 				C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */,
 				C6FA05C61D4C64E6002F5BA3 /* FileData.swift in Sources */,
 				C63674531D7DAE4F00B26AA5 /* CommonData.swift in Sources */,
 				C63674591D81901900B26AA5 /* ConfigData.swift in Sources */,
+				C60A11DD1DA7EB9600C65F68 /* SwissHCalc.swift in Sources */,
 				C6EAB1791D30C2FB0038C772 /* AppDelegate.swift in Sources */,
 				C62735F71D99711100A5C017 /* DatabaseViewController.swift in Sources */,
 				C6FA05C21D48F7A6002F5BA3 /* PlanData.swift in Sources */,
@@ -271,8 +291,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -316,8 +338,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -336,6 +360,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -347,6 +372,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "microcosm-mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				NEW_SETTING = "";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = "ogatism.microcosm-mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "microcosm-mac-Bridging-Header.h";
@@ -363,6 +390,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "microcosm-mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "ogatism.microcosm-mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "microcosm-mac-Bridging-Header.h";

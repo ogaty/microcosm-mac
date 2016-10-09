@@ -1,0 +1,438 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "AEXMLParser"
+provides-nominal:
+- "C5AEXML11AEXMLParser"
+provides-member:
+- ["C5AEXML11AEXMLParser", ""]
+provides-dynamic-lookup:
+- "data"
+- "currentValue"
+- "parser"
+- "parser"
+- "parser"
+- "parser"
+- "parseError"
+- "parse"
+depends-top-level:
+- !private "CharacterSet"
+- "XMLParser"
+- "XMLParserDelegate"
+- "AEXMLParser"
+- "Error"
+- "AEXMLDocument"
+- "NSObject"
+- !private "StringLiteralType"
+- "AEXMLElement"
+- "String"
+- !private "=="
+- "AssignmentPrecedence"
+- !private "!"
+- !private "AEXMLError"
+- "TernaryPrecedence"
+- "Data"
+- !private "+="
+depends-member:
+- ["C5AEXML13AEXMLDocument", "deinit"]
+- !private ["C5AEXML13AEXMLDocument", "options"]
+- !private ["C5AEXML12AEXMLElement", "addChild"]
+- ["C5AEXML12AEXMLElement", "deinit"]
+- !private ["C5AEXML12AEXMLElement", "options"]
+- !private ["C5AEXML12AEXMLElement", "parent"]
+- !private ["C5AEXML12AEXMLElement", "value"]
+- ["O5AEXML10AEXMLError", "deinit"]
+- !private ["O5AEXML10AEXMLError", "parsingFailed"]
+- ["V5AEXML12AEXMLOptions", "deinit"]
+- !private ["V5AEXML12AEXMLOptions", "parserSettings"]
+- ["C5AEXML11AEXMLParser", "AEXMLDocument"]
+- ["C5AEXML11AEXMLParser", "AEXMLElement"]
+- !private ["C5AEXML11AEXMLParser", "AEXMLError"]
+- !private ["C5AEXML11AEXMLParser", "CharacterSet"]
+- ["C5AEXML11AEXMLParser", "Data"]
+- ["C5AEXML11AEXMLParser", "Error"]
+- ["C5AEXML11AEXMLParser", "String"]
+- ["C5AEXML11AEXMLParser", "XMLParser"]
+- ["C5AEXML11AEXMLParser", "currentElement"]
+- ["C5AEXML11AEXMLParser", "currentParent"]
+- ["C5AEXML11AEXMLParser", "currentValue"]
+- ["C5AEXML11AEXMLParser", "data"]
+- ["C5AEXML11AEXMLParser", "deinit"]
+- ["C5AEXML11AEXMLParser", "document"]
+- ["C5AEXML11AEXMLParser", "init"]
+- ["C5AEXML11AEXMLParser", "parse"]
+- ["C5AEXML11AEXMLParser", "parseError"]
+- ["C5AEXML11AEXMLParser", "parser"]
+- ["C5AEXML11AEXMLParser", "parserDidEndDocument"]
+- ["C5AEXML11AEXMLParser", "parserDidStartDocument"]
+- !private ["Ps9AnyObject", "AEXMLError"]
+- !private ["Ps9AnyObject", "CharacterSet"]
+- ["Ps9AnyObject", "String"]
+- !private ["Ps9AnyObject", "XMLParser"]
+- !private ["Ps9AnyObject", "addChild"]
+- ["Ps9AnyObject", "currentElement"]
+- ["Ps9AnyObject", "currentParent"]
+- ["Ps9AnyObject", "currentValue"]
+- ["Ps9AnyObject", "data"]
+- !private ["Ps9AnyObject", "delegate"]
+- ["Ps9AnyObject", "document"]
+- ["Ps9AnyObject", "init"]
+- !private ["Ps9AnyObject", "options"]
+- !private ["Ps9AnyObject", "parent"]
+- ["Ps9AnyObject", "parse"]
+- ["Ps9AnyObject", "parseError"]
+- ["Ps9AnyObject", "parser"]
+- ["Ps9AnyObject", "parserDidEndDocument"]
+- ["Ps9AnyObject", "parserDidStartDocument"]
+- !private ["Ps9AnyObject", "shouldProcessNamespaces"]
+- !private ["Ps9AnyObject", "shouldReportNamespacePrefixes"]
+- !private ["Ps9AnyObject", "shouldResolveExternalEntities"]
+- !private ["Ps9AnyObject", "trimmingCharacters"]
+- !private ["Ps9AnyObject", "value"]
+- ["Ps9AnyObject", ""]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- ["Sb", "deinit"]
+- !private ["Ps7CVarArg", "AEXMLError"]
+- !private ["Ps7CVarArg", "CharacterSet"]
+- ["Ps7CVarArg", "String"]
+- !private ["Ps7CVarArg", "XMLParser"]
+- ["Ps7CVarArg", "currentElement"]
+- ["Ps7CVarArg", "currentParent"]
+- ["Ps7CVarArg", "currentValue"]
+- ["Ps7CVarArg", "data"]
+- !private ["Ps7CVarArg", "delegate"]
+- ["Ps7CVarArg", "document"]
+- ["Ps7CVarArg", "init"]
+- ["Ps7CVarArg", "parse"]
+- ["Ps7CVarArg", "parseError"]
+- ["Ps7CVarArg", "parser"]
+- ["Ps7CVarArg", "parserDidEndDocument"]
+- ["Ps7CVarArg", "parserDidStartDocument"]
+- !private ["Ps7CVarArg", "shouldProcessNamespaces"]
+- !private ["Ps7CVarArg", "shouldReportNamespacePrefixes"]
+- !private ["Ps7CVarArg", "shouldResolveExternalEntities"]
+- !private ["Ps7CVarArg", "trimmingCharacters"]
+- ["Ps7CVarArg", ""]
+- ["V10Foundation12CharacterSet", "deinit"]
+- !private ["V10Foundation12CharacterSet", "whitespacesAndNewlines"]
+- ["Ps10Comparable", "init"]
+- !private ["Ps10Comparable", "trimmingCharacters"]
+- !private ["Ps28CustomDebugStringConvertible", "AEXMLError"]
+- !private ["Ps28CustomDebugStringConvertible", "CharacterSet"]
+- ["Ps28CustomDebugStringConvertible", "String"]
+- !private ["Ps28CustomDebugStringConvertible", "XMLParser"]
+- ["Ps28CustomDebugStringConvertible", "currentElement"]
+- ["Ps28CustomDebugStringConvertible", "currentParent"]
+- ["Ps28CustomDebugStringConvertible", "currentValue"]
+- ["Ps28CustomDebugStringConvertible", "data"]
+- !private ["Ps28CustomDebugStringConvertible", "delegate"]
+- ["Ps28CustomDebugStringConvertible", "document"]
+- ["Ps28CustomDebugStringConvertible", "init"]
+- ["Ps28CustomDebugStringConvertible", "parse"]
+- ["Ps28CustomDebugStringConvertible", "parseError"]
+- ["Ps28CustomDebugStringConvertible", "parser"]
+- ["Ps28CustomDebugStringConvertible", "parserDidEndDocument"]
+- ["Ps28CustomDebugStringConvertible", "parserDidStartDocument"]
+- !private ["Ps28CustomDebugStringConvertible", "shouldProcessNamespaces"]
+- !private ["Ps28CustomDebugStringConvertible", "shouldReportNamespacePrefixes"]
+- !private ["Ps28CustomDebugStringConvertible", "shouldResolveExternalEntities"]
+- ["Ps28CustomDebugStringConvertible", "some"]
+- !private ["Ps28CustomDebugStringConvertible", "trimmingCharacters"]
+- !private ["Ps28CustomDebugStringConvertible", "whitespacesAndNewlines"]
+- ["Ps28CustomDebugStringConvertible", ""]
+- !private ["Ps29CustomPlaygroundQuickLookable", "_getBuiltinLogicValue"]
+- ["Ps29CustomPlaygroundQuickLookable", "init"]
+- !private ["Ps29CustomPlaygroundQuickLookable", "trimmingCharacters"]
+- !private ["Ps17CustomReflectable", "_getBuiltinLogicValue"]
+- ["Ps17CustomReflectable", "init"]
+- ["Ps17CustomReflectable", "some"]
+- !private ["Ps17CustomReflectable", "trimmingCharacters"]
+- !private ["Ps23CustomStringConvertible", "AEXMLError"]
+- !private ["Ps23CustomStringConvertible", "CharacterSet"]
+- ["Ps23CustomStringConvertible", "String"]
+- !private ["Ps23CustomStringConvertible", "XMLParser"]
+- !private ["Ps23CustomStringConvertible", "_getBuiltinLogicValue"]
+- ["Ps23CustomStringConvertible", "currentElement"]
+- ["Ps23CustomStringConvertible", "currentParent"]
+- ["Ps23CustomStringConvertible", "currentValue"]
+- ["Ps23CustomStringConvertible", "data"]
+- !private ["Ps23CustomStringConvertible", "delegate"]
+- ["Ps23CustomStringConvertible", "document"]
+- ["Ps23CustomStringConvertible", "init"]
+- ["Ps23CustomStringConvertible", "parse"]
+- ["Ps23CustomStringConvertible", "parseError"]
+- ["Ps23CustomStringConvertible", "parser"]
+- ["Ps23CustomStringConvertible", "parserDidEndDocument"]
+- ["Ps23CustomStringConvertible", "parserDidStartDocument"]
+- !private ["Ps23CustomStringConvertible", "shouldProcessNamespaces"]
+- !private ["Ps23CustomStringConvertible", "shouldReportNamespacePrefixes"]
+- !private ["Ps23CustomStringConvertible", "shouldResolveExternalEntities"]
+- !private ["Ps23CustomStringConvertible", "trimmingCharacters"]
+- !private ["Ps23CustomStringConvertible", "whitespacesAndNewlines"]
+- ["Ps23CustomStringConvertible", ""]
+- ["V10Foundation4Data", "deinit"]
+- ["Vs10Dictionary", "deinit"]
+- !private ["Ps9Equatable", "AEXMLError"]
+- !private ["Ps9Equatable", "CharacterSet"]
+- ["Ps9Equatable", "String"]
+- !private ["Ps9Equatable", "XMLParser"]
+- !private ["Ps9Equatable", "_getBuiltinLogicValue"]
+- ["Ps9Equatable", "currentElement"]
+- ["Ps9Equatable", "currentParent"]
+- ["Ps9Equatable", "currentValue"]
+- ["Ps9Equatable", "data"]
+- !private ["Ps9Equatable", "delegate"]
+- ["Ps9Equatable", "document"]
+- ["Ps9Equatable", "init"]
+- ["Ps9Equatable", "parse"]
+- ["Ps9Equatable", "parseError"]
+- ["Ps9Equatable", "parser"]
+- ["Ps9Equatable", "parserDidEndDocument"]
+- ["Ps9Equatable", "parserDidStartDocument"]
+- !private ["Ps9Equatable", "parsingFailed"]
+- !private ["Ps9Equatable", "shouldProcessNamespaces"]
+- !private ["Ps9Equatable", "shouldReportNamespacePrefixes"]
+- !private ["Ps9Equatable", "shouldResolveExternalEntities"]
+- !private ["Ps9Equatable", "trimmingCharacters"]
+- !private ["Ps9Equatable", "whitespacesAndNewlines"]
+- ["Ps9Equatable", ""]
+- ["Ps5Error", "deinit"]
+- !private ["Ps5Error", "parsingFailed"]
+- !private ["Ps25ExpressibleByArrayLiteral", "whitespacesAndNewlines"]
+- !private ["Ps27ExpressibleByBooleanLiteral", "_getBuiltinLogicValue"]
+- ["Ps43ExpressibleByExtendedGraphemeClusterLiteral", "init"]
+- !private ["Ps43ExpressibleByExtendedGraphemeClusterLiteral", "trimmingCharacters"]
+- ["Ps23ExpressibleByNilLiteral", "some"]
+- ["Ps32ExpressibleByStringInterpolation", "init"]
+- !private ["Ps32ExpressibleByStringInterpolation", "trimmingCharacters"]
+- ["Ps26ExpressibleByStringLiteral", "init"]
+- !private ["Ps26ExpressibleByStringLiteral", "trimmingCharacters"]
+- ["Ps33ExpressibleByUnicodeScalarLiteral", "init"]
+- !private ["Ps33ExpressibleByUnicodeScalarLiteral", "trimmingCharacters"]
+- !private ["Ps8Hashable", "AEXMLError"]
+- !private ["Ps8Hashable", "CharacterSet"]
+- ["Ps8Hashable", "String"]
+- !private ["Ps8Hashable", "XMLParser"]
+- !private ["Ps8Hashable", "_getBuiltinLogicValue"]
+- ["Ps8Hashable", "currentElement"]
+- ["Ps8Hashable", "currentParent"]
+- ["Ps8Hashable", "currentValue"]
+- ["Ps8Hashable", "data"]
+- !private ["Ps8Hashable", "delegate"]
+- ["Ps8Hashable", "document"]
+- ["Ps8Hashable", "init"]
+- ["Ps8Hashable", "parse"]
+- ["Ps8Hashable", "parseError"]
+- ["Ps8Hashable", "parser"]
+- ["Ps8Hashable", "parserDidEndDocument"]
+- ["Ps8Hashable", "parserDidStartDocument"]
+- !private ["Ps8Hashable", "parsingFailed"]
+- !private ["Ps8Hashable", "shouldProcessNamespaces"]
+- !private ["Ps8Hashable", "shouldReportNamespacePrefixes"]
+- !private ["Ps8Hashable", "shouldResolveExternalEntities"]
+- !private ["Ps8Hashable", "trimmingCharacters"]
+- !private ["Ps8Hashable", "whitespacesAndNewlines"]
+- ["Ps8Hashable", ""]
+- !private ["Ps25LosslessStringConvertible", "_getBuiltinLogicValue"]
+- ["Ps25LosslessStringConvertible", "init"]
+- !private ["Ps25LosslessStringConvertible", "trimmingCharacters"]
+- ["Ps10MirrorPath", "init"]
+- !private ["Ps10MirrorPath", "trimmingCharacters"]
+- !private ["PSo8NSCoding", "trimmingCharacters"]
+- !private ["PSo9NSCopying", "trimmingCharacters"]
+- !private ["PSo16NSMutableCopying", "trimmingCharacters"]
+- ["CSo8NSObject", "AEXMLDocument"]
+- ["CSo8NSObject", "AEXMLElement"]
+- !private ["CSo8NSObject", "AEXMLError"]
+- !private ["CSo8NSObject", "CharacterSet"]
+- ["CSo8NSObject", "Data"]
+- ["CSo8NSObject", "Error"]
+- ["CSo8NSObject", "String"]
+- ["CSo8NSObject", "XMLParser"]
+- ["CSo8NSObject", "currentElement"]
+- ["CSo8NSObject", "currentParent"]
+- ["CSo8NSObject", "currentValue"]
+- ["CSo8NSObject", "data"]
+- ["CSo8NSObject", "deinit"]
+- !private ["CSo8NSObject", "delegate"]
+- ["CSo8NSObject", "document"]
+- ["CSo8NSObject", "init"]
+- ["CSo8NSObject", "parse"]
+- ["CSo8NSObject", "parseError"]
+- ["CSo8NSObject", "parser"]
+- ["CSo8NSObject", "parserDidEndDocument"]
+- ["CSo8NSObject", "parserDidStartDocument"]
+- !private ["CSo8NSObject", "shouldProcessNamespaces"]
+- !private ["CSo8NSObject", "shouldReportNamespacePrefixes"]
+- !private ["CSo8NSObject", "shouldResolveExternalEntities"]
+- !private ["CSo8NSObject", "trimmingCharacters"]
+- ["CSo8NSObject", ""]
+- !private ["PSo16NSObjectProtocol", "AEXMLError"]
+- !private ["PSo16NSObjectProtocol", "CharacterSet"]
+- ["PSo16NSObjectProtocol", "String"]
+- !private ["PSo16NSObjectProtocol", "XMLParser"]
+- ["PSo16NSObjectProtocol", "currentElement"]
+- ["PSo16NSObjectProtocol", "currentParent"]
+- ["PSo16NSObjectProtocol", "currentValue"]
+- ["PSo16NSObjectProtocol", "data"]
+- !private ["PSo16NSObjectProtocol", "delegate"]
+- ["PSo16NSObjectProtocol", "document"]
+- ["PSo16NSObjectProtocol", "init"]
+- ["PSo16NSObjectProtocol", "parse"]
+- ["PSo16NSObjectProtocol", "parseError"]
+- ["PSo16NSObjectProtocol", "parser"]
+- ["PSo16NSObjectProtocol", "parserDidEndDocument"]
+- ["PSo16NSObjectProtocol", "parserDidStartDocument"]
+- !private ["PSo16NSObjectProtocol", "shouldProcessNamespaces"]
+- !private ["PSo16NSObjectProtocol", "shouldReportNamespacePrefixes"]
+- !private ["PSo16NSObjectProtocol", "shouldResolveExternalEntities"]
+- !private ["PSo16NSObjectProtocol", "trimmingCharacters"]
+- ["PSo16NSObjectProtocol", ""]
+- !private ["PSo14NSSecureCoding", "trimmingCharacters"]
+- !private ["CSo8NSString", "trimmingCharacters"]
+- ["Os5Never", "deinit"]
+- ["Sq", "deinit"]
+- ["Sq", "some"]
+- ["VV5AEXML12AEXMLOptions14ParserSettings", "deinit"]
+- !private ["VV5AEXML12AEXMLOptions14ParserSettings", "shouldProcessNamespaces"]
+- !private ["VV5AEXML12AEXMLOptions14ParserSettings", "shouldReportNamespacePrefixes"]
+- !private ["VV5AEXML12AEXMLOptions14ParserSettings", "shouldResolveExternalEntities"]
+- !private ["P10Foundation20ReferenceConvertible", "whitespacesAndNewlines"]
+- !private ["Ps10SetAlgebra", "whitespacesAndNewlines"]
+- ["Vs12StaticString", "deinit"]
+- !private ["Vs12StaticString", "init"]
+- ["SS", "deinit"]
+- ["SS", "init"]
+- !private ["SS", "trimmingCharacters"]
+- ["Ps16TextOutputStream", "init"]
+- !private ["Ps16TextOutputStream", "trimmingCharacters"]
+- ["Ps20TextOutputStreamable", "init"]
+- !private ["Ps20TextOutputStreamable", "trimmingCharacters"]
+- ["Su", "deinit"]
+- ["CSo9XMLParser", "deinit"]
+- !private ["CSo9XMLParser", "delegate"]
+- !private ["CSo9XMLParser", "init"]
+- !private ["CSo9XMLParser", "parse"]
+- !private ["CSo9XMLParser", "shouldProcessNamespaces"]
+- !private ["CSo9XMLParser", "shouldReportNamespacePrefixes"]
+- !private ["CSo9XMLParser", "shouldResolveExternalEntities"]
+- !private ["PSo17XMLParserDelegate", "AEXMLError"]
+- !private ["PSo17XMLParserDelegate", "CharacterSet"]
+- ["PSo17XMLParserDelegate", "String"]
+- !private ["PSo17XMLParserDelegate", "XMLParser"]
+- !private ["PSo17XMLParserDelegate", "currentElement"]
+- !private ["PSo17XMLParserDelegate", "currentParent"]
+- !private ["PSo17XMLParserDelegate", "currentValue"]
+- !private ["PSo17XMLParserDelegate", "data"]
+- !private ["PSo17XMLParserDelegate", "document"]
+- !private ["PSo17XMLParserDelegate", "parseError"]
+- ["PSo17XMLParserDelegate", "parser"]
+- ["PSo17XMLParserDelegate", "parserDidEndDocument"]
+- ["PSo17XMLParserDelegate", "parserDidStartDocument"]
+- ["PSo17XMLParserDelegate", ""]
+- !private ["Ps35_ExpressibleByBuiltinBooleanLiteral", "_getBuiltinLogicValue"]
+- ["Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral", "init"]
+- !private ["Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral", "trimmingCharacters"]
+- ["Ps34_ExpressibleByBuiltinStringLiteral", "init"]
+- !private ["Ps34_ExpressibleByBuiltinStringLiteral", "trimmingCharacters"]
+- ["Ps39_ExpressibleByBuiltinUTF16StringLiteral", "init"]
+- !private ["Ps39_ExpressibleByBuiltinUTF16StringLiteral", "trimmingCharacters"]
+- ["Ps41_ExpressibleByBuiltinUnicodeScalarLiteral", "init"]
+- !private ["Ps41_ExpressibleByBuiltinUnicodeScalarLiteral", "trimmingCharacters"]
+- !private ["Ps35_HasCustomAnyHashableRepresentation", "trimmingCharacters"]
+- !private ["Ps9_Hashable", "AEXMLError"]
+- !private ["Ps9_Hashable", "CharacterSet"]
+- ["Ps9_Hashable", "String"]
+- !private ["Ps9_Hashable", "XMLParser"]
+- !private ["Ps9_Hashable", "_getBuiltinLogicValue"]
+- ["Ps9_Hashable", "currentElement"]
+- ["Ps9_Hashable", "currentParent"]
+- ["Ps9_Hashable", "currentValue"]
+- ["Ps9_Hashable", "data"]
+- !private ["Ps9_Hashable", "delegate"]
+- ["Ps9_Hashable", "document"]
+- ["Ps9_Hashable", "init"]
+- ["Ps9_Hashable", "parse"]
+- ["Ps9_Hashable", "parseError"]
+- ["Ps9_Hashable", "parser"]
+- ["Ps9_Hashable", "parserDidEndDocument"]
+- ["Ps9_Hashable", "parserDidStartDocument"]
+- !private ["Ps9_Hashable", "parsingFailed"]
+- !private ["Ps9_Hashable", "shouldProcessNamespaces"]
+- !private ["Ps9_Hashable", "shouldReportNamespacePrefixes"]
+- !private ["Ps9_Hashable", "shouldResolveExternalEntities"]
+- !private ["Ps9_Hashable", "trimmingCharacters"]
+- !private ["Ps9_Hashable", "whitespacesAndNewlines"]
+- ["Ps9_Hashable", ""]
+- !private ["P10Foundation18_MutablePairBoxing", "whitespacesAndNewlines"]
+- !private ["Ps21_ObjectiveCBridgeable", "_getBuiltinLogicValue"]
+- ["Ps21_ObjectiveCBridgeable", "init"]
+- !private ["Ps21_ObjectiveCBridgeable", "trimmingCharacters"]
+- !private ["Ps21_ObjectiveCBridgeable", "whitespacesAndNewlines"]
+depends-nominal:
+- "C5AEXML13AEXMLDocument"
+- "C5AEXML12AEXMLElement"
+- "O5AEXML10AEXMLError"
+- "V5AEXML12AEXMLOptions"
+- "C5AEXML11AEXMLParser"
+- "Ps9AnyObject"
+- "Sb"
+- "Ps7CVarArg"
+- "V10Foundation12CharacterSet"
+- "Ps10Comparable"
+- "Ps28CustomDebugStringConvertible"
+- "Ps29CustomPlaygroundQuickLookable"
+- "Ps17CustomReflectable"
+- "Ps23CustomStringConvertible"
+- "V10Foundation4Data"
+- "Vs10Dictionary"
+- "Ps9Equatable"
+- "Ps5Error"
+- !private "Ps25ExpressibleByArrayLiteral"
+- !private "Ps27ExpressibleByBooleanLiteral"
+- "Ps43ExpressibleByExtendedGraphemeClusterLiteral"
+- "Ps23ExpressibleByNilLiteral"
+- "Ps32ExpressibleByStringInterpolation"
+- "Ps26ExpressibleByStringLiteral"
+- "Ps33ExpressibleByUnicodeScalarLiteral"
+- "Ps8Hashable"
+- "Ps25LosslessStringConvertible"
+- "Ps10MirrorPath"
+- !private "PSo8NSCoding"
+- !private "PSo9NSCopying"
+- !private "PSo16NSMutableCopying"
+- "CSo8NSObject"
+- "PSo16NSObjectProtocol"
+- !private "PSo14NSSecureCoding"
+- !private "CSo8NSString"
+- "Os5Never"
+- "Sq"
+- "VV5AEXML12AEXMLOptions14ParserSettings"
+- !private "P10Foundation20ReferenceConvertible"
+- !private "Ps10SetAlgebra"
+- "Vs12StaticString"
+- "SS"
+- "Ps16TextOutputStream"
+- "Ps20TextOutputStreamable"
+- "Su"
+- "CSo9XMLParser"
+- "PSo17XMLParserDelegate"
+- !private "Ps35_ExpressibleByBuiltinBooleanLiteral"
+- "Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral"
+- "Ps34_ExpressibleByBuiltinStringLiteral"
+- "Ps39_ExpressibleByBuiltinUTF16StringLiteral"
+- "Ps41_ExpressibleByBuiltinUnicodeScalarLiteral"
+- !private "Ps35_HasCustomAnyHashableRepresentation"
+- "Ps9_Hashable"
+- !private "P10Foundation18_MutablePairBoxing"
+- "Ps21_ObjectiveCBridgeable"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/IOKit.swiftmodule"
+interface-hash: "7bd65a1ecad06e4e7117e7388b09b72e"
