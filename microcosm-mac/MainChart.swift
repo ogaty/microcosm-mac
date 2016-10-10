@@ -57,7 +57,7 @@ class MainChart: NSView {
         let path3: NSBezierPath = NSBezierPath(ovalIn: circleRect3);
         path3.stroke()
         
-        var housepath : NSBezierPath = NSBezierPath(rect: dirtyRect)
+//        var housepath : NSBezierPath = NSBezierPath(rect: dirtyRect)
         houseCuspRender(cusps: cusps)
         
     }

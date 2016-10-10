@@ -13,6 +13,14 @@ class DatabaseViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
+        let documents = NSSearchPathForDirectoriesInDomains(
+            .documentDirectory,
+            .userDomainMask, true)[0]
+
+        FileManager.default.subpaths(atPath: documents + "/microcosm")?.forEach {
+            NSLog($0)
+        }
+    
     }
     
 }

@@ -16,7 +16,7 @@ class AstroCalc: NSObject {
         swiss.swe_set_ephe_path(path)
     }
     
-    func PositionCalc() -> [PlanetData] {
+    func PositionCalc(udata: UserData) -> [PlanetData] {
         var plist: [PlanetData] = []
         var ret: SweRet
         let iflag: Int = SEFLG_SWIEPH | SEFLG_SPEED
@@ -36,8 +36,8 @@ class AstroCalc: NSObject {
         //                                                       hour: 12, minute: 0, second: 0,
         //                                                       timezone: 9.0)
         
-        let retc: SweTimeRet = swiss.swe_utc_time_zone(year, month: month, day: day,
-                                                       hour: hour, minute: minute, second: second,
+        let retc: SweTimeRet = swiss.swe_utc_time_zone(udata.birth_year, month: udata.birth_month, day: udata.birth_day,
+                                                       hour: udata.birth_hour, minute: udata.birth_minute, second: udata.birth_second,
                                                        timezone: 9.0)
         ret = swiss.utc_to_jd(retc.year, month: retc.month, day: retc.day, hour: retc.hour, minute: retc.minute, second: retc.second, gregflag: true)
 

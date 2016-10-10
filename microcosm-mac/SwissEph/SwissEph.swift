@@ -5380,14 +5380,19 @@ class SwissEph: NSObject {
         /* first correct rotation.
          * this costs some sines and cosines, but neglect might
          * involve an error > 1"/day */
-        swi_precess(xx2, J: t, iflag: iflag, direction: direction)
+        var rett: SweRet = SweRet()
+        rett = swi_precess(xx2, J: t, iflag: iflag, direction: direction)
         /* then add 0.137"/day */
         if (direction == J2000_TO_J) {
-            swi_coortrf2(xx1, sineps: swed.oec.seps, coseps: swed.oec.ceps)
-            swi_coortrf2(xx2, sineps: swed.oec.seps, coseps: swed.oec.ceps)
+            rett = swi_coortrf2(xx1, sineps: swed.oec.seps, coseps: swed.oec.ceps)
+            NSLog(rett.serr)
+            rett = swi_coortrf2(xx2, sineps: swed.oec.seps, coseps: swed.oec.ceps)
+            NSLog(rett.serr)
         } else {
-            swi_coortrf2(xx1, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
-            swi_coortrf2(xx2, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
+            rett = swi_coortrf2(xx1, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
+            NSLog(rett.serr)
+            rett = swi_coortrf2(xx2, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
+            NSLog(rett.serr)
         }
 
         retc = swi_cartpol_sp(xx)
