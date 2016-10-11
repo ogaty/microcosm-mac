@@ -189,7 +189,6 @@ class ViewController: NSViewController {
     
     func ReCalc() {
         let formatter = DateFormatter()
-        let now = Date()
 
         var houseCalc: Int = 0
         if (self.config.houseCalc == "placidus") {
@@ -219,8 +218,11 @@ class ViewController: NSViewController {
         formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         
         userNameLbl.stringValue = udata.name
-        userBirthStrLbl.stringValue = formatter.string(from: now)
-        userBirthPlaceLbl.stringValue = "神奈川県川崎市高津区"
+        userBirthStrLbl.stringValue = String(format: "%04d", udata.birth_year) + "/" + String(format: "%02d", udata.birth_month) +
+            "/" + String(format: "%02d", udata.birth_day) + " " +
+            String(format: "%02d", udata.birth_hour) + ":" + String(format: "%02d", udata.birth_minute) +
+            ":" + String(format: "%02d", udata.birth_second)
+        userBirthPlaceLbl.stringValue = udata.birth_place
         userLatLbl.stringValue = ""
         userLngLbl.stringValue = ""
         
