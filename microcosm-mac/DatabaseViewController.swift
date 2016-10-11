@@ -18,7 +18,7 @@ class DatabaseViewController: NSViewController {
             .userDomainMask, true)[0]
 
         FileManager.default.subpaths(atPath: documents + "/microcosm")?.forEach {
-            NSLog($0)
+            NSLog("a" + $0)
         }
     
     }

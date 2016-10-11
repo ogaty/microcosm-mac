@@ -18,7 +18,7 @@ class PlanetData: NSObject {
     // 感受点はtrue
     var sensitive: Bool = false;
     // アスペクト対象リスト
-//    public List<AspectInfo> aspects;
+    var aspects: [AspectInfo] = []
     // Pとのアスペクトはここ
 //    public List<AspectInfo> secondAspects;
     // Tとのアスペクトはここ

@@ -5385,14 +5385,22 @@ class SwissEph: NSObject {
         /* then add 0.137"/day */
         if (direction == J2000_TO_J) {
             rett = swi_coortrf2(xx1, sineps: swed.oec.seps, coseps: swed.oec.ceps)
-            NSLog(rett.serr)
+            if (rett.serr != "") {
+                NSLog(rett.serr)
+            }
             rett = swi_coortrf2(xx2, sineps: swed.oec.seps, coseps: swed.oec.ceps)
-            NSLog(rett.serr)
+            if (rett.serr != "") {
+                NSLog(rett.serr)
+            }
         } else {
             rett = swi_coortrf2(xx1, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
-            NSLog(rett.serr)
+            if (rett.serr != "") {
+                NSLog(rett.serr)
+            }
             rett = swi_coortrf2(xx2, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
-            NSLog(rett.serr)
+            if (rett.serr != "") {
+                NSLog(rett.serr)
+            }
         }
 
         retc = swi_cartpol_sp(xx)
