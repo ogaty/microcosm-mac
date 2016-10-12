@@ -66,7 +66,6 @@ class ViewController: NSViewController {
         let directoryName = "microcosm"  // 作成するディレクトリ名
         let createPath = documents + "/" + directoryName + "/system"    // 作成するディレクトリ名を含んだフルパス
         let configName: String = "config.mcsm"
-        var ephepath: String = ""
         
         let fileManager = FileManager.default
         var isDir : ObjCBool = false
@@ -74,6 +73,10 @@ class ViewController: NSViewController {
             if isDir.boolValue {
                 // configファイル
                 let configPath = NSURL(fileURLWithPath: createPath).appendingPathComponent(configName)
+                if (!fileManager.fileExists(atPath: (createPath + "/" + configName), isDirectory: &isDir)) {
+                    let str: NSString = "aaa"
+                    FileManager.default.createFile(atPath: (createPath + "/" + configName), contents: str.data(using: String.Encoding.utf8.rawValue))
+                }
                     
                 do {
                     let text2 = try NSString(contentsOf: configPath!, encoding: String.Encoding.utf8.rawValue)
