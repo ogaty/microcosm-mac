@@ -13,6 +13,8 @@ class MainChart: NSView {
     var config: ConfigData = ConfigData()
     var common: CommonData = CommonData()
     var cusps: [Double] = []
+    var plist: [PlanetData] = []
+    var tmpSetting: TempSetting = TempSetting()
     
     var myClassVar: NSColor! // the optional mark ! to be noticed.
     
@@ -25,10 +27,12 @@ class MainChart: NSView {
     }
     
     //or customized constructor/ init
-    init(frame frameRect: NSRect, configinfo: ConfigData, cuspsinfo: [Double]) {
+    init(frame frameRect: NSRect, configinfo: ConfigData, cuspsinfo: [Double], planetList: [PlanetData], tempSetting: TempSetting) {
         super.init(frame:frameRect);
         config = configinfo
         cusps = cuspsinfo
+        plist = planetList
+        tmpSetting = tempSetting
     }
 
     override func draw(_ dirtyRect: NSRect) {
@@ -124,6 +128,7 @@ class MainChart: NSView {
 
     }
 
+    // 円周上の点
     func zodiacRender(_ degree: Double) -> Void {
         
         for i in 0..<12 {
@@ -152,6 +157,62 @@ class MainChart: NSView {
         }
         
         
+    }
+    
+    func aspectRender(startDegree: Double, list: [PlanetData], startPosition: Int, endPosition: Int,
+                      aspectKind: Int, aspectRing: Int) -> Void {
+        if (list.count == 0)
+        {
+            return;
+        }
+        var startRingX: Double = tmpSetting.zodiacCenter / 2;
+        var endRingX: Double = tmpSetting.zodiacCenter / 2;
+        if (aspectRing == 1)
+        {
+            // 一重円
+            startRingX = tmpSetting.zodiacCenter / 2;
+            endRingX = tmpSetting.zodiacCenter / 2;
+        }
+
+        for i in 0..<list.count
+        {
+            if (!list[i].isAspectDisp)
+            {
+                // 表示対象外
+                continue;
+            }
+            var startPoint: NSPoint;
+            startPoint = rotate(CGFloat(startRingX), y: 0, degree: CGFloat((list[i].absolute_position - startDegree)));
+            startPoint.x += CGFloat((config.zodiacOuterWidth) / 2);
+            startPoint.y *= -1;
+            startPoint.y += CGFloat((config.zodiacOuterWidth) / 2);
+            if (aspectKind == 1)
+            {
+                aspectListRender(startDegree: startDegree, list: list, aspects: list[i].aspects, startPoint: startPoint, endRingX: endRingX);
+            }
+        }
+    }
+    
+    func aspectListRender(startDegree: Double, list: [PlanetData], aspects: [AspectInfo], startPoint: NSPoint, endRingX: Double) -> Void {
+        for j in 0..<aspects.count
+        {
+            var endPoint: NSPoint;
+            
+            endPoint = rotate(CGFloat(endRingX), y: 0, degree: CGFloat(aspects[j].targetPosition - startDegree));
+            endPoint.x += CGFloat((config.zodiacWidth) / 2);
+            endPoint.y *= -1;
+            endPoint.y += CGFloat((config.zodiacWidth) / 2);
+            
+            let aspectLine: NSBezierPath = NSBezierPath()
+            aspectLine.move(to: NSPoint(
+                x: startPoint.x,
+                y: startPoint.y))
+            aspectLine.line(to: NSPoint(x: endPoint.x,
+                                      y:endPoint.y))
+            aspectLine.stroke()
+            
+        }
+
     }
 
     @IBAction func itemClick(sender: AnyObject) {

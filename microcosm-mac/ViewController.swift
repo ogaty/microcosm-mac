@@ -32,11 +32,20 @@ class ViewController: NSViewController {
     @IBOutlet weak var secondCuspLabel: NSTextField!
     @IBOutlet weak var thirdCuspLabel: NSTextField!
     @IBOutlet weak var fourthCuspLabel: NSTextField!
+    @IBOutlet weak var fifthCuspLabel: NSTextField!
+    @IBOutlet weak var sixthCuspLabel: NSTextField!
+    @IBOutlet weak var seventhCuspLabel: NSTextField!
+    @IBOutlet weak var eighthCuspLabel: NSTextField!
     
     var mainchartData: MainChart!
     var udata: UserData = UserData()
+    var setting: [SettingData?] = []
+    var tmpSetting: TempSetting = TempSetting()
     let config: ConfigData = ConfigData()
     var ephepath: String = ""
+    var plist: [PlanetData] = []
+    var cusps: [Double] = []
+    let aspect: AspectCalc = AspectCalc()
     
     class func loadFromNib() -> ViewController {
         let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
@@ -49,7 +58,6 @@ class ViewController: NSViewController {
         
         let now = Date()
         let common: CommonData = CommonData()
-        var setting: [SettingData?] = []
         let settingParse: SettingParse = SettingParse()
         let documents = NSSearchPathForDirectoriesInDomains(
             .documentDirectory,
@@ -134,8 +142,9 @@ class ViewController: NSViewController {
 
                     // settingファイル
                     for i in 0..<10 {
-                        setting.append(settingParse.getSetting(no: i))
+                        self.setting.append(settingParse.getSetting(no: i))
                     }
+                    tmpSetting.zodiacCenter = Double(config.zodiacCenter)
                 
                 }
                 catch {/* error handling here */
@@ -188,7 +197,6 @@ class ViewController: NSViewController {
     }
     
     func ReCalc() {
-        let formatter = DateFormatter()
 
         var houseCalc: Int = 0
         if (self.config.houseCalc == "placidus") {
@@ -196,27 +204,50 @@ class ViewController: NSViewController {
         }
 
         let calc: AstroCalc = AstroCalc(path: ephepath)
-        let cusps: [Double] = calc.CuspCalc(udata.birth_year, month: udata.birth_month, day: udata.birth_day, hour: udata.birth_hour, min: udata.birth_minute, sec: udata.birth_second, lat: udata.lat, lng: udata.lng, houseKind: houseCalc)
+        self.cusps = calc.CuspCalc(udata.birth_year, month: udata.birth_month, day: udata.birth_day, hour: udata.birth_hour, min: udata.birth_minute, sec: udata.birth_second, lat: udata.lat, lng: udata.lng, houseKind: houseCalc)
+
+        self.plist = calc.PositionCalc(udata: udata)
         
-        let rect: NSRect = NSMakeRect(200, 20, 400, 400);
-        mainchartData = MainChart(frame: rect, configinfo: config, cuspsinfo: cusps)
-        self.view.addSubview(mainchartData)
+        self.plist = aspect.AspectCalcSame(a_setting: setting[0]!, list: plist)
+
+        //        let a = 0
         
-        let plist: [PlanetData] = calc.PositionCalc(udata: udata)
+    }
+
+    func ReRender() {
+        if (mainchartData != nil) {
+            mainchartData.removeFromSuperview()
+        }
+        var houseCalc: Int = 0
+        if (self.config.houseCalc == "placidus") {
+            houseCalc = 0
+        }
+
+        let config: ConfigData = ConfigData()
+        let calc: AstroCalc = AstroCalc(path: "")
+
+        sunPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[0].absolute_position))
+        moonPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[1].absolute_position))
+        mercuryPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[2].absolute_position))
+        venusPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[3].absolute_position))
+        marsPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[4].absolute_position))
+        jupiterPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[5].absolute_position))
+        saturnPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[6].absolute_position))
+        uranusPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[7].absolute_position))
+        neptunePositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[8].absolute_position))
+        plutoPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[9].absolute_position))
         
-        sunPositionLabel.stringValue = (String)(NSString(format: "%.3f", plist[0].absolute_position))
-        moonPositionLabel.stringValue = (String)(NSString(format: "%.3f", plist[1].absolute_position))
-        mercuryPositionLabel.stringValue = (String)(NSString(format: "%.3f", plist[2].absolute_position))
-        venusPositionLabel.stringValue = (String)(NSString(format: "%.3f", plist[3].absolute_position))
-        marsPositionLabel.stringValue = (String)(NSString(format: "%.3f", plist[4].absolute_position))
-        jupiterPositionLabel.stringValue = (String)(NSString(format: "%.3f", plist[5].absolute_position))
-        saturnPositionLabel.stringValue = (String)(NSString(format: "%.3f", plist[6].absolute_position))
-        uranusPositionLabel.stringValue = (String)(NSString(format: "%.3f", plist[7].absolute_position))
-        neptunePositionLabel.stringValue = (String)(NSString(format: "%.3f", plist[8].absolute_position))
-        plutoPositionLabel.stringValue = (String)(NSString(format: "%.3f", plist[9].absolute_position))
         
-        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        firstCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[1]))
+        secondCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[2]))
+        thirdCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[3]))
+        fourthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[4]))
+        fifthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[5]))
+        sixthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[6]))
+        seventhCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[7]))
+        eighthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[8]))
         
+        // ユーザーボックス
         userNameLbl.stringValue = udata.name
         userBirthStrLbl.stringValue = String(format: "%04d", udata.birth_year) + "/" + String(format: "%02d", udata.birth_month) +
             "/" + String(format: "%02d", udata.birth_day) + " " +
@@ -227,45 +258,20 @@ class ViewController: NSViewController {
         userLngLbl.stringValue = ""
         
         
-        for i in 0..<10 {
-            mainchartData.setPlanetPosition(i, degree: plist[i].absolute_position, startDegree: cusps[1])
-        }
-        
-        mainchartData.zodiacRender(cusps[1])
-        //        let a = 0
-        
-    }
+        let rect2: NSRect = NSMakeRect(250, 20, 400, 400);
 
-    func ReRender() {
-        mainchartData.removeFromSuperview()
-        var houseCalc: Int = 0
-        if (self.config.houseCalc == "placidus") {
-            houseCalc = 0
-        }
-
-        let now = Date()
-
-        let config: ConfigData = ConfigData()
-        let calc: AstroCalc = AstroCalc(path: "")
-
-        let cusps: [Double] = calc.CuspCalc(udata.birth_year, month: udata.birth_month, day: udata.birth_day, hour: udata.birth_hour, min: udata.birth_minute, sec: udata.birth_second, lat: udata.lat, lng: udata.lng, houseKind: houseCalc)
-        firstCuspLabel.stringValue = (String)(NSString(format: "%.3f", cusps[1]))
-        secondCuspLabel.stringValue = (String)(NSString(format: "%.3f", cusps[2]))
-        thirdCuspLabel.stringValue = (String)(NSString(format: "%.3f", cusps[3]))
-        fourthCuspLabel.stringValue = (String)(NSString(format: "%.3f", cusps[4]))
-        
-        let rect: NSRect = NSMakeRect(250, 20, 400, 400);
-
-        mainchartData = MainChart(frame: rect, configinfo: config, cuspsinfo: cusps)
+        mainchartData = MainChart(frame: rect2, configinfo: config, cuspsinfo: cusps, planetList: plist, tempSetting: tmpSetting)
         self.view.addSubview(mainchartData)
-        let plist: [PlanetData] = calc.PositionCalc(udata: udata)
 
+        // 円周上の点
+        mainchartData.zodiacRender(cusps[1])
+
+        // planetRender
         for i in 0..<10 {
             mainchartData.setPlanetPosition(i, degree: plist[i].absolute_position, startDegree: cusps[1])
         }
         
-        mainchartData.zodiacRender(cusps[1])
-
+        mainchartData.aspectRender(startDegree: cusps[1], list: plist, startPosition: 1, endPosition: 1, aspectKind: 1, aspectRing: 1)
     }
 
     func ClearView() {

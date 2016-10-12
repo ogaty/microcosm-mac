@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class configXmlParse: NSObject, XMLParserDelegate {
+class ConfigXmlParse: NSObject, XMLParserDelegate {
     // Simple state machine to capture fields and add completed Person to array
     var personArray: [ConfigData] = []
     enum State { case none, ephepath, centric, sidereal }

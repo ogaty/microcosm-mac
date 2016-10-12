@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		C60997521D8840CD00D0FA1C /* Houses.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60997511D8840CD00D0FA1C /* Houses.swift */; };
 		C60A11D91DA7E59500C65F68 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C60A11D71DA7C24700C65F68 /* libxml2.tbd */; };
-		C60A11DB1DA7E61D00C65F68 /* configXmlParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60A11DA1DA7E61D00C65F68 /* configXmlParse.swift */; };
+		C60A11DB1DA7E61D00C65F68 /* ConfigXmlParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60A11DA1DA7E61D00C65F68 /* ConfigXmlParse.swift */; };
 		C60A11DD1DA7EB9600C65F68 /* SwissHCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */; };
 		C616D6AF1DAA5684001FB557 /* SettingParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6AE1DAA5684001FB557 /* SettingParse.swift */; };
 		C616D6B11DAA569A001FB557 /* SettingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6B01DAA569A001FB557 /* SettingData.swift */; };
@@ -19,6 +19,8 @@
 		C616D6B91DAD1D06001FB557 /* DatabaseUserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6B81DAD1D06001FB557 /* DatabaseUserListViewController.swift */; };
 		C616D6BB1DAD1D98001FB557 /* AspectCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6BA1DAD1D98001FB557 /* AspectCalc.swift */; };
 		C616D6BD1DAD223A001FB557 /* AspectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6BC1DAD223A001FB557 /* AspectInfo.swift */; };
+		C616D6BF1DAE76DA001FB557 /* TempSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6BE1DAE76DA001FB557 /* TempSetting.swift */; };
+		C616D6C11DAE77CC001FB557 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6C01DAE77CC001FB557 /* Point.swift */; };
 		C62735F71D99711100A5C017 /* DatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62735F61D99711100A5C017 /* DatabaseViewController.swift */; };
 		C62D35F51D9AB34200BAB3CE /* MenuClick.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62D35F41D9AB34200BAB3CE /* MenuClick.swift */; };
 		C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674421D71455000B26AA5 /* SweTimeRet.swift */; };
@@ -53,7 +55,7 @@
 /* Begin PBXFileReference section */
 		C60997511D8840CD00D0FA1C /* Houses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Houses.swift; path = SwissEph/Houses.swift; sourceTree = "<group>"; };
 		C60A11D71DA7C24700C65F68 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
-		C60A11DA1DA7E61D00C65F68 /* configXmlParse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = configXmlParse.swift; path = Config/configXmlParse.swift; sourceTree = "<group>"; };
+		C60A11DA1DA7E61D00C65F68 /* ConfigXmlParse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigXmlParse.swift; path = Config/ConfigXmlParse.swift; sourceTree = "<group>"; };
 		C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissHCalc.swift; path = SwissEph/SwissHCalc.swift; sourceTree = "<group>"; };
 		C616D6AE1DAA5684001FB557 /* SettingParse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingParse.swift; path = Config/SettingParse.swift; sourceTree = "<group>"; };
 		C616D6B01DAA569A001FB557 /* SettingData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingData.swift; path = Config/SettingData.swift; sourceTree = "<group>"; };
@@ -63,6 +65,8 @@
 		C616D6B81DAD1D06001FB557 /* DatabaseUserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseUserListViewController.swift; path = Db/DatabaseUserListViewController.swift; sourceTree = "<group>"; };
 		C616D6BA1DAD1D98001FB557 /* AspectCalc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AspectCalc.swift; path = Calc/AspectCalc.swift; sourceTree = "<group>"; };
 		C616D6BC1DAD223A001FB557 /* AspectInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AspectInfo.swift; path = Common/AspectInfo.swift; sourceTree = "<group>"; };
+		C616D6BE1DAE76DA001FB557 /* TempSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TempSetting.swift; path = Config/TempSetting.swift; sourceTree = "<group>"; };
+		C616D6C01DAE77CC001FB557 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Point.swift; path = Config/Point.swift; sourceTree = "<group>"; };
 		C62735F61D99711100A5C017 /* DatabaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseViewController.swift; sourceTree = "<group>"; };
 		C62D35F41D9AB34200BAB3CE /* MenuClick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuClick.swift; sourceTree = "<group>"; };
 		C63674421D71455000B26AA5 /* SweTimeRet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweTimeRet.swift; path = SwissEph/SweTimeRet.swift; sourceTree = "<group>"; };
@@ -161,24 +165,26 @@
 				C6F4C32B1D61C03D00108545 /* SweNut.swift */,
 				C63674421D71455000B26AA5 /* SweTimeRet.swift */,
 				C63674441D71D69600B26AA5 /* TopoData.swift */,
-				C63674461D75DB1900B26AA5 /* MainChart.swift */,
-				C63674521D7DAE4F00B26AA5 /* CommonData.swift */,
-				C63674541D818A6800B26AA5 /* PlanetData.swift */,
 				C63674561D818B4F00B26AA5 /* AstroCalc.swift */,
+				C616D6BA1DAD1D98001FB557 /* AspectCalc.swift */,
+				C616D6BC1DAD223A001FB557 /* AspectInfo.swift */,
+				C63674521D7DAE4F00B26AA5 /* CommonData.swift */,
+				C60A11DA1DA7E61D00C65F68 /* ConfigXmlParse.swift */,
 				C63674581D81901900B26AA5 /* ConfigData.swift */,
-				C60997511D8840CD00D0FA1C /* Houses.swift */,
+				C616D6B21DAA68BC001FB557 /* ConfigViewController.swift */,
+				C616D6B81DAD1D06001FB557 /* DatabaseUserListViewController.swift */,
 				C62735F61D99711100A5C017 /* DatabaseViewController.swift */,
+				C60997511D8840CD00D0FA1C /* Houses.swift */,
+				C63674461D75DB1900B26AA5 /* MainChart.swift */,
 				C62D35F41D9AB34200BAB3CE /* MenuClick.swift */,
-				C60A11DA1DA7E61D00C65F68 /* configXmlParse.swift */,
+				C63674541D818A6800B26AA5 /* PlanetData.swift */,
 				C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */,
 				C616D6AE1DAA5684001FB557 /* SettingParse.swift */,
 				C616D6B01DAA569A001FB557 /* SettingData.swift */,
-				C616D6B21DAA68BC001FB557 /* ConfigViewController.swift */,
+				C616D6BE1DAE76DA001FB557 /* TempSetting.swift */,
+				C616D6C01DAE77CC001FB557 /* Point.swift */,
 				C616D6B41DAA7D01001FB557 /* UserDir.swift */,
 				C616D6B61DAB425E001FB557 /* UserData.swift */,
-				C616D6B81DAD1D06001FB557 /* DatabaseUserListViewController.swift */,
-				C616D6BA1DAD1D98001FB557 /* AspectCalc.swift */,
-				C616D6BC1DAD223A001FB557 /* AspectInfo.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -268,7 +274,7 @@
 				C63674451D71D69600B26AA5 /* TopoData.swift in Sources */,
 				C616D6B31DAA68BC001FB557 /* ConfigViewController.swift in Sources */,
 				C63674471D75DB1900B26AA5 /* MainChart.swift in Sources */,
-				C60A11DB1DA7E61D00C65F68 /* configXmlParse.swift in Sources */,
+				C60A11DB1DA7E61D00C65F68 /* ConfigXmlParse.swift in Sources */,
 				C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */,
 				C6F4C3141D60ABE100108545 /* SideData.swift in Sources */,
 				C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */,
@@ -285,9 +291,11 @@
 				C6FA05C01D48F068002F5BA3 /* SweRet.swift in Sources */,
 				C6FA05C41D4A56AA002F5BA3 /* SweDate.swift in Sources */,
 				C6F4C2EF1D5B808800108545 /* SweSunb.swift in Sources */,
+				C616D6BF1DAE76DA001FB557 /* TempSetting.swift in Sources */,
 				C63674551D818A6900B26AA5 /* PlanetData.swift in Sources */,
 				C6FA05BC1D48F047002F5BA3 /* SavePositions.swift in Sources */,
 				C6F4C2F11D5C0C5A00108545 /* SwissHLib.swift in Sources */,
+				C616D6C11DAE77CC001FB557 /* Point.swift in Sources */,
 				C616D6BD1DAD223A001FB557 /* AspectInfo.swift in Sources */,
 				C60997521D8840CD00D0FA1C /* Houses.swift in Sources */,
 				C62D35F51D9AB34200BAB3CE /* MenuClick.swift in Sources */,
