@@ -36,6 +36,10 @@ class ViewController: NSViewController {
     @IBOutlet weak var sixthCuspLabel: NSTextField!
     @IBOutlet weak var seventhCuspLabel: NSTextField!
     @IBOutlet weak var eighthCuspLabel: NSTextField!
+    @IBOutlet weak var ninthCuspLabel: NSTextField!
+    @IBOutlet weak var tenthCuspLabel: NSTextField!
+    @IBOutlet weak var eleventhCuspLabel: NSTextField!
+    @IBOutlet weak var twelvethCuspLabel: NSTextField!
     
     var mainchartData: MainChart!
     var udata: UserData = UserData()
@@ -74,7 +78,7 @@ class ViewController: NSViewController {
                 // configファイル
                 let configPath = NSURL(fileURLWithPath: createPath).appendingPathComponent(configName)
                 if (!fileManager.fileExists(atPath: (createPath + "/" + configName), isDirectory: &isDir)) {
-                    let str: NSString = "aaa"
+                    let str: NSString = "ephepath:ephe\ncentric:GEO_CENTRIC\nsidereal:TROPICAL\ndefaultPlace:東京都中央区\nlat:35.670587\nlng:139.772003\ndefaultTimezone:JST\nprogression:PRIMARY\ndefaultbands:1\nhouse:PLACIDUS\nzodiacOuterWidth:340\nzodiacWidth:60\nzodiacCenter:90\ndecimalDisp:DECIMAL\ndispPattern:0"
                     FileManager.default.createFile(atPath: (createPath + "/" + configName), contents: str.data(using: String.Encoding.utf8.rawValue))
                 }
                     
@@ -227,7 +231,6 @@ class ViewController: NSViewController {
         }
 
         let config: ConfigData = ConfigData()
-        let calc: AstroCalc = AstroCalc(path: "")
 
         sunPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[0].absolute_position))
         moonPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[1].absolute_position))
@@ -249,6 +252,10 @@ class ViewController: NSViewController {
         sixthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[6]))
         seventhCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[7]))
         eighthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[8]))
+        ninthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[8]))
+        tenthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[9]))
+        eleventhCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[10]))
+        twelvethCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[11]))
         
         // ユーザーボックス
         userNameLbl.stringValue = udata.name
@@ -274,7 +281,6 @@ class ViewController: NSViewController {
             mainchartData.setPlanetPosition(i, degree: plist[i].absolute_position, startDegree: cusps[1])
         }
         
-        mainchartData.aspectRender(startDegree: cusps[1], list: plist, startPosition: 1, endPosition: 1, aspectKind: 1, aspectRing: 1)
     }
 
     func ClearView() {

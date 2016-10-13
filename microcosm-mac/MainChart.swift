@@ -63,7 +63,9 @@ class MainChart: NSView {
         
 //        var housepath : NSBezierPath = NSBezierPath(rect: dirtyRect)
         houseCuspRender(cusps: cusps)
-        
+
+        aspectRender(startDegree: cusps[1], list: plist, startPosition: 1, endPosition: 1, aspectKind: 1, aspectRing: 1)
+
     }
     
     func rotate(_ x: CGFloat, y: CGFloat, degree: CGFloat) -> NSPoint{
@@ -183,9 +185,8 @@ class MainChart: NSView {
             }
             var startPoint: NSPoint;
             startPoint = rotate(CGFloat(startRingX), y: 0, degree: CGFloat((list[i].absolute_position - startDegree)));
-            startPoint.x += CGFloat((config.zodiacOuterWidth) / 2);
-            startPoint.y *= -1;
-            startPoint.y += CGFloat((config.zodiacOuterWidth) / 2);
+            startPoint.x += CGFloat(config.zodiacPaddingLeft + (config.zodiacOuterWidth) / 2);
+            startPoint.y += CGFloat(config.zodiacPaddingTop + (config.zodiacOuterWidth) / 2);
             if (aspectKind == 1)
             {
                 aspectListRender(startDegree: startDegree, list: list, aspects: list[i].aspects, startPoint: startPoint, endRingX: endRingX);
@@ -199,9 +200,8 @@ class MainChart: NSView {
             var endPoint: NSPoint;
             
             endPoint = rotate(CGFloat(endRingX), y: 0, degree: CGFloat(aspects[j].targetPosition - startDegree));
-            endPoint.x += CGFloat((config.zodiacWidth) / 2);
-            endPoint.y *= -1;
-            endPoint.y += CGFloat((config.zodiacWidth) / 2);
+            endPoint.x += CGFloat(config.zodiacPaddingLeft + (config.zodiacOuterWidth) / 2);
+            endPoint.y += CGFloat(config.zodiacPaddingTop + (config.zodiacOuterWidth) / 2);
             
             let aspectLine: NSBezierPath = NSBezierPath()
             aspectLine.move(to: NSPoint(

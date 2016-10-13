@@ -48,7 +48,7 @@ class ConfigData: NSObject {
     
     var zodiacOuterWidth: Int = 340
     var zodiacWidth: Int = 60
-    var zodiacCenter: Int = 60
+    var zodiacCenter: Int = 90
 
     var zodiacPaddingLeft: Int = 10
     var zodiacPaddingTop: Int = 10

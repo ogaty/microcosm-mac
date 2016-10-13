@@ -461,7 +461,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j7Z-YL-6QV">
-                                <rect key="frame" x="177" y="237" width="92" height="17"/>
+                                <rect key="frame" x="175" y="237" width="92" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="thirdLabel" id="Dbs-fu-Vke">
                                     <font key="font" metaFont="system"/>
@@ -470,7 +470,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NuU-Hj-gWA">
-                                <rect key="frame" x="177" y="218" width="92" height="17"/>
+                                <rect key="frame" x="175" y="218" width="92" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="fourthLabel" id="2wh-rj-nTY">
                                     <font key="font" metaFont="system"/>
@@ -479,7 +479,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fOi-wl-eRP">
-                                <rect key="frame" x="178" y="200" width="90" height="17"/>
+                                <rect key="frame" x="175" y="200" width="90" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="fifthLabel" id="u0A-h8-pAb">
                                     <font key="font" metaFont="system"/>
@@ -488,7 +488,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j0n-Ap-I8D">
-                                <rect key="frame" x="177" y="183" width="90" height="17"/>
+                                <rect key="frame" x="175" y="183" width="90" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="sixthLabel" id="JDF-GD-Fds">
                                     <font key="font" metaFont="system"/>
@@ -497,7 +497,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kzl-c3-cim">
-                                <rect key="frame" x="177" y="167" width="90" height="17"/>
+                                <rect key="frame" x="175" y="167" width="90" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="seventhLabel" id="Rxe-3O-ziv">
                                     <font key="font" metaFont="system"/>
@@ -506,9 +506,45 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qOJ-V7-JPj">
-                                <rect key="frame" x="177" y="150" width="101" height="17"/>
+                                <rect key="frame" x="175" y="150" width="101" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="eighthLabel" id="UlT-ny-KFc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kKi-Mc-644">
+                                <rect key="frame" x="175" y="130" width="89" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ninthLabel" id="Ck2-04-rCG">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oDz-ck-FQs">
+                                <rect key="frame" x="175" y="113" width="118" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="tenthLabel" id="5XE-jc-lcJ">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rA6-GJ-AQV">
+                                <rect key="frame" x="175" y="96" width="101" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="eleventhLabel" id="9gh-Bi-DrJ">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Gl-SE-6Bd">
+                                <rect key="frame" x="175" y="81" width="118" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="twelvethLabel" id="Oij-f5-0t0">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -518,6 +554,7 @@
                     </view>
                     <connections>
                         <outlet property="eighthCuspLabel" destination="qOJ-V7-JPj" id="2yU-os-ygz"/>
+                        <outlet property="eleventhCuspLabel" destination="rA6-GJ-AQV" id="jR0-BH-Hpd"/>
                         <outlet property="fifthCuspLabel" destination="fOi-wl-eRP" id="4R8-hN-rgb"/>
                         <outlet property="firstCuspLabel" destination="Rqt-fP-bIj" id="HP8-6E-85J"/>
                         <outlet property="fourthCuspLabel" destination="NuU-Hj-gWA" id="hok-FB-PAj"/>
@@ -526,13 +563,16 @@
                         <outlet property="mercuryPositionLabel" destination="9We-JN-ebm" id="1MU-Le-dRd"/>
                         <outlet property="moonPositionLabel" destination="vFZ-Uu-zUu" id="QfM-t3-R8i"/>
                         <outlet property="neptunePositionLabel" destination="0qg-Qr-Sih" id="JeB-oq-pR8"/>
+                        <outlet property="ninthCuspLabel" destination="kKi-Mc-644" id="lTw-Wi-Rse"/>
                         <outlet property="plutoPositionLabel" destination="KG5-zD-GIt" id="bTA-If-MUo"/>
                         <outlet property="saturnPositionLabel" destination="TjZ-sn-KiB" id="cUg-ed-cyN"/>
                         <outlet property="secondCuspLabel" destination="idI-Fx-HOg" id="LEz-Fl-pin"/>
                         <outlet property="seventhCuspLabel" destination="kzl-c3-cim" id="o3G-a8-3Ki"/>
                         <outlet property="sixthCuspLabel" destination="j0n-Ap-I8D" id="wjk-Ze-cbp"/>
                         <outlet property="sunPositionLabel" destination="GBc-LH-3nN" id="JjG-Wr-gO2"/>
+                        <outlet property="tenthCuspLabel" destination="oDz-ck-FQs" id="tac-C4-NtP"/>
                         <outlet property="thirdCuspLabel" destination="j7Z-YL-6QV" id="yFU-dt-iJb"/>
+                        <outlet property="twelvethCuspLabel" destination="7Gl-SE-6Bd" id="YkW-eA-Of8"/>
                         <outlet property="uranusPositionLabel" destination="wWN-eb-I2v" id="Gou-gU-YaC"/>
                         <outlet property="userBirthPlaceLbl" destination="pin-5I-fsc" id="eRG-RO-mG3"/>
                         <outlet property="userBirthStrLbl" destination="xyr-as-sD5" id="5It-bw-YUL"/>
