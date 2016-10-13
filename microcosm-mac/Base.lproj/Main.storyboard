@@ -21,6 +21,12 @@
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="新規追加" id="P8d-Gr-hJe">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <segue destination="qXL-Xh-hd0" kind="show" id="CSb-FM-S9B"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="開く" id="e99-0Y-2qI" userLabel="開く">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -585,6 +591,19 @@
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="210" y="745"/>
+        </scene>
+        <!--ユーザー編集-->
+        <scene sceneID="dIm-dk-Rjv">
+            <objects>
+                <viewController title="ユーザー編集" id="qXL-Xh-hd0" customClass="NewUserViewController" customModule="microcosm_mac" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="4HM-eE-q9p">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="kYx-eg-Vwh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="725" y="345"/>
         </scene>
         <!--Database View Controller-->
         <scene sceneID="4ro-dT-9fT">

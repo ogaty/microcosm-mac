@@ -21,6 +21,7 @@
 		C616D6BD1DAD223A001FB557 /* AspectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6BC1DAD223A001FB557 /* AspectInfo.swift */; };
 		C616D6BF1DAE76DA001FB557 /* TempSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6BE1DAE76DA001FB557 /* TempSetting.swift */; };
 		C616D6C11DAE77CC001FB557 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6C01DAE77CC001FB557 /* Point.swift */; };
+		C616D6C31DAFCF98001FB557 /* NewUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6C21DAFCF98001FB557 /* NewUserViewController.swift */; };
 		C62735F71D99711100A5C017 /* DatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62735F61D99711100A5C017 /* DatabaseViewController.swift */; };
 		C62D35F51D9AB34200BAB3CE /* MenuClick.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62D35F41D9AB34200BAB3CE /* MenuClick.swift */; };
 		C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674421D71455000B26AA5 /* SweTimeRet.swift */; };
@@ -67,6 +68,7 @@
 		C616D6BC1DAD223A001FB557 /* AspectInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AspectInfo.swift; path = Common/AspectInfo.swift; sourceTree = "<group>"; };
 		C616D6BE1DAE76DA001FB557 /* TempSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TempSetting.swift; path = Config/TempSetting.swift; sourceTree = "<group>"; };
 		C616D6C01DAE77CC001FB557 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Point.swift; path = Config/Point.swift; sourceTree = "<group>"; };
+		C616D6C21DAFCF98001FB557 /* NewUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUserViewController.swift; sourceTree = "<group>"; };
 		C62735F61D99711100A5C017 /* DatabaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseViewController.swift; sourceTree = "<group>"; };
 		C62D35F41D9AB34200BAB3CE /* MenuClick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuClick.swift; sourceTree = "<group>"; };
 		C63674421D71455000B26AA5 /* SweTimeRet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweTimeRet.swift; path = SwissEph/SweTimeRet.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				C60997511D8840CD00D0FA1C /* Houses.swift */,
 				C63674461D75DB1900B26AA5 /* MainChart.swift */,
 				C62D35F41D9AB34200BAB3CE /* MenuClick.swift */,
+				C616D6C21DAFCF98001FB557 /* NewUserViewController.swift */,
 				C63674541D818A6800B26AA5 /* PlanetData.swift */,
 				C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */,
 				C616D6AE1DAA5684001FB557 /* SettingParse.swift */,
@@ -263,6 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C616D6C31DAFCF98001FB557 /* NewUserViewController.swift in Sources */,
 				C6E9FDB31D4C8030008FDE6B /* GenConst.swift in Sources */,
 				C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */,
 				C616D6B71DAB425E001FB557 /* UserData.swift in Sources */,

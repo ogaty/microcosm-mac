@@ -19,15 +19,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    @IBAction func itemClicked(_ sender: AnyObject) {
-        if let window = NSApplication.shared().mainWindow {
-            let mainview: ViewController = (window.contentViewController as? ViewController)!
-            mainview.ReRender()
-        }
-        
-        
-    }
-
     @IBAction func openUser(_ sender: AnyObject) {
         let udata: UserData = UserData()
 
