@@ -9,10 +9,15 @@
 import Cocoa
 
 class NewUserViewController: NSViewController {
-
+    var main: ViewController = ViewController()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
     }
     
+    @IBAction func SubmitClicked(_ sender: AnyObject) {
+        NSLog("submit")
+        self.main.call()
+
+    }
 }

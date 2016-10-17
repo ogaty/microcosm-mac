@@ -293,5 +293,17 @@ class ViewController: NSViewController {
         ReCalc()
         ReRender()
     }
+    
+    func newUser() {
+        let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateController(withIdentifier: "newUserWindow") as? NewUserViewController
+        vc?.main = self
+        self.presentViewControllerAsModalWindow(vc!)
+    }
+    
+    func call() {
+        NSLog("call")
+    }
+
 }
 
