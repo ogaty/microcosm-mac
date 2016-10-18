@@ -301,8 +301,9 @@ class ViewController: NSViewController {
         self.presentViewControllerAsModalWindow(vc!)
     }
     
-    func call() {
+    func call(udata: UserData) {
         NSLog("call")
+        setUserData(userdata: udata)
     }
 
 }

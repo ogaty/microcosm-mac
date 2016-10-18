@@ -649,6 +649,10 @@
                             </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="furigana" destination="NDx-Hd-xBb" id="GIH-qz-2SI"/>
+                        <outlet property="name" destination="vkN-Yc-uBK" id="Pbg-4L-sIk"/>
+                    </connections>
                 </viewController>
                 <customObject id="kYx-eg-Vwh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -9,6 +9,8 @@
 import Cocoa
 
 class NewUserViewController: NSViewController {
+    @IBOutlet weak var name: NSTextField!
+    @IBOutlet weak var furigana: NSTextField!
     var main: ViewController = ViewController()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,7 +19,10 @@ class NewUserViewController: NSViewController {
     
     @IBAction func SubmitClicked(_ sender: AnyObject) {
         NSLog("submit")
-        self.main.call()
+        let udata: UserData = UserData()
+        udata.name = name.stringValue
+        udata.furigana = furigana.stringValue
+        self.main.call(udata: udata)
 
     }
 }
