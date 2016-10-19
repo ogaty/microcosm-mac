@@ -21,17 +21,6 @@ class AstroCalc: NSObject {
         var ret: SweRet
         let iflag: Int = SEFLG_SWIEPH | SEFLG_SPEED
 
-        let now = Date()
-        let cal: Calendar = Calendar(identifier: Calendar.Identifier.gregorian)
-        var cal_comp: DateComponents = (cal as NSCalendar).components([.year, .month, .day, .weekday, .hour, .minute, .second], from:now)
-        let year: Int = cal_comp.year!
-        let month: Int = cal_comp.month!
-        let day: Int = cal_comp.day!
-        let hour: Int = cal_comp.hour!
-        let minute: Int = cal_comp.minute!
-        let second: Double = (Double)(cal_comp.second!)
-
-        
         //        let retc: SweTimeRet = swiss.swe_utc_time_zone(2012, month: 12, day: 21,
         //                                                       hour: 12, minute: 0, second: 0,
         //                                                       timezone: 9.0)

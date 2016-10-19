@@ -19,8 +19,8 @@ class UserData: NSObject {
     var birth_minute: Int = 0
     var birth_second: Double = 0
     
-    var lat: Double = 139
-    var lng: Double = 38
+    var lat: Double = 35.670587
+    var lng: Double = 139.772003
     var birth_place: String = "東京都"
     
     var memo: String = ""
