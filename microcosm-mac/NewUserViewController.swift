@@ -11,6 +11,9 @@ import Cocoa
 class NewUserViewController: NSViewController {
     @IBOutlet weak var name: NSTextField!
     @IBOutlet weak var furigana: NSTextField!
+    @IBOutlet weak var Year: NSTextField!
+    @IBOutlet weak var Month: NSTextField!
+    @IBOutlet weak var Day: NSTextField!
     var main: ViewController = ViewController()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +25,9 @@ class NewUserViewController: NSViewController {
         let udata: UserData = UserData()
         udata.name = name.stringValue
         udata.furigana = furigana.stringValue
+        udata.birth_year = (Int)(Year.stringValue)!
+        udata.birth_month = (Int)(Month.stringValue)!
+        udata.birth_day = (Int)(Day.stringValue)!
         self.main.call(udata: udata)
 
     }
