@@ -31,6 +31,7 @@
 		C63674551D818A6900B26AA5 /* PlanetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674541D818A6800B26AA5 /* PlanetData.swift */; };
 		C63674571D818B4F00B26AA5 /* AstroCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674561D818B4F00B26AA5 /* AstroCalc.swift */; };
 		C63674591D81901900B26AA5 /* ConfigData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674581D81901900B26AA5 /* ConfigData.swift */; };
+		C69653701DB9D4270015118A /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = C696536F1DB9D4270015118A /* readme.md */; };
 		C6E9FDB31D4C8030008FDE6B /* GenConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E9FDB21D4C8030008FDE6B /* GenConst.swift */; };
 		C6E9FDBD1D538A23008FDE6B /* seas_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */; };
 		C6E9FDBE1D538A23008FDE6B /* semo_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */; };
@@ -78,6 +79,7 @@
 		C63674541D818A6800B26AA5 /* PlanetData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlanetData.swift; path = Common/PlanetData.swift; sourceTree = "<group>"; };
 		C63674561D818B4F00B26AA5 /* AstroCalc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AstroCalc.swift; path = Calc/AstroCalc.swift; sourceTree = "<group>"; };
 		C63674581D81901900B26AA5 /* ConfigData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigData.swift; path = Config/ConfigData.swift; sourceTree = "<group>"; };
+		C696536F1DB9D4270015118A /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		C6E9FDB21D4C8030008FDE6B /* GenConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenConst.swift; path = SwissEph/GenConst.swift; sourceTree = "<group>"; };
 		C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = seas_18.se1; sourceTree = "<group>"; };
 		C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = semo_18.se1; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		C6EAB16C1D30C2FB0038C772 = {
 			isa = PBXGroup;
 			children = (
+				C696536F1DB9D4270015118A /* readme.md */,
 				C6EAB1771D30C2FB0038C772 /* microcosm-mac */,
 				C6EAB1761D30C2FB0038C772 /* Products */,
 				C6EAB1921D30E8990038C772 /* microcosm-mac-Bridging-Header.h */,
@@ -282,6 +285,7 @@
 				C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */,
 				C6F4C3141D60ABE100108545 /* SideData.swift in Sources */,
 				C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */,
+				C69653701DB9D4270015118A /* readme.md in Sources */,
 				C6FA05C61D4C64E6002F5BA3 /* FileData.swift in Sources */,
 				C63674531D7DAE4F00B26AA5 /* CommonData.swift in Sources */,
 				C63674591D81901900B26AA5 /* ConfigData.swift in Sources */,

@@ -14,6 +14,15 @@ class NewUserViewController: NSViewController {
     @IBOutlet weak var Year: NSTextField!
     @IBOutlet weak var Month: NSTextField!
     @IBOutlet weak var Day: NSTextField!
+    @IBOutlet weak var Hour: NSTextField!
+    @IBOutlet weak var Minute: NSTextField!
+    @IBOutlet weak var Second: NSTextField!
+    @IBOutlet weak var Lat: NSTextField!
+    @IBOutlet weak var Lng: NSTextField!
+    @IBOutlet weak var Memo: NSTextField!
+    @IBOutlet weak var Place: NSTextField!
+    @IBOutlet weak var fileName: NSTextField!
+
     var main: ViewController = ViewController()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,14 +30,22 @@ class NewUserViewController: NSViewController {
     }
     
     @IBAction func SubmitClicked(_ sender: AnyObject) {
-        NSLog("submit")
         let udata: UserData = UserData()
         udata.name = name.stringValue
         udata.furigana = furigana.stringValue
         udata.birth_year = (Int)(Year.stringValue)!
         udata.birth_month = (Int)(Month.stringValue)!
         udata.birth_day = (Int)(Day.stringValue)!
-        self.main.call(udata: udata)
-
+        udata.birth_hour = (Int)(Hour.stringValue)!
+        udata.birth_minute = (Int)(Minute.stringValue)!
+        udata.birth_second = (Double)(Second.stringValue)!
+        udata.birth_place = Place.stringValue
+        udata.lat = (Double)(Lat.stringValue)!
+        udata.lng = (Double)(Lng.stringValue)!
+        udata.timezone = "JST"
+        udata.memo = Memo.stringValue
+        let fName: String = fileName.stringValue
+        self.main.updateUserData(udata: udata, fileName: fName)
+        dismissViewController(self)
     }
 }

@@ -61,7 +61,6 @@ class ViewController: NSViewController {
         // Do any additional setup after loading the view.        
         
         let now = Date()
-        let common: CommonData = CommonData()
         let settingParse: SettingParse = SettingParse()
         let documents = NSSearchPathForDirectoriesInDomains(
             .documentDirectory,
@@ -301,9 +300,35 @@ class ViewController: NSViewController {
         self.presentViewControllerAsModalWindow(vc!)
     }
     
-    func call(udata: UserData) {
-        NSLog("call")
+    func updateUserData(udata: UserData, fileName: String) {
         setUserData(userdata: udata)
+
+        let datafileManager = FileManager.default
+        let documents = NSSearchPathForDirectoriesInDomains(
+            .documentDirectory,
+            .userDomainMask, true)[0]
+        let directoryName = "microcosm"  // 作成するディレクトリ名
+        let createPath = documents + "/" + directoryName + "/data"
+        var isDir : ObjCBool = false
+
+        if (!datafileManager.fileExists(atPath: (createPath + "/" + fileName), isDirectory: &isDir)) {
+            var str: String = "name:" + (String)(udata.name) + "\n"
+            str += "furigana:" + (String)(udata.furigana) + "\n"
+            str += "birth_year:" + (String)(udata.birth_year) + "\n"
+            str += "birth_month:" + (String)(udata.birth_month) + "\n"
+            str += "birth_day:" + (String)(udata.birth_day) + "\n"
+            str += "birth_hour:" + (String)(udata.birth_hour) + "\n"
+            str += "birth_minute:" + (String)(udata.birth_minute) + "\n"
+            str += "birth_second:" + (String)(udata.birth_second) + "\n"
+            str += "lat:" + (String)(udata.lat) + "\n"
+            str += "lng:" + (String)(udata.lng) + "\n"
+            str += "birth_place:" + udata.birth_place + "\n"
+            str += "memo:" + udata.memo + "\n"
+            str += "timezone:JST(日本標準)" + "\n"
+            
+            FileManager.default.createFile(atPath: (createPath + "/" + fileName), contents: str.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)))
+        }
+
     }
 
 }
