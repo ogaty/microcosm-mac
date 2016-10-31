@@ -10,8 +10,9 @@ import Cocoa
 
 class UserDbDirs: NSObject {
     let name:String
-    var files: [UserDbFiles] = []
     let icon:NSImage?
+    var files: [UserDbFiles] = []
+    var dirs: [UserDbDirs] = []
     
     init (name:String,icon:NSImage?){
         self.name = name

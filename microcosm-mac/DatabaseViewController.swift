@@ -11,21 +11,34 @@ import Cocoa
 class DatabaseViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate  {
 
     @IBOutlet weak var userFileList: NSOutlineView!
-    var dir: UserDbDirs = UserDbDirs(name: "test", icon: nil)
+    var dir: UserDbDirs = UserDbDirs(name: "data", icon: nil)
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
         let documents = NSSearchPathForDirectoriesInDomains(
             .documentDirectory,
-            .userDomainMask, true)[0]
+            .userDomainMask, true)[0] as String
 
-        FileManager.default.subpaths(atPath: documents + "/microcosm")?.forEach {
-            NSLog("a" + $0)
+        var isDir: ObjCBool = false
+        let path = documents + "/microcosm/data"
+        var array: Array<String> = []
+        do {
+            array = try FileManager.default.contentsOfDirectory(atPath: path)
+        } catch {
+            NSLog("err")
         }
         
-        let fil: UserDbFiles = UserDbFiles(fileName: "fname", icon: nil)
-        dir.files.append(fil)
+        array.forEach {
+            if ($0.contains(".mcsm")) {
+                dir.files.append(UserDbFiles(fileName: $0, icon: nil))
+            } else if (FileManager.default.fileExists(atPath: path + "/" + $0, isDirectory:&isDir )) {
+                if (isDir.boolValue && $0 != ".DS_Store") {
+                    dir.dirs.append(UserDbDirs(name: $0, icon: nil))
+                }
+            }
+        }
 
+        
     }
 
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
