@@ -31,6 +31,7 @@
 		C63674591D81901900B26AA5 /* ConfigData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674581D81901900B26AA5 /* ConfigData.swift */; };
 		C63AFB911DBF9B2F00A80178 /* UserDbFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63AFB901DBF9B2F00A80178 /* UserDbFiles.swift */; };
 		C63AFB931DBF9B6700A80178 /* UserDbDirs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63AFB921DBF9B6700A80178 /* UserDbDirs.swift */; };
+		C67FA7B31DC78496001E293B /* UserDirView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67FA7B21DC78496001E293B /* UserDirView.swift */; };
 		C69653701DB9D4270015118A /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = C696536F1DB9D4270015118A /* readme.md */; };
 		C6E9FDB31D4C8030008FDE6B /* GenConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E9FDB21D4C8030008FDE6B /* GenConst.swift */; };
 		C6E9FDBD1D538A23008FDE6B /* seas_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */; };
@@ -79,6 +80,7 @@
 		C63674581D81901900B26AA5 /* ConfigData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigData.swift; path = Config/ConfigData.swift; sourceTree = "<group>"; };
 		C63AFB901DBF9B2F00A80178 /* UserDbFiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserDbFiles.swift; path = Db/UserDbFiles.swift; sourceTree = "<group>"; };
 		C63AFB921DBF9B6700A80178 /* UserDbDirs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserDbDirs.swift; path = Db/UserDbDirs.swift; sourceTree = "<group>"; };
+		C67FA7B21DC78496001E293B /* UserDirView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDirView.swift; sourceTree = "<group>"; };
 		C696536F1DB9D4270015118A /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		C6E9FDB21D4C8030008FDE6B /* GenConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenConst.swift; path = SwissEph/GenConst.swift; sourceTree = "<group>"; };
 		C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = seas_18.se1; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				C616D6B61DAB425E001FB557 /* UserData.swift */,
 				C63AFB901DBF9B2F00A80178 /* UserDbFiles.swift */,
 				C63AFB921DBF9B6700A80178 /* UserDbDirs.swift */,
+				C67FA7B21DC78496001E293B /* UserDirView.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				C6FA05C01D48F068002F5BA3 /* SweRet.swift in Sources */,
 				C6FA05C41D4A56AA002F5BA3 /* SweDate.swift in Sources */,
 				C6F4C2EF1D5B808800108545 /* SweSunb.swift in Sources */,
+				C67FA7B31DC78496001E293B /* UserDirView.swift in Sources */,
 				C63AFB931DBF9B6700A80178 /* UserDbDirs.swift in Sources */,
 				C616D6BF1DAE76DA001FB557 /* TempSetting.swift in Sources */,
 				C63674551D818A6900B26AA5 /* PlanetData.swift in Sources */,
