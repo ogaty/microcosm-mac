@@ -115,5 +115,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             mainview.newUser()
         }
     }
+
+    func newItemSelected(sender: AnyObject) {
+        NSLog("newItemSelected")
+    }
+
 }
 

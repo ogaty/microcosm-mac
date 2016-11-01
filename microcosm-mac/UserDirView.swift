@@ -19,9 +19,9 @@ class UserDirView: NSView {
     override func menu(for event: NSEvent) -> NSMenu? {
         // メニューの項目を作る
         let menu = NSMenu(title: "menu")
-        menu.addItem(withTitle: "新規作成", action: Selector(("newItemSelected:")), keyEquivalent: "N")
-        menu.addItem(withTitle: "編集", action: Selector(("updateSelected:")), keyEquivalent: "U")
-        menu.addItem(withTitle: "削除", action: Selector(("deleteSelected:")), keyEquivalent: "D")
+        menu.addItem(withTitle: "新規作成", action: #selector(self.newItemSelected), keyEquivalent: "N")
+        menu.addItem(withTitle: "編集", action: #selector(self.updateSelected), keyEquivalent: "U")
+        menu.addItem(withTitle: "削除", action: #selector(self.deleteSelected), keyEquivalent: "D")
         
         return menu
     }
