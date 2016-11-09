@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C600AB221DCD93750049B6F2 /* UserXmlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600AB211DCD93750049B6F2 /* UserXmlParser.swift */; };
+		C600AB241DCDA9C20049B6F2 /* FileUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600AB231DCDA9C20049B6F2 /* FileUtil.swift */; };
 		C60997521D8840CD00D0FA1C /* Houses.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60997511D8840CD00D0FA1C /* Houses.swift */; };
 		C60A11D91DA7E59500C65F68 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C60A11D71DA7C24700C65F68 /* libxml2.tbd */; };
-		C60A11DB1DA7E61D00C65F68 /* ConfigXmlParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60A11DA1DA7E61D00C65F68 /* ConfigXmlParse.swift */; };
+		C60A11DB1DA7E61D00C65F68 /* ConfigXmlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60A11DA1DA7E61D00C65F68 /* ConfigXmlParser.swift */; };
 		C60A11DD1DA7EB9600C65F68 /* SwissHCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */; };
 		C616D6AF1DAA5684001FB557 /* SettingParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6AE1DAA5684001FB557 /* SettingParse.swift */; };
 		C616D6B11DAA569A001FB557 /* SettingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6B01DAA569A001FB557 /* SettingData.swift */; };
@@ -29,7 +31,6 @@
 		C63674551D818A6900B26AA5 /* PlanetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674541D818A6800B26AA5 /* PlanetData.swift */; };
 		C63674571D818B4F00B26AA5 /* AstroCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674561D818B4F00B26AA5 /* AstroCalc.swift */; };
 		C63674591D81901900B26AA5 /* ConfigData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674581D81901900B26AA5 /* ConfigData.swift */; };
-		C63AFB911DBF9B2F00A80178 /* UserDbFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63AFB901DBF9B2F00A80178 /* UserDbFiles.swift */; };
 		C63AFB931DBF9B6700A80178 /* UserDbDirs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63AFB921DBF9B6700A80178 /* UserDbDirs.swift */; };
 		C67FA7B31DC78496001E293B /* UserDirView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67FA7B21DC78496001E293B /* UserDirView.swift */; };
 		C69653701DB9D4270015118A /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = C696536F1DB9D4270015118A /* readme.md */; };
@@ -56,9 +57,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C600AB211DCD93750049B6F2 /* UserXmlParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserXmlParser.swift; sourceTree = "<group>"; };
+		C600AB231DCDA9C20049B6F2 /* FileUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileUtil.swift; sourceTree = "<group>"; };
 		C60997511D8840CD00D0FA1C /* Houses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Houses.swift; path = SwissEph/Houses.swift; sourceTree = "<group>"; };
 		C60A11D71DA7C24700C65F68 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
-		C60A11DA1DA7E61D00C65F68 /* ConfigXmlParse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigXmlParse.swift; path = Config/ConfigXmlParse.swift; sourceTree = "<group>"; };
+		C60A11DA1DA7E61D00C65F68 /* ConfigXmlParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigXmlParser.swift; path = Config/ConfigXmlParser.swift; sourceTree = "<group>"; };
 		C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissHCalc.swift; path = SwissEph/SwissHCalc.swift; sourceTree = "<group>"; };
 		C616D6AE1DAA5684001FB557 /* SettingParse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingParse.swift; path = Config/SettingParse.swift; sourceTree = "<group>"; };
 		C616D6B01DAA569A001FB557 /* SettingData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingData.swift; path = Config/SettingData.swift; sourceTree = "<group>"; };
@@ -78,7 +81,6 @@
 		C63674541D818A6800B26AA5 /* PlanetData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlanetData.swift; path = Common/PlanetData.swift; sourceTree = "<group>"; };
 		C63674561D818B4F00B26AA5 /* AstroCalc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AstroCalc.swift; path = Calc/AstroCalc.swift; sourceTree = "<group>"; };
 		C63674581D81901900B26AA5 /* ConfigData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigData.swift; path = Config/ConfigData.swift; sourceTree = "<group>"; };
-		C63AFB901DBF9B2F00A80178 /* UserDbFiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserDbFiles.swift; path = Db/UserDbFiles.swift; sourceTree = "<group>"; };
 		C63AFB921DBF9B6700A80178 /* UserDbDirs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserDbDirs.swift; path = Db/UserDbDirs.swift; sourceTree = "<group>"; };
 		C67FA7B21DC78496001E293B /* UserDirView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDirView.swift; sourceTree = "<group>"; };
 		C696536F1DB9D4270015118A /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
@@ -177,7 +179,7 @@
 				C616D6BA1DAD1D98001FB557 /* AspectCalc.swift */,
 				C616D6BC1DAD223A001FB557 /* AspectInfo.swift */,
 				C63674521D7DAE4F00B26AA5 /* CommonData.swift */,
-				C60A11DA1DA7E61D00C65F68 /* ConfigXmlParse.swift */,
+				C60A11DA1DA7E61D00C65F68 /* ConfigXmlParser.swift */,
 				C63674581D81901900B26AA5 /* ConfigData.swift */,
 				C616D6B21DAA68BC001FB557 /* ConfigViewController.swift */,
 				C62735F61D99711100A5C017 /* DatabaseViewController.swift */,
@@ -191,9 +193,10 @@
 				C616D6BE1DAE76DA001FB557 /* TempSetting.swift */,
 				C616D6C01DAE77CC001FB557 /* Point.swift */,
 				C616D6B61DAB425E001FB557 /* UserData.swift */,
-				C63AFB901DBF9B2F00A80178 /* UserDbFiles.swift */,
 				C63AFB921DBF9B6700A80178 /* UserDbDirs.swift */,
 				C67FA7B21DC78496001E293B /* UserDirView.swift */,
+				C600AB211DCD93750049B6F2 /* UserXmlParser.swift */,
+				C600AB231DCDA9C20049B6F2 /* FileUtil.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				C616D6C31DAFCF98001FB557 /* NewUserViewController.swift in Sources */,
 				C6E9FDB31D4C8030008FDE6B /* GenConst.swift in Sources */,
 				C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */,
+				C600AB221DCD93750049B6F2 /* UserXmlParser.swift in Sources */,
 				C616D6B71DAB425E001FB557 /* UserData.swift in Sources */,
 				C616D6AF1DAA5684001FB557 /* SettingParse.swift in Sources */,
 				C616D6B11DAA569A001FB557 /* SettingData.swift in Sources */,
@@ -284,7 +288,7 @@
 				C63674451D71D69600B26AA5 /* TopoData.swift in Sources */,
 				C616D6B31DAA68BC001FB557 /* ConfigViewController.swift in Sources */,
 				C63674471D75DB1900B26AA5 /* MainChart.swift in Sources */,
-				C60A11DB1DA7E61D00C65F68 /* ConfigXmlParse.swift in Sources */,
+				C60A11DB1DA7E61D00C65F68 /* ConfigXmlParser.swift in Sources */,
 				C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */,
 				C6F4C3141D60ABE100108545 /* SideData.swift in Sources */,
 				C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */,
@@ -296,7 +300,6 @@
 				C616D6BB1DAD1D98001FB557 /* AspectCalc.swift in Sources */,
 				C6EAB1791D30C2FB0038C772 /* AppDelegate.swift in Sources */,
 				C62735F71D99711100A5C017 /* DatabaseViewController.swift in Sources */,
-				C63AFB911DBF9B2F00A80178 /* UserDbFiles.swift in Sources */,
 				C6FA05C21D48F7A6002F5BA3 /* PlanData.swift in Sources */,
 				C6FA05C01D48F068002F5BA3 /* SweRet.swift in Sources */,
 				C6FA05C41D4A56AA002F5BA3 /* SweDate.swift in Sources */,
@@ -312,6 +315,7 @@
 				C60997521D8840CD00D0FA1C /* Houses.swift in Sources */,
 				C62D35F51D9AB34200BAB3CE /* MenuClick.swift in Sources */,
 				C6FA05BE1D48F059002F5BA3 /* SweData.swift in Sources */,
+				C600AB241DCDA9C20049B6F2 /* FileUtil.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

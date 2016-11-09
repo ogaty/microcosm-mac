@@ -331,5 +331,18 @@ class ViewController: NSViewController {
 
     }
 
+    @IBAction func xmlTest(_ sender: AnyObject) {
+        let parser: UserXmlParser = UserXmlParser()
+        let util: FileUtil = FileUtil()
+        let document: String = util.getDocumentDir()
+        var nstxt: NSString?
+        do {
+            nstxt = try NSString(contentsOf: URL(string:document + "/microcosm/test.csm")!, encoding: String.Encoding.utf8.rawValue)
+        } catch {
+            
+        }
+        let udata: UserData = parser.XmlToUser(nstxt!)
+        parser.UserToXml(udata)
+    }
 }
 

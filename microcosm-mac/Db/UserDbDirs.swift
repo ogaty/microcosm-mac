@@ -11,11 +11,14 @@ import Cocoa
 class UserDbDirs: NSObject {
     let name:String
     let icon:NSImage?
-    var files: [UserDbFiles] = []
-    var dirs: [UserDbDirs] = []
+    var items: [UserDbDirs] = []
+    var isDir: Bool = false
+    var filePath: String
     
-    init (name:String,icon:NSImage?){
+    init (name:String,icon:NSImage?,isDir:Bool, filePath: String){
         self.name = name
         self.icon = icon
+        self.isDir = isDir
+        self.filePath = filePath
     }
 }

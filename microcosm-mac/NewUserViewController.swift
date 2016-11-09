@@ -24,6 +24,7 @@ class NewUserViewController: NSViewController {
     @IBOutlet weak var fileName: NSTextField!
 
     var main: ViewController = ViewController()
+    var vc: DatabaseViewController? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
@@ -31,6 +32,7 @@ class NewUserViewController: NSViewController {
     
     @IBAction func SubmitClicked(_ sender: AnyObject) {
         let udata: UserData = UserData()
+        udata.fileName = fileName.stringValue
         udata.name = name.stringValue
         udata.furigana = furigana.stringValue
         udata.birth_year = (Int)(Year.stringValue)!
@@ -45,7 +47,8 @@ class NewUserViewController: NSViewController {
         udata.timezone = "JST"
         udata.memo = Memo.stringValue
         let fName: String = fileName.stringValue
-        self.main.updateUserData(udata: udata, fileName: fName)
+//        self.main.updateUserData(udata: udata, fileName: fName)
+        self.vc?.createUser(udata: udata, fileName: fName)
         dismissViewController(self)
     }
 }

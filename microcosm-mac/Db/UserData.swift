@@ -9,6 +9,7 @@
 import Cocoa
 
 class UserData: NSObject {
+    var fileName: String = "newuser.mcsm"
     var name: String = "名称未設定"
     var furigana: String = ""
     
