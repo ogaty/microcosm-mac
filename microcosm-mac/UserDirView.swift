@@ -56,7 +56,11 @@ class UserDirView: NSView {
     }
     
     func updateSelected(sender: AnyObject) {
-        NSLog("updateSelected")
+        let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
+        let editUserVC : EditUserViewController = (storyboard.instantiateController(withIdentifier: "editUserWindow") as? EditUserViewController)!
+        editUserVC.vc = window?.contentViewController as? DatabaseViewController
+        window?.contentViewController?.presentViewControllerAsModalWindow(editUserVC)
+
     }
     
     func deleteSelected(sender: AnyObject) {
