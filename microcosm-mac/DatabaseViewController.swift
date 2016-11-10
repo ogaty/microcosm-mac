@@ -10,9 +10,12 @@ import Cocoa
 
 class DatabaseViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate  {
 
+    @IBOutlet var udirView: UserDirView!
     @IBOutlet weak var detail: NSScrollView!
     @IBOutlet weak var userFileList: NSOutlineView!
     var dir: UserDbDirs = UserDbDirs(name: "data", icon: nil, isDir: true, filePath: "")
+    var main: ViewController? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
@@ -119,17 +122,6 @@ class DatabaseViewController: NSViewController, NSOutlineViewDataSource, NSOutli
 //            dir.items.append(UserDbDirs(name: udata.fileName, icon: nil, isDir: false, filePath: (createPath + "/" + fileName + ".csm")))
             reload()
         }
-/*
-        let save : NSSavePanel = NSSavePanel()
-        save.canCreateDirectories = true
-        save.nameFieldStringValue = "newuser.csm"
-        save.beginSheetModal(for: NSApplication.shared().mainWindow!, completionHandler: {(result) in
-            if (result == NSModalResponseOK) {
-                let url = save.url
-                NSLog((url?.absoluteString)!)
-            }
-        })
-*/
     }
     
     func reload() -> Void {
@@ -137,4 +129,17 @@ class DatabaseViewController: NSViewController, NSOutlineViewDataSource, NSOutli
         createDirectoryNode("", tmpDir: dir)
         userFileList.reloadData()
     }
+    
+    @IBAction func submitClick(_ sender: AnyObject) {
+        if (udirView.selectedUser != nil) {
+            let xmlParse: UserXmlParser = UserXmlParser()
+            let udata: UserData = xmlParse.FileToUser((udirView.selectedUser?.filePath)!)!
+            udata.fullPath = (udirView.selectedUser?.filePath)!
+            let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
+            main?.setUserData(udata)
+            dismissViewController(self)
+        }
+
+    }
+    
 }

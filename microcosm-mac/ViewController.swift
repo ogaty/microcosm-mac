@@ -251,10 +251,10 @@ class ViewController: NSViewController {
         sixthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[6]))
         seventhCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[7]))
         eighthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[8]))
-        ninthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[8]))
-        tenthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[9]))
-        eleventhCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[10]))
-        twelvethCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[11]))
+        ninthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[9]))
+        tenthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[10]))
+        eleventhCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[11]))
+        twelvethCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[12]))
         
         // ユーザーボックス
         userNameLbl.stringValue = udata.name
@@ -267,7 +267,7 @@ class ViewController: NSViewController {
         userLngLbl.stringValue = ""
         
         
-        let rect2: NSRect = NSMakeRect(250, 20, 400, 400);
+        let rect2: NSRect = NSMakeRect(340, 20, 400, 400);
 
         mainchartData = MainChart(frame: rect2, configinfo: config, cuspsinfo: cusps, planetList: plist, tempSetting: tmpSetting)
         self.view.addSubview(mainchartData)
@@ -286,22 +286,15 @@ class ViewController: NSViewController {
         mainchartData.removeFromSuperview()
     }
     
-    func setUserData(userdata: UserData) {
+    func setUserData(_ userdata: UserData) {
         udata = userdata
         ClearView()
         ReCalc()
         ReRender()
     }
     
-    func newUser() {
-        let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateController(withIdentifier: "newUserWindow") as? NewUserViewController
-        vc?.main = self
-        self.presentViewControllerAsModalWindow(vc!)
-    }
-    
     func updateUserData(udata: UserData, fileName: String) {
-        setUserData(userdata: udata)
+        setUserData(udata)
 
         let datafileManager = FileManager.default
         let documents = NSSearchPathForDirectoriesInDomains(
@@ -330,7 +323,7 @@ class ViewController: NSViewController {
         }
 
     }
-
+    
     @IBAction func xmlTest(_ sender: AnyObject) {
         let parser: UserXmlParser = UserXmlParser()
         let util: FileUtil = FileUtil()

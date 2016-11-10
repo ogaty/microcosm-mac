@@ -56,7 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
                 if let window = NSApplication.shared().mainWindow {
                     let mainview: ViewController = (window.contentViewController as? ViewController)!
-                    mainview.setUserData(userdata: udata)
+                    mainview.setUserData(udata)
                 }
 
             }
@@ -64,6 +64,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     }
 
+    @IBAction func openDatabase(_ sender: AnyObject) {
+        let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
+        let dbvc: DatabaseViewController = storyboard.instantiateController(withIdentifier: "dbViewController") as! DatabaseViewController
+        if let window = NSApplication.shared().mainWindow {
+            dbvc.main = (window.contentViewController as? ViewController)!
+
+            window.contentViewController?.presentViewControllerAsModalWindow(dbvc)
+        }
+    }
 
 }
 
