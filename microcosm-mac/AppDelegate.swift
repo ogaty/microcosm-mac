@@ -64,12 +64,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     }
 
-    @IBAction func NewUserClick(_ sender: AnyObject) {
-        if let window = NSApplication.shared().mainWindow {
-            let mainview: ViewController = (window.contentViewController as? ViewController)!
-            mainview.newUser()
-        }
-    }
 
 }
 

@@ -21,12 +21,6 @@
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="新規追加" id="P8d-Gr-hJe">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="NewUserClick:" target="Voe-Tx-rLC" id="sIC-rr-HDm"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="開く" id="e99-0Y-2qI" userLabel="開く">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -1094,6 +1088,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="submitClicked:" target="yR2-4c-k4H" id="oUF-BB-mOt"/>
+                                </connections>
                             </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HdH-hi-8hy">
                                 <rect key="frame" x="121" y="258" width="144" height="22"/>
@@ -1151,6 +1148,21 @@
                             </textField>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="birth_day" destination="g35-SH-G3I" id="Az6-LH-UgS"/>
+                        <outlet property="birth_hour" destination="3DQ-AK-YWm" id="rdM-ne-0am"/>
+                        <outlet property="birth_minute" destination="BsF-8h-r2N" id="f4R-hY-yZz"/>
+                        <outlet property="birth_month" destination="zoe-Gh-6J2" id="Ul3-l5-QBL"/>
+                        <outlet property="birth_place" destination="lfY-mt-de5" id="Piv-6W-YTU"/>
+                        <outlet property="birth_second" destination="lAa-iG-oWU" id="4Uv-cl-pO0"/>
+                        <outlet property="birth_year" destination="bW9-uu-HaV" id="ZiU-mq-faX"/>
+                        <outlet property="furigana" destination="hGZ-G1-smU" id="rzh-gy-eUM"/>
+                        <outlet property="lat" destination="IUO-3t-8F2" id="abd-vn-yqK"/>
+                        <outlet property="lng" destination="dua-Ij-Taz" id="ywg-eu-XW6"/>
+                        <outlet property="memo" destination="2GV-lB-aT0" id="enb-fl-sIr"/>
+                        <outlet property="timezone" destination="TbO-lX-opK" id="QuE-uF-D6n"/>
+                        <outlet property="username" destination="HdH-hi-8hy" id="Rof-Hu-xPB"/>
+                    </connections>
                 </viewController>
                 <customObject id="Z0m-HE-Sha" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

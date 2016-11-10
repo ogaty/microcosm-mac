@@ -31,8 +31,15 @@ class NewUserViewController: NSViewController {
     }
     
     @IBAction func SubmitClicked(_ sender: AnyObject) {
+        let documents = NSSearchPathForDirectoriesInDomains(
+            .documentDirectory,
+            .userDomainMask, true)[0]
+        let directoryName = "microcosm"
+        let createPath = documents + "/" + directoryName + "/data"
+
         let udata: UserData = UserData()
         udata.fileName = fileName.stringValue
+        udata.fullPath = createPath + "/" + fileName.stringValue
         udata.name = name.stringValue
         udata.furigana = furigana.stringValue
         udata.birth_year = (Int)(Year.stringValue)!

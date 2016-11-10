@@ -43,7 +43,6 @@ class UserXmlParser: NSObject {
     func XmlToUser(_ xml: NSString) -> UserData {
         let udata: UserData = UserData()
         var inUserData: Bool = false
-        var newLine: [String] = []
         
         xml.enumerateLines {
             line, stop in
@@ -116,7 +115,6 @@ class UserXmlParser: NSObject {
                 tmpLine = line
             }
 //            NSLog(tmpLine)
-            newLine.append(tmpLine)
         }
         return udata
     }
@@ -187,6 +185,93 @@ class UserXmlParser: NSObject {
         ret += "\n"
         
         return ret
+    }
+
+    func FileToUser(_ filePath: String) -> UserData? {
+        let udata: UserData = UserData()
+        var inUserData: Bool = false
+        let url: NSURL = NSURL(fileURLWithPath: filePath)
+        var text: NSString
+        do {
+            text = try NSString(contentsOf: url as URL, encoding: String.Encoding.utf8.rawValue)
+        } catch let error as NSError {
+            NSLog(error.localizedDescription)
+            return nil
+        }
+        
+        text.enumerateLines {
+            line, stop in
+            var tmpLine : String = ""
+            if (line == self.xmlhead) {
+                tmpLine = line.replacingOccurrences(of: self.xmlhead, with: "")
+            } else if (line.contains(self.xmltop)) {
+                inUserData = true
+                tmpLine = line.replacingOccurrences(of: self.xmltop, with: "")
+            } else if (line.contains(self.xmlend)) {
+                inUserData = false
+                tmpLine = line.replacingOccurrences(of: self.xmlend, with: "")
+            } else if (line.contains(self.usernameStart)) {
+                tmpLine = line.replacingOccurrences(of: self.usernameStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.usernameEnd, with: "")
+                udata.name = tmpLine
+            } else if (line.contains(self.userfuriganaStart)) {
+                tmpLine = line.replacingOccurrences(of: self.userfuriganaStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.userfuriganaEnd, with: "")
+                udata.furigana = tmpLine
+            } else if (line.contains(self.userbirthyearStart)) {
+                tmpLine = line.replacingOccurrences(of: self.userbirthyearStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.userbirthyearEnd, with: "")
+                udata.birth_year = (Int)(tmpLine)!
+            } else if (line.contains(self.userbirthmonthStart)) {
+                tmpLine = line.replacingOccurrences(of: self.userbirthmonthStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.userbirthmonthEnd, with: "")
+                udata.birth_month = (Int)(tmpLine)!
+            } else if (line.contains(self.userbirthdayStart)) {
+                tmpLine = line.replacingOccurrences(of: self.userbirthdayStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.userbirthdayEnd, with: "")
+                udata.birth_day = (Int)(tmpLine)!
+            } else if (line.contains(self.userbirthhourStart)) {
+                tmpLine = line.replacingOccurrences(of: self.userbirthhourStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.userbirthhourEnd, with: "")
+                udata.birth_hour = (Int)(tmpLine)!
+            } else if (line.contains(self.userbirthminuteStart)) {
+                tmpLine = line.replacingOccurrences(of: self.userbirthminuteStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.userbirthminuteEnd, with: "")
+                udata.birth_minute = (Int)(tmpLine)!
+            } else if (line.contains(self.userbirthsecondStart)) {
+                tmpLine = line.replacingOccurrences(of: self.userbirthsecondStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.userbirthsecondEnd, with: "")
+                udata.birth_second = (Double)(tmpLine)!
+            } else if (line.contains(self.userlatStart)) {
+                tmpLine = line.replacingOccurrences(of: self.userlatStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.userlatEnd, with: "")
+                udata.lat = (Double)(tmpLine)!
+            } else if (line.contains(self.userlngStart)) {
+                tmpLine = line.replacingOccurrences(of: self.userlngStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.userlngEnd, with: "")
+                udata.lng = (Double)(tmpLine)!
+            } else if (line.contains(self.userbirthplaceStart)) {
+                tmpLine = line.replacingOccurrences(of: self.userbirthplaceStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.userbirthplaceEnd, with: "")
+                udata.birth_place = tmpLine
+            } else if (line.contains(self.usermemo)) {
+                tmpLine = line
+                tmpLine = line.replacingOccurrences(of: self.usermemo, with: "")
+                udata.memo = ""
+            } else if (line.contains(self.usermemoStart)) {
+                tmpLine = line.replacingOccurrences(of: self.usermemoStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.usermemoEnd, with: "")
+                udata.memo = tmpLine
+            } else if (line.contains(self.usertimezoneStart)) {
+                tmpLine = line.replacingOccurrences(of: self.usertimezoneStart, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.usertimezoneEnd, with: "")
+                udata.timezone = tmpLine
+            } else {
+                tmpLine = line
+            }
+            //            NSLog(tmpLine)
+        }
+        return udata
     }
     
     func trim(text: String) -> String {

@@ -89,7 +89,7 @@ class DatabaseViewController: NSViewController, NSOutlineViewDataSource, NSOutli
         }
 
         array.forEach {
-            if ($0.contains(".mcsm")) {
+            if ($0.contains(".csm")) {
                 tmpDir.items.append(UserDbDirs(name: $0, icon: nil, isDir: false, filePath: path + "/" + $0))
             } else if (FileManager.default.fileExists(atPath: path + "/" + $0, isDirectory:&isDir )) {
                 if (isDir.boolValue && $0 != ".DS_Store") {
@@ -110,28 +110,19 @@ class DatabaseViewController: NSViewController, NSOutlineViewDataSource, NSOutli
         var isDir : ObjCBool = false
         
         if (!datafileManager.fileExists(atPath: (createPath + "/" + fileName), isDirectory: &isDir)) {
-            var str: String = "name:" + (String)(udata.name) + "\n"
-            str += "furigana:" + (String)(udata.furigana) + "\n"
-            str += "birth_year:" + (String)(udata.birth_year) + "\n"
-            str += "birth_month:" + (String)(udata.birth_month) + "\n"
-            str += "birth_day:" + (String)(udata.birth_day) + "\n"
-            str += "birth_hour:" + (String)(udata.birth_hour) + "\n"
-            str += "birth_minute:" + (String)(udata.birth_minute) + "\n"
-            str += "birth_second:" + (String)(udata.birth_second) + "\n"
-            str += "lat:" + (String)(udata.lat) + "\n"
-            str += "lng:" + (String)(udata.lng) + "\n"
-            str += "birth_place:" + udata.birth_place + "\n"
-            str += "memo:" + udata.memo + "\n"
-            str += "timezone:JST(日本標準)" + "\n"
+            let xmlParser: UserXmlParser = UserXmlParser()
+            let str: String = xmlParser.UserToXml(udata)
             
-            FileManager.default.createFile(atPath: (createPath + "/" + fileName + ".mcsm"), contents: str.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)))
-//            dir.items.append(UserDbDirs(name: udata.fileName, icon: nil, isDir: false, filePath: (createPath + "/" + fileName + ".mcsm")))
+            FileManager.default.createFile(atPath: (createPath + "/" + (udata.fileName) + ".csm"), contents: str.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)))
+
+            FileManager.default.createFile(atPath: (createPath + "/" + fileName + ".csm"), contents: str.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)))
+//            dir.items.append(UserDbDirs(name: udata.fileName, icon: nil, isDir: false, filePath: (createPath + "/" + fileName + ".csm")))
             reload()
         }
 /*
         let save : NSSavePanel = NSSavePanel()
         save.canCreateDirectories = true
-        save.nameFieldStringValue = "newuser.mcsm"
+        save.nameFieldStringValue = "newuser.csm"
         save.beginSheetModal(for: NSApplication.shared().mainWindow!, completionHandler: {(result) in
             if (result == NSModalResponseOK) {
                 let url = save.url

@@ -29,7 +29,13 @@ class UserDirView: NSView {
             case let userdata as UserDbDirs:
                 selectedUser = userdata
                 if (!userdata.isDir) {
-                    detail.string = userdata.name
+                    let xmlParse: UserXmlParser = UserXmlParser()
+                    let udata: UserData = xmlParse.FileToUser((selectedUser?.filePath)!)!
+                    detail.string = udata.name + "\n" + udata.birth_year.description + "/"
+                        + udata.birth_month.description + "/" + udata.birth_day.description + " "
+                        + udata.birth_hour.description + ":" + udata.birth_minute.description + ":"
+                        + ((Int)(udata.birth_second).description)
+
                 } else {
                     detail.string = ""
                 }
@@ -56,11 +62,16 @@ class UserDirView: NSView {
     }
     
     func updateSelected(sender: AnyObject) {
-        let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
-        let editUserVC : EditUserViewController = (storyboard.instantiateController(withIdentifier: "editUserWindow") as? EditUserViewController)!
-        editUserVC.vc = window?.contentViewController as? DatabaseViewController
-        window?.contentViewController?.presentViewControllerAsModalWindow(editUserVC)
-
+        if (selectedUser != nil) {
+            let xmlParse: UserXmlParser = UserXmlParser()
+            let udata: UserData = xmlParse.FileToUser((selectedUser?.filePath)!)!
+            udata.fullPath = (selectedUser?.filePath)!
+            let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
+            let editUserVC : EditUserViewController = (storyboard.instantiateController(withIdentifier: "editUserWindow") as? EditUserViewController)!
+            editUserVC.vc = window?.contentViewController as? DatabaseViewController
+            editUserVC.udata = udata
+            window?.contentViewController?.presentViewControllerAsModalWindow(editUserVC)
+        }
     }
     
     func deleteSelected(sender: AnyObject) {
