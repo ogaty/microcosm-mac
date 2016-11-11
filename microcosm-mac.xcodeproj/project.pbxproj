@@ -181,7 +181,6 @@
 				C616D6BA1DAD1D98001FB557 /* AspectCalc.swift */,
 				C616D6BC1DAD223A001FB557 /* AspectInfo.swift */,
 				C63674521D7DAE4F00B26AA5 /* CommonData.swift */,
-				C60A11DA1DA7E61D00C65F68 /* ConfigXmlParser.swift */,
 				C63674581D81901900B26AA5 /* ConfigData.swift */,
 				C616D6B21DAA68BC001FB557 /* ConfigViewController.swift */,
 				C62735F61D99711100A5C017 /* DatabaseViewController.swift */,
@@ -198,6 +197,7 @@
 				C616D6B61DAB425E001FB557 /* UserData.swift */,
 				C63AFB921DBF9B6700A80178 /* UserDbDirs.swift */,
 				C67FA7B21DC78496001E293B /* UserDirView.swift */,
+				C60A11DA1DA7E61D00C65F68 /* ConfigXmlParser.swift */,
 				C600AB211DCD93750049B6F2 /* UserXmlParser.swift */,
 				C600AB231DCDA9C20049B6F2 /* FileUtil.swift */,
 			);

@@ -45,11 +45,12 @@ class ViewController: NSViewController {
     var udata: UserData = UserData()
     var setting: [SettingData?] = []
     var tmpSetting: TempSetting = TempSetting()
-    let config: ConfigData = ConfigData()
+    var config: ConfigData = ConfigData()
     var ephepath: String = ""
     var plist: [PlanetData] = []
     var cusps: [Double] = []
     let aspect: AspectCalc = AspectCalc()
+    let common: CommonData = CommonData()
     
     class func loadFromNib() -> ViewController {
         let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
@@ -68,7 +69,7 @@ class ViewController: NSViewController {
 //        let fileManager = FileManager.default
         let directoryName = "microcosm"  // 作成するディレクトリ名
         let createPath = documents + "/" + directoryName + "/system"    // 作成するディレクトリ名を含んだフルパス
-        let configName: String = "config.mcsm"
+        let configName: String = "config.csm"
         
         let fileManager = FileManager.default
         var isDir : ObjCBool = false
@@ -83,69 +84,9 @@ class ViewController: NSViewController {
                     
                 do {
                     let text2 = try NSString(contentsOf: configPath!, encoding: String.Encoding.utf8.rawValue)
-                    text2.enumerateLines{
-                        line, stop in
-                        var arr = line.components(separatedBy: ":")
-                        switch(arr[0]) {
-                        case "ephepath":
-                            self.ephepath = arr[1]
-                            break
-                        case "centric":
-                            self.config.centric = arr[1]
-                            break
-                        case "sidereal":
-                            self.config.sidereal = arr[1]
-                            break
-                        case "defaultPlace":
-                            self.config.defaultPlace = arr[1]
-                            break
-                        case "lat":
-                            self.config.lat = (Double)(arr[1])!
-                            break
-                        case "lng":
-                            self.config.lng = (Double)(arr[1])!
-                            break
-                        case "defaultTimezone":
-                            self.config.defaultTimezone = arr[1]
-                            break
-                        case "progression":
-                            self.config.progression = arr[1]
-                            break
-                        case "defaultbands":
-                            self.config.defaultBands = (Int)(arr[1])!
-                            break
-                        case "house":
-                            self.config.houseCalc = arr[1]
-                            break
-                        case "zodiacOuterWidth":
-                            self.config.zodiacOuterWidth = (Int)(arr[1])!
-                            break
-                        case "zodiacWidth":
-                            self.config.zodiacWidth = (Int)(arr[1])!
-                            break
-                        case "zodiacCenter":
-                            self.config.zodiacCenter = (Int)(arr[1])!
-                            break
-                        case "decimalDisp":
-                            self.config.decimalDisp = arr[1]
-                            break
-                        case "dispPattern":
-                            self.config.dispPattern = (Int)(arr[1])!
-                            break
-
-                        default:
-                            break
-                        }
-                    }
+                    let configParser = ConfigXmlParser()
+                    config = configParser.XmlToUser(text2)
                     
-                    //                    let data = text2.data(using: String.Encoding.utf8.rawValue)
-
-//                    let xmlParser = XMLParser(data: data!)
-//                    xmlParser.delegate = configXmlParse()
-//                    xmlParser.parse()
-
-//                    NSLog((String)(text2))
-
                     // settingファイル
                     for i in 0..<10 {
                         self.setting.append(settingParse.getSetting(no: i))
@@ -229,32 +170,30 @@ class ViewController: NSViewController {
             houseCalc = 0
         }
 
-        let config: ConfigData = ConfigData()
-
-        sunPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[0].absolute_position))
-        moonPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[1].absolute_position))
-        mercuryPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[2].absolute_position))
-        venusPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[3].absolute_position))
-        marsPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[4].absolute_position))
-        jupiterPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[5].absolute_position))
-        saturnPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[6].absolute_position))
-        uranusPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[7].absolute_position))
-        neptunePositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[8].absolute_position))
-        plutoPositionLabel.stringValue = (String)(NSString(format: "%.3f", self.plist[9].absolute_position))
+        sunPositionLabel.stringValue = common.getSignText(self.plist[0].absolute_position) + (String)(NSString(format: "%.3f", self.plist[0].absolute_position.truncatingRemainder(dividingBy: 30)))
+        moonPositionLabel.stringValue = common.getSignText(self.plist[1].absolute_position) + (String)(NSString(format: "%.3f", self.plist[1].absolute_position.truncatingRemainder(dividingBy: 30)))
+        mercuryPositionLabel.stringValue = common.getSignText(self.plist[2].absolute_position) + (String)(NSString(format: "%.3f", self.plist[2].absolute_position.truncatingRemainder(dividingBy: 30)))
+        venusPositionLabel.stringValue = common.getSignText(self.plist[3].absolute_position) + (String)(NSString(format: "%.3f", self.plist[3].absolute_position.truncatingRemainder(dividingBy: 30)))
+        marsPositionLabel.stringValue = common.getSignText(self.plist[4].absolute_position) + (String)(NSString(format: "%.3f", self.plist[4].absolute_position.truncatingRemainder(dividingBy: 30)))
+        jupiterPositionLabel.stringValue = common.getSignText(self.plist[5].absolute_position) + (String)(NSString(format: "%.3f", self.plist[5].absolute_position.truncatingRemainder(dividingBy: 30)))
+        saturnPositionLabel.stringValue = common.getSignText(self.plist[6].absolute_position) + (String)(NSString(format: "%.3f", self.plist[6].absolute_position.truncatingRemainder(dividingBy: 30)))
+        uranusPositionLabel.stringValue = common.getSignText(self.plist[7].absolute_position) + (String)(NSString(format: "%.3f", self.plist[7].absolute_position.truncatingRemainder(dividingBy: 30)))
+        neptunePositionLabel.stringValue = common.getSignText(self.plist[8].absolute_position) + (String)(NSString(format: "%.3f", self.plist[8].absolute_position.truncatingRemainder(dividingBy: 30)))
+        plutoPositionLabel.stringValue = common.getSignText(self.plist[9].absolute_position) + (String)(NSString(format: "%.3f", self.plist[9].absolute_position.truncatingRemainder(dividingBy: 30)))
         
         
-        firstCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[1]))
-        secondCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[2]))
-        thirdCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[3]))
-        fourthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[4]))
-        fifthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[5]))
-        sixthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[6]))
-        seventhCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[7]))
-        eighthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[8]))
-        ninthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[9]))
-        tenthCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[10]))
-        eleventhCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[11]))
-        twelvethCuspLabel.stringValue = (String)(NSString(format: "%.3f", self.cusps[12]))
+        firstCuspLabel.stringValue = common.getSignText(self.cusps[0]) +  (String)(NSString(format: "%.3f", self.cusps[1].truncatingRemainder(dividingBy: 30)))
+        secondCuspLabel.stringValue = common.getSignText(self.cusps[1]) +  (String)(NSString(format: "%.3f", self.cusps[2].truncatingRemainder(dividingBy: 30)))
+        thirdCuspLabel.stringValue = common.getSignText(self.cusps[2]) +  (String)(NSString(format: "%.3f", self.cusps[3].truncatingRemainder(dividingBy: 30)))
+        fourthCuspLabel.stringValue = common.getSignText(self.cusps[3]) +  (String)(NSString(format: "%.3f", self.cusps[4].truncatingRemainder(dividingBy: 30)))
+        fifthCuspLabel.stringValue = common.getSignText(self.cusps[4]) +  (String)(NSString(format: "%.3f", self.cusps[5].truncatingRemainder(dividingBy: 30)))
+        sixthCuspLabel.stringValue = common.getSignText(self.cusps[5]) +  (String)(NSString(format: "%.3f", self.cusps[6].truncatingRemainder(dividingBy: 30)))
+        seventhCuspLabel.stringValue = common.getSignText(self.cusps[6]) +  (String)(NSString(format: "%.3f", self.cusps[7].truncatingRemainder(dividingBy: 30)))
+        eighthCuspLabel.stringValue = common.getSignText(self.cusps[7]) +  (String)(NSString(format: "%.3f", self.cusps[8].truncatingRemainder(dividingBy: 30)))
+        ninthCuspLabel.stringValue = common.getSignText(self.cusps[8]) +  (String)(NSString(format: "%.3f", self.cusps[9].truncatingRemainder(dividingBy: 30)))
+        tenthCuspLabel.stringValue = common.getSignText(self.cusps[9]) +  (String)(NSString(format: "%.3f", self.cusps[10].truncatingRemainder(dividingBy: 30)))
+        eleventhCuspLabel.stringValue = common.getSignText(self.cusps[10]) +  (String)(NSString(format: "%.3f", self.cusps[11].truncatingRemainder(dividingBy: 30)))
+        twelvethCuspLabel.stringValue = common.getSignText(self.cusps[11]) +  (String)(NSString(format: "%.3f", self.cusps[12].truncatingRemainder(dividingBy: 30)))
         
         // ユーザーボックス
         userNameLbl.stringValue = udata.name
@@ -267,8 +206,8 @@ class ViewController: NSViewController {
         userLngLbl.stringValue = ""
         
         
+        // メインチャート表示
         let rect2: NSRect = NSMakeRect(340, 20, 400, 400);
-
         mainchartData = MainChart(frame: rect2, configinfo: config, cuspsinfo: cusps, planetList: plist, tempSetting: tmpSetting)
         self.view.addSubview(mainchartData)
 
