@@ -78,14 +78,16 @@ class ViewController: NSViewController {
                 // configファイル
                 let configPath = NSURL(fileURLWithPath: createPath).appendingPathComponent(configName)
                 if (!fileManager.fileExists(atPath: (createPath + "/" + configName), isDirectory: &isDir)) {
-                    let str: NSString = "ephepath:ephe\ncentric:GEO_CENTRIC\nsidereal:TROPICAL\ndefaultPlace:東京都中央区\nlat:35.670587\nlng:139.772003\ndefaultTimezone:JST\nprogression:PRIMARY\ndefaultbands:1\nhouse:PLACIDUS\nzodiacOuterWidth:340\nzodiacWidth:60\nzodiacCenter:90\ndecimalDisp:DECIMAL\ndispPattern:0"
+                    let parser: ConfigXmlParser = ConfigXmlParser()
+                    
+                    let str: NSString = parser.NewConfig()
                     FileManager.default.createFile(atPath: (createPath + "/" + configName), contents: str.data(using: String.Encoding.utf8.rawValue))
                 }
                     
                 do {
                     let text2 = try NSString(contentsOf: configPath!, encoding: String.Encoding.utf8.rawValue)
                     let configParser = ConfigXmlParser()
-                    config = configParser.XmlToUser(text2)
+                    config = configParser.XmlToConfig(text2)
                     
                     // settingファイル
                     for i in 0..<10 {

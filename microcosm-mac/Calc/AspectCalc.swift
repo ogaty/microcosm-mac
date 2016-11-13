@@ -55,39 +55,39 @@ class AspectCalc: NSObject {
                             k == 3 || // SQUARE
                             k == 4  // SEXTILE
                             ) {
-                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.SUN_SOFT_1ST]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.SUN_SOFT_1ST]!)
                             {
-                                softHard = 0
+                                softHard = common.ORB_SOFT
                             }
-                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.SUN_HARD_1ST]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.SUN_HARD_1ST]!)
                             {
-                                softHard = 1
+                                softHard = common.ORB_HARD
                             }
                         } else if ( k == 5 || // INCONJUNCT
                                     k == 6 // SESQUIQUADRATE
                                     ) {
-                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.SUN_SOFT_150]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.SUN_SOFT_150]!)
                             {
-                                softHard = 0
+                                softHard = common.ORB_SOFT
                             }
-                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.SUN_HARD_150]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.SUN_HARD_150]!)
                             {
-                                softHard = 1
+                                softHard = common.ORB_HARD
                             }
                         } else {
-                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.SUN_SOFT_2ND]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.SUN_SOFT_2ND]!)
                             {
-                                softHard = 0
+                                softHard = common.ORB_SOFT
                             }
-                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.SUN_HARD_2ND]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.SUN_HARD_2ND]!)
                             {
-                                softHard = 1
+                                softHard = common.ORB_HARD
                             }
                         }
                         if (softHard >= 0) {
@@ -111,39 +111,39 @@ class AspectCalc: NSObject {
                             k == 3 || // SQUARE
                             k == 4  // SEXTILE
                             ) {
-                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.MOON_SOFT_1ST]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.MOON_SOFT_1ST]!)
                             {
-                                softHard = 0
+                                softHard = common.ORB_SOFT
                             }
-                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.MOON_HARD_1ST]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.MOON_HARD_1ST]!)
                             {
-                                softHard = 1
+                                softHard = common.ORB_HARD
                             }
                         } else if ( k == 5 || // INCONJUNCT
                             k == 6 // SESQUIQUADRATE
                             ) {
-                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.MOON_SOFT_150]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.MOON_SOFT_150]!)
                             {
-                                softHard = 0
+                                softHard = common.ORB_SOFT
                             }
-                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.MOON_HARD_150]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.MOON_HARD_150]!)
                             {
-                                softHard = 1
+                                softHard = common.ORB_HARD
                             }
                         } else {
-                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.MOON_SOFT_2ND]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.MOON_SOFT_2ND]!)
                             {
-                                softHard = 0
+                                softHard = common.ORB_SOFT
                             }
-                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.MOON_SOFT_150]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.MOON_SOFT_150]!)
                             {
-                                softHard = 1
+                                softHard = common.ORB_HARD
                             }
                         }
                         if (softHard >= 0) {
@@ -165,37 +165,37 @@ class AspectCalc: NSObject {
                             k == 3 || // SQUARE
                             k == 4  // SEXTILE
                             ) {
-                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.OTHER_SOFT_1ST]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.OTHER_SOFT_1ST]!)
                             {
                                 softHard = 0
                             }
-                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.OTHER_HARD_1ST]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.OTHER_HARD_1ST]!)
                             {
                                 softHard = 1
                             }
                         } else if ( k == 5 || // INCONJUNCT
                             k == 6 // SESQUIQUADRATE
                             ) {
-                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.OTHER_SOFT_150]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.OTHER_SOFT_150]!)
                             {
                                 softHard = 0
                             }
-                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.OTHER_HARD_150]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.OTHER_HARD_150]!)
                             {
                                 softHard = 1
                             }
                         } else {
-                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.OTHER_SOFT_2ND]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.OTHER_SOFT_2ND]!)
                             {
                                 softHard = 0
                             }
-                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][0]! &&
-                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][0]!)
+                            else if (aspect_degree < getDegree(kind: k) + a_setting.orbs[0][common.OTHER_HARD_2ND]! &&
+                                aspect_degree > getDegree(kind: k) - a_setting.orbs[0][common.OTHER_HARD_2ND]!)
                             {
                                 softHard = 1
                             }

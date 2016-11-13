@@ -44,7 +44,7 @@ class ConfigXmlParser: NSObject {
     let dispPatternStart: String = "  <dispPattern>"
     let dispPatternEnd: String = "</dispPattern>"
     
-    func XmlToUser(_ xml: NSString) -> ConfigData {
+    func XmlToConfig(_ xml: NSString) -> ConfigData {
         let config: ConfigData = ConfigData()
         var inUserData: Bool = false
         
@@ -124,4 +124,80 @@ class ConfigXmlParser: NSObject {
         
         return config
     }
+
+    func NewConfig() -> NSString {
+        var ret: String = ""
+        ret += xmltop
+        ret += "\n"
+        ret += xmlhead
+        ret += "\n"
+
+        ret += ephepathStart
+        ret += ""
+        ret += ephepathEnd
+        ret += "\n"
+        ret += centricStart
+        ret += "GEO_CENTRIC"
+        ret += centricEnd
+        ret += "\n"
+        ret += siderealStart
+        ret += "TROPICAL"
+        ret += siderealEnd
+        ret += "\n"
+        ret += placeStart
+        ret += "東京都千代田区"
+        ret += placeEnd
+        ret += "\n"
+        ret += latStart
+        ret += "35.670587"
+        ret += latEnd
+        ret += "\n"
+        ret += lngStart
+        ret += "139.772003"
+        ret += lngEnd
+        ret += "\n"
+        ret += timezoneStart
+        ret += "JST(日本標準)"
+        ret += timezoneEnd
+        ret += "\n"
+        ret += progressionStart
+        ret += "PRIMARY"
+        ret += progressionEnd
+        ret += "\n"
+        ret += bandsStart
+        ret += "1"
+        ret += bandsEnd
+        ret += "\n"
+        ret += houseStart
+        ret += "PLACIDUS"
+        ret += houseEnd
+        ret += "\n"
+        ret += zodiacOuterWidthStart
+        ret += "340"
+        ret += zodiacOuterWidthEnd
+        ret += "\n"
+        ret += zodiacWidthStart
+        ret += "60"
+        ret += zodiacWidthEnd
+        ret += "\n"
+        ret += zodiacCenterStart
+        ret += "90"
+        ret += zodiacCenterEnd
+        ret += "\n"
+        ret += decimalDispStart
+        ret += "DECIMAL"
+        ret += decimalDispEnd
+        ret += "\n"
+        ret += dispPatternStart
+        ret += "0"
+        ret += dispPatternEnd
+        ret += "\n"
+        
+        ret += xmlend
+        ret += "\n"
+        
+        return ret as NSString
+    }
+
+
 }

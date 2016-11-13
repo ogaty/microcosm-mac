@@ -46,6 +46,28 @@ class CommonData: NSObject {
     let SIGN_CAPRICORN :Int = 9;
     let SIGN_AQUARIUS :Int = 10;
     let SIGN_PISCES :Int = 11;
+    
+    let SUN_HARD_1ST: Int = 0
+    let SUN_SOFT_1ST: Int = 1
+    let SUN_HARD_2ND: Int = 2
+    let SUN_SOFT_2ND: Int = 3
+    let SUN_HARD_150: Int = 4
+    let SUN_SOFT_150: Int = 5
+    let MOON_HARD_1ST: Int = 6
+    let MOON_SOFT_1ST: Int = 7
+    let MOON_HARD_2ND: Int = 8
+    let MOON_SOFT_2ND: Int = 9
+    let MOON_HARD_150: Int = 10
+    let MOON_SOFT_150: Int = 11
+    let OTHER_HARD_1ST: Int = 12
+    let OTHER_SOFT_1ST: Int = 13
+    let OTHER_HARD_2ND: Int = 14
+    let OTHER_SOFT_2ND: Int = 15
+    let OTHER_HARD_150: Int = 16
+    let OTHER_SOFT_150: Int = 17
+    
+    let ORB_SOFT: Int = 0
+    let ORB_HARD: Int = 1
 
     
     // タイムゾーンを返す

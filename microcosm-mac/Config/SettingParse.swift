@@ -18,12 +18,14 @@ class SettingParse: NSObject {
         let settingName: String = "setting"
         let directoryName = "microcosm"
         let createPath = documents + "/" + directoryName + "/system"    // 作成するディレクトリ名を含んだフルパス
-        let setting: SettingData = SettingData(no: no)
+        let setting: SettingData = SettingData(no)
         let settingFile = settingName + (String)(no) + ".mcsm"
         let settingPath = NSURL(fileURLWithPath: createPath).appendingPathComponent(settingFile)
 
         let settingfileManager = FileManager.default
         var isDir : ObjCBool = false
+        
+        let common: CommonData = CommonData()
         
         if (!settingfileManager.fileExists(atPath: (createPath + "/" + settingFile), isDirectory: &isDir)) {
             var str: String = "dispname:名称未設定" + "\n"
@@ -395,28 +397,22 @@ class SettingParse: NSObject {
                         setting.dispName = arr[1]
                         break
                 case "orb_sun_soft_1st_0":
-                    let tmpDic: Dictionary<Int, Double> = [0: (Double)(arr[1])!]
-                    setting.orbs.append(tmpDic)
+                    setting.orbs[0][common.SUN_SOFT_1ST] = (Double)(arr[1])!
                     break
                 case "orb_sun_soft_1st_1":
-                    let tmpDic: Dictionary<Int, Double> = [0: (Double)(arr[1])!]
-                    setting.orbs.append(tmpDic)
+                    setting.orbs[1][common.SUN_SOFT_1ST] = (Double)(arr[1])!
                     break
                 case "orb_sun_soft_1st_2":
-                    let tmpDic: Dictionary<Int, Double> = [0: (Double)(arr[1])!]
-                    setting.orbs.append(tmpDic)
+                    setting.orbs[2][common.SUN_SOFT_1ST] = (Double)(arr[1])!
                     break
                 case "orb_sun_soft_1st_3":
-                    let tmpDic: Dictionary<Int, Double> = [0: (Double)(arr[1])!]
-                    setting.orbs.append(tmpDic)
+                    setting.orbs[3][common.SUN_SOFT_1ST] = (Double)(arr[1])!
                     break
                 case "orb_sun_soft_1st_4":
-                    let tmpDic: Dictionary<Int, Double> = [0: (Double)(arr[1])!]
-                    setting.orbs.append(tmpDic)
+                    setting.orbs[4][common.SUN_SOFT_1ST] = (Double)(arr[1])!
                     break
                 case "orb_sun_soft_1st_5":
-                    let tmpDic: Dictionary<Int, Double> = [0: (Double)(arr[1])!]
-                    setting.orbs.append(tmpDic)
+                    setting.orbs[5][common.SUN_SOFT_1ST] = (Double)(arr[1])!
                     break
                 default:
                     break

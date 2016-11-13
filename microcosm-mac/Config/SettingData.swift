@@ -15,7 +15,7 @@ class SettingData: NSObject {
     var dispCircle: [Bool] = [
     true, false, false, false, false, false
     ]
-    // 0:11～15:45
+
     var orbs: [Dictionary<Int, Double>]
     var dispPlanet: [Dictionary<Int, Bool>]
     var dispAspectPlanet: [Dictionary<Int, Bool>]
@@ -34,7 +34,7 @@ class SettingData: NSObject {
     var dispAspect: [[Bool]]
     
     // no: 設定番号
-    init(no: Int)
+    init(_ no: Int)
     {
 //        xmlData = new SettingXml();
         
