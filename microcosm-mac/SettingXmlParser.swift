@@ -2241,12 +2241,7 @@ class SettingXmlParser: NSObject {
     }
 
     func NewSetting() -> NSString {
-        var text: String
-
-        text = xmlhead
-        text += xmltop
-        text += xmlend
-
-        return text as NSString
+        let newSetting: SettingXmlParserNewSetting = SettingXmlParserNewSetting()
+        return newSetting.NewSetting()
     }
 }
