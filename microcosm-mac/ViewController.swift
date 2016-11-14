@@ -62,7 +62,7 @@ class ViewController: NSViewController {
         // Do any additional setup after loading the view.        
         
         let now = Date()
-        let settingParse: SettingParse = SettingParse()
+        let settingParse: SettingXmlParser = SettingXmlParser()
         let documents = NSSearchPathForDirectoriesInDomains(
             .documentDirectory,
             .userDomainMask, true)[0]
@@ -91,7 +91,7 @@ class ViewController: NSViewController {
                     
                     // settingファイル
                     for i in 0..<10 {
-                        self.setting.append(settingParse.getSetting(no: i))
+                        self.setting.append(settingParse.FileToSetting(i))
                     }
                     tmpSetting.zodiacCenter = Double(config.zodiacCenter)
                 

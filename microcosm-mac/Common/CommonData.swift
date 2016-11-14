@@ -66,6 +66,14 @@ class CommonData: NSObject {
     let OTHER_HARD_150: Int = 16
     let OTHER_SOFT_150: Int = 17
     
+    let CONJUNCTION: Int = 1
+    let OPPOSITION: Int = 2
+    let INCONJUNCT: Int = 3
+    let SESQUIQUADRATE: Int = 4
+    let TRINE: Int = 5
+    let SQUARE: Int = 6
+    let SEXTILE: Int = 7
+    
     let ORB_SOFT: Int = 0
     let ORB_HARD: Int = 1
 

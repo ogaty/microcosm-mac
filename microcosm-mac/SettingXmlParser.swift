@@ -639,11 +639,99 @@ class SettingXmlParser: NSObject {
     let aspectEarth23End: String = "</aspectEarth23>"
     let aspectLilith23Start: String = "  <aspectLilith23>"
     let aspectLilith23End: String = "</aspectLilith23>"
+    let aspectConjunction11Start: String = "  <aspectConjunction11>"
+    let aspectConjunction11End: String = "</aspectConjunction11>"
+    let aspectOpposition11Start: String = "  <aspectOpposition11>"
+    let aspectOpposition11End: String = "</aspectOpposition11>"
+    let aspectTrine11Start: String = "  <aspectTrine11>"
+    let aspectTrine11End: String = "</aspectTrine11>"
+    let aspectSquare11Start: String = "  <aspectSquare11>"
+    let aspectSquare11End: String = "</aspectSquare11>"
+    let aspectSextile11Start: String = "  <aspectSextile11>"
+    let aspectSextile11End: String = "</aspectSextile11>"
+    let aspectInconjunct11Start: String = "  <aspectInconjunct11>"
+    let aspectInconjunct11End: String = "</aspectInconjunct11>"
+    let aspectSesquiquadrate11Start: String = "  <aspectSesquiquadrate11>"
+    let aspectSesquiquadrate11End: String = "</aspectSesquiquadrate11>"
+    let aspectConjunction22Start: String = "  <aspectConjunction22>"
+    let aspectConjunction22End: String = "</aspectConjunction22>"
+    let aspectOpposition22Start: String = "  <aspectOpposition22>"
+    let aspectOpposition22End: String = "</aspectOpposition22>"
+    let aspectTrine22Start: String = "  <aspectTrine22>"
+    let aspectTrine22End: String = "</aspectTrine22>"
+    let aspectSquare22Start: String = "  <aspectSquare22>"
+    let aspectSquare22End: String = "</aspectSquare22>"
+    let aspectSextile22Start: String = "  <aspectSextile22>"
+    let aspectSextile22End: String = "</aspectSextile22>"
+    let aspectInconjunct22Start: String = "  <aspectInconjunct22>"
+    let aspectInconjunct22End: String = "</aspectInconjunct22>"
+    let aspectSesquiquadrate22Start: String = "  <aspectSesquiquadrate22>"
+    let aspectSesquiquadrate22End: String = "</aspectSesquiquadrate22>"
+    let aspectConjunction33Start: String = "  <aspectConjunction33>"
+    let aspectConjunction33End: String = "</aspectConjunction33>"
+    let aspectOpposition33Start: String = "  <aspectOpposition33>"
+    let aspectOpposition33End: String = "</aspectOpposition33>"
+    let aspectTrine33Start: String = "  <aspectTrine33>"
+    let aspectTrine33End: String = "</aspectTrine33>"
+    let aspectSquare33Start: String = "  <aspectSquare33>"
+    let aspectSquare33End: String = "</aspectSquare33>"
+    let aspectSextile33Start: String = "  <aspectSextile33>"
+    let aspectSextile33End: String = "</aspectSextile33>"
+    let aspectInconjunct33Start: String = "  <aspectInconjunct33>"
+    let aspectInconjunct33End: String = "</aspectInconjunct33>"
+    let aspectSesquiquadrate33Start: String = "  <aspectSesquiquadrate33>"
+    let aspectSesquiquadrate33End: String = "</aspectSesquiquadrate33>"
+    let aspectConjunction12Start: String = "  <aspectConjunction12>"
+    let aspectConjunction12End: String = "</aspectConjunction12>"
+    let aspectOpposition12Start: String = "  <aspectOpposition12>"
+    let aspectOpposition12End: String = "</aspectOpposition12>"
+    let aspectTrine12Start: String = "  <aspectTrine12>"
+    let aspectTrine12End: String = "</aspectTrine12>"
+    let aspectSquare12Start: String = "  <aspectSquare12>"
+    let aspectSquare12End: String = "</aspectSquare12>"
+    let aspectSextile12Start: String = "  <aspectSextile12>"
+    let aspectSextile12End: String = "</aspectSextile12>"
+    let aspectInconjunct12Start: String = "  <aspectInconjunct12>"
+    let aspectInconjunct12End: String = "</aspectInconjunct12>"
+    let aspectSesquiquadrate12Start: String = "  <aspectSesquiquadrate12>"
+    let aspectSesquiquadrate12End: String = "</aspectSesquiquadrate12>"
+    let aspectConjunction13Start: String = "  <aspectConjunction13>"
+    let aspectConjunction13End: String = "</aspectConjunction13>"
+    let aspectOpposition13Start: String = "  <aspectOpposition13>"
+    let aspectOpposition13End: String = "</aspectOpposition13>"
+    let aspectTrine13Start: String = "  <aspectTrine13>"
+    let aspectTrine13End: String = "</aspectTrine13>"
+    let aspectSquare13Start: String = "  <aspectSquare13>"
+    let aspectSquare13End: String = "</aspectSquare13>"
+    let aspectSextile13Start: String = "  <aspectSextile13>"
+    let aspectSextile13End: String = "</aspectSextile13>"
+    let aspectInconjunct13Start: String = "  <aspectInconjunct13>"
+    let aspectInconjunct13End: String = "</aspectInconjunct13>"
+    let aspectSesquiquadrate13Start: String = "  <aspectSesquiquadrate13>"
+    let aspectSesquiquadrate13End: String = "</aspectSesquiquadrate13>"
+    let aspectConjunction23Start: String = "  <aspectConjunction23>"
+    let aspectConjunction23End: String = "</aspectConjunction23>"
+    let aspectOpposition23Start: String = "  <aspectOpposition23>"
+    let aspectOpposition23End: String = "</aspectOpposition23>"
+    let aspectTrine23Start: String = "  <aspectTrine23>"
+    let aspectTrine23End: String = "</aspectTrine23>"
+    let aspectSquare23Start: String = "  <aspectSquare23>"
+    let aspectSquare23End: String = "</aspectSquare23>"
+    let aspectSextile23Start: String = "  <aspectSextile23>"
+    let aspectSextile23End: String = "</aspectSextile23>"
+    let aspectInconjunct23Start: String = "  <aspectInconjunct23>"
+    let aspectInconjunct23End: String = "</aspectInconjunct23>"
+    let aspectSesquiquadrate23Start: String = "  <aspectSesquiquadrate23>"
+    let aspectSesquiquadrate23End: String = "</aspectSesquiquadrate23>"
+
+
     
-    func XmlToConfig(_ xml: NSString) -> SettingData {
-        let setting: SettingData = SettingData(0)
+    func XmlToSetting(_ xml: NSString, no: Int) -> SettingData {
+        let setting: SettingData = SettingData(no)
         var inUserData: Bool = false
         let common: CommonData = CommonData()
+        var dispcircleCnt: Int = 0
+        var dispaspectCnt: Int = 0
         
         xml.enumerateLines {
             line, stop in
@@ -663,27 +751,33 @@ class SettingXmlParser: NSObject {
             } else if (line.contains(self.orbSunSoft1st0Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbSunSoft1st0Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbSunSoft1st0End, with: "")
-                setting.orbs[0][common.SUN_SOFT_1ST] = (Double)(tmpLine)!
+                let tmpDic: Dictionary<Int, Double> = [common.SUN_SOFT_1ST:(Double)(tmpLine)!]
+                setting.orbs.append(tmpDic)
             } else if (line.contains(self.orbSunSoft1st1Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbSunSoft1st1Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbSunSoft1st1End, with: "")
-                setting.orbs[1][common.SUN_SOFT_1ST] = (Double)(tmpLine)!
+                let tmpDic: Dictionary<Int, Double> = [common.SUN_SOFT_1ST:(Double)(tmpLine)!]
+                setting.orbs.append(tmpDic)
             } else if (line.contains(self.orbSunSoft1st2Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbSunSoft1st2Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbSunSoft1st2End, with: "")
-                setting.orbs[2][common.SUN_SOFT_1ST] = (Double)(tmpLine)!
+                let tmpDic: Dictionary<Int, Double> = [common.SUN_SOFT_1ST:(Double)(tmpLine)!]
+                setting.orbs.append(tmpDic)
             } else if (line.contains(self.orbSunSoft1st3Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbSunSoft1st3Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbSunSoft1st3End, with: "")
-                setting.orbs[3][common.SUN_SOFT_1ST] = (Double)(tmpLine)!
+                let tmpDic: Dictionary<Int, Double> = [common.SUN_SOFT_1ST:(Double)(tmpLine)!]
+                setting.orbs.append(tmpDic)
             } else if (line.contains(self.orbSunSoft1st4Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbSunSoft1st4Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbSunSoft1st4End, with: "")
-                setting.orbs[4][common.SUN_SOFT_1ST] = (Double)(tmpLine)!
+                let tmpDic: Dictionary<Int, Double> = [common.SUN_SOFT_1ST:(Double)(tmpLine)!]
+                setting.orbs.append(tmpDic)
             } else if (line.contains(self.orbSunSoft1st5Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbSunSoft1st5Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbSunSoft1st5End, with: "")
-                setting.orbs[5][common.SUN_SOFT_1ST] = (Double)(tmpLine)!
+                let tmpDic: Dictionary<Int, Double> = [common.SUN_SOFT_1ST:(Double)(tmpLine)!]
+                setting.orbs.append(tmpDic)
 
             } else if (line.contains(self.orbSunHard1st0Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbSunHard1st0Start, with: "")
@@ -738,27 +832,27 @@ class SettingXmlParser: NSObject {
             } else if (line.contains(self.orbMoonHard1st0Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbMoonHard1st0Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbMoonHard1st0End, with: "")
-                setting.orbs[0][common.MOON_SOFT_1ST] = (Double)(tmpLine)!
+                setting.orbs[0][common.MOON_HARD_1ST] = (Double)(tmpLine)!
             } else if (line.contains(self.orbMoonHard1st1Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbMoonHard1st1Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbMoonHard1st1End, with: "")
-                setting.orbs[1][common.MOON_SOFT_1ST] = (Double)(tmpLine)!
+                setting.orbs[1][common.MOON_HARD_1ST] = (Double)(tmpLine)!
             } else if (line.contains(self.orbMoonHard1st2Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbMoonHard1st2Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbMoonHard1st2End, with: "")
-                setting.orbs[2][common.MOON_SOFT_1ST] = (Double)(tmpLine)!
+                setting.orbs[2][common.MOON_HARD_1ST] = (Double)(tmpLine)!
             } else if (line.contains(self.orbMoonHard1st3Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbMoonHard1st3Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbMoonHard1st3End, with: "")
-                setting.orbs[3][common.MOON_SOFT_1ST] = (Double)(tmpLine)!
+                setting.orbs[3][common.MOON_HARD_1ST] = (Double)(tmpLine)!
             } else if (line.contains(self.orbMoonHard1st4Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbMoonHard1st4Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbMoonHard1st4End, with: "")
-                setting.orbs[4][common.MOON_SOFT_1ST] = (Double)(tmpLine)!
+                setting.orbs[4][common.MOON_HARD_1ST] = (Double)(tmpLine)!
             } else if (line.contains(self.orbMoonHard1st5Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbMoonHard1st5Start, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbMoonHard1st5End, with: "")
-                setting.orbs[5][common.MOON_SOFT_1ST] = (Double)(tmpLine)!
+                setting.orbs[5][common.MOON_HARD_1ST] = (Double)(tmpLine)!
 
             } else if (line.contains(self.orbOtherSoft1st0Start)) {
                 tmpLine = line.replacingOccurrences(of: self.orbOtherSoft1st0Start, with: "")
@@ -1110,9 +1204,1049 @@ class SettingXmlParser: NSObject {
                 tmpLine = tmpLine.replacingOccurrences(of: self.orbOtherHard1505End, with: "")
                 setting.orbs[5][common.OTHER_HARD_150] = (Double)(tmpLine)!
                 
+            } else if (line.contains(self.dispcircle0Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispcircle0Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispcircle0End, with: "")
+                if (dispcircleCnt == 0) {
+                    setting.dispCircle[0] = (Bool)(tmpLine)!
+                    dispcircleCnt = dispcircleCnt + 1
+                } else if (dispcircleCnt == 1) {
+                    setting.dispCircle[1] = (Bool)(tmpLine)!
+                    dispcircleCnt = dispcircleCnt + 1
+                } else if (dispcircleCnt == 2) {
+                    setting.dispCircle[2] = (Bool)(tmpLine)!
+                    dispcircleCnt = dispcircleCnt + 1
+                } else if (dispcircleCnt == 3) {
+                    setting.dispCircle[3] = (Bool)(tmpLine)!
+                    dispcircleCnt = dispcircleCnt + 1
+                } else if (dispcircleCnt == 4) {
+                    setting.dispCircle[4] = (Bool)(tmpLine)!
+                    dispcircleCnt = dispcircleCnt + 1
+                } else if (dispcircleCnt == 5) {
+                    setting.dispCircle[5] = (Bool)(tmpLine)!
+                    dispcircleCnt = dispcircleCnt + 1
+                }
+
+            } else if (line.contains(self.dispplanetSun11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSun11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSun11End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispPlanet.append(tmpDic)
+            } else if (line.contains(self.dispplanetMoon11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMoon11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMoon11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMercury11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMercury11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMercury11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetVenus11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetVenus11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetVenus11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetJupiter11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetJupiter11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetJupiter11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMars11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMars11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMars11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSaturn11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSaturn11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSaturn11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetUranus11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetUranus11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetUranus11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetNeptune11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetNeptune11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetNeptune11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetPluto11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetPluto11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetPluto11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetDh11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetDh11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetDh11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetChiron11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetChiron11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetChiron11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetAsc11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetAsc11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetAsc11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMc11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMc11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMc11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetEarth11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetEarth11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetEarth11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetLilith11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetLilith11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetLilith11End, with: "")
+                setting.dispPlanet[0][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSun22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSun22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSun22End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispPlanet.append(tmpDic)
+            } else if (line.contains(self.dispplanetMoon22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMoon22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMoon22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMercury22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMercury22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMercury22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetVenus22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetVenus22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetVenus22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMars22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMars22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMars22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetJupiter22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetJupiter22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetJupiter22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSaturn22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSaturn22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSaturn22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetUranus22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetUranus22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetUranus22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetNeptune22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetNeptune22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetNeptune22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetPluto22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetPluto22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetPluto22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetDh22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetDh22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetDh22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetChiron22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetChiron22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetChiron22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetAsc22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetAsc22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetAsc22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMc22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMc22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMc22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetEarth22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetEarth22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetEarth22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetLilith22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetLilith22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetLilith22End, with: "")
+                setting.dispPlanet[1][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSun33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSun33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSun33End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispPlanet.append(tmpDic)
+            } else if (line.contains(self.dispplanetMoon33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMoon33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMoon33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMercury33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMercury33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMercury33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetVenus33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetVenus33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetVenus33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMars33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMars33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMars33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetJupiter33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetJupiter33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetJupiter33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSaturn33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSaturn33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSaturn33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetUranus33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetUranus33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetUranus33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetNeptune33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetNeptune33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetNeptune33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetPluto33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetPluto33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetPluto33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetDh33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetDh33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetDh33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetChiron33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetChiron33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetChiron33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetAsc33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetAsc33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetAsc33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMc33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMc33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMc33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetEarth33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetEarth33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetEarth33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetLilith33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetLilith33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetLilith33End, with: "")
+                setting.dispPlanet[2][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSun12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSun12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSun12End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispPlanet.append(tmpDic)
+            } else if (line.contains(self.dispplanetMoon12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMoon12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMoon12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMercury12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMercury12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMercury12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetVenus12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetVenus12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetVenus12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMars12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMars12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMars12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetJupiter12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetJupiter12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetJupiter12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSaturn12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSaturn12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSaturn12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetUranus12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetUranus12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetUranus12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetNeptune12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetNeptune12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetNeptune12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetPluto12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetPluto12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetPluto12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetDh12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetDh12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetDh12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetChiron12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetChiron12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetChiron12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetAsc12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetAsc12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetAsc12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMc12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMc12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMc12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetEarth12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetEarth12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetEarth12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetLilith12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetLilith12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetLilith12End, with: "")
+                setting.dispPlanet[3][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSun13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSun13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSun13End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispPlanet.append(tmpDic)
+            } else if (line.contains(self.dispplanetMoon13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMoon13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMoon13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMercury13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMercury13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMercury13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetVenus13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetVenus13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetVenus13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMars13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMars13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMars13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetJupiter13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetJupiter13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetJupiter13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSaturn13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSaturn13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSaturn13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetUranus13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetUranus13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetUranus13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetNeptune13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetNeptune13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetNeptune13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetPluto13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetPluto13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetPluto13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetDh13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetDh13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetDh13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetChiron13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetChiron13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetChiron13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetAsc13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetAsc13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetAsc13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMc13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMc13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMc13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetEarth13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetEarth13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetEarth13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetLilith13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetLilith13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetLilith13End, with: "")
+                setting.dispPlanet[4][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSun23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSun23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSun23End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispPlanet.append(tmpDic)
+            } else if (line.contains(self.dispplanetMoon23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMoon23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMoon23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMercury23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMercury23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMercury23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetVenus23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetVenus23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetVenus23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMars23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMars23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMars23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetJupiter23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetJupiter23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetJupiter23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetSaturn23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetSaturn23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetSaturn23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetUranus23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetUranus23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetUranus23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetNeptune23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetNeptune23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetNeptune23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetPluto23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetPluto23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetPluto23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetDh23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetDh23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetDh23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetChiron23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetChiron23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetChiron23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetAsc23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetAsc23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetAsc23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetMc23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetMc23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetMc23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetEarth23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetEarth23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetEarth23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.dispplanetLilith23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispplanetLilith23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispplanetLilith23End, with: "")
+                setting.dispPlanet[5][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+
+            } else if (line.contains(self.dispaspect0Start)) {
+                tmpLine = line.replacingOccurrences(of: self.dispaspect0Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.dispaspect0End, with: "")
+                if (dispaspectCnt == 0) {
+                    setting.dispAspect[0][0] = (Bool)(tmpLine)!
+                    dispaspectCnt = dispaspectCnt + 1
+                } else if (dispaspectCnt == 1) {
+                    setting.dispAspect[1][1] = (Bool)(tmpLine)!
+                    dispaspectCnt = dispaspectCnt + 1
+                } else if (dispaspectCnt == 2) {
+                    setting.dispAspect[2][2] = (Bool)(tmpLine)!
+                    dispaspectCnt = dispaspectCnt + 1
+                } else if (dispaspectCnt == 3) {
+                    setting.dispAspect[0][1] = (Bool)(tmpLine)!
+                    dispaspectCnt = dispaspectCnt + 1
+                } else if (dispaspectCnt == 4) {
+                    setting.dispAspect[0][2] = (Bool)(tmpLine)!
+                    dispaspectCnt = dispaspectCnt + 1
+                } else if (dispaspectCnt == 5) {
+                    setting.dispAspect[1][2] = (Bool)(tmpLine)!
+                    dispaspectCnt = dispaspectCnt + 1
+                }
+
+            } else if (line.contains(self.aspectSun11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSun11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSun11End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispAspectPlanet.append(tmpDic)
+            } else if (line.contains(self.aspectMoon11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMoon11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMoon11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMercury11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMercury11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMercury11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectVenus11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectVenus11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectVenus11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMars11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMars11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMars11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectJupiter11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectJupiter11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectJupiter11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSaturn11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSaturn11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSaturn11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectUranus11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectUranus11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectUranus11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectNeptune11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectNeptune11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectNeptune11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectPluto11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectPluto11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectPluto11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectDh11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectDh11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectDh11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectChiron11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectChiron11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectChiron11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectAsc11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectAsc11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectAsc11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMc11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMc11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMc11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectEarth11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectEarth11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectEarth11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectLilith11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectLilith11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectLilith11End, with: "")
+                setting.dispAspectPlanet[0][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSun22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSun22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSun22End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispAspectPlanet.append(tmpDic)
+            } else if (line.contains(self.aspectMoon22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMoon22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMoon22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMercury22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMercury22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMercury22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectVenus22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectVenus22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectVenus22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMars22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMars22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMars22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectJupiter22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectJupiter22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectJupiter22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSaturn22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSaturn22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSaturn22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectUranus22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectUranus22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectUranus22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectNeptune22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectNeptune22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectNeptune22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectPluto22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectPluto22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectPluto22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectDh22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectDh22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectDh22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectChiron22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectChiron22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectChiron22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectAsc22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectAsc22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectAsc22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMc22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMc22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMc22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectEarth22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectEarth22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectEarth22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectLilith22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectLilith22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectLilith22End, with: "")
+                setting.dispAspectPlanet[1][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSun33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSun33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSun33End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispAspectPlanet.append(tmpDic)
+            } else if (line.contains(self.aspectMoon33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMoon33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMoon33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMercury33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMercury33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMercury33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectVenus33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectVenus33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectVenus33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMars33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMars33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMars33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectJupiter33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectJupiter33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectJupiter33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSaturn33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSaturn33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSaturn33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectUranus33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectUranus33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectUranus33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectNeptune33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectNeptune33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectNeptune33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectPluto33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectPluto33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectPluto33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectDh33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectDh33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectDh33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectChiron33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectChiron33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectChiron33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectAsc33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectAsc33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectAsc33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMc33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMc33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMc33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectEarth33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectEarth33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectEarth33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectLilith33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectLilith33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectLilith33End, with: "")
+                setting.dispAspectPlanet[2][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSun12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSun12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSun12End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispAspectPlanet.append(tmpDic)
+            } else if (line.contains(self.aspectMoon12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMoon12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMoon12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMercury12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMercury12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMercury12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectVenus12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectVenus12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectVenus12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMars12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMars12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMars12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectJupiter12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectJupiter12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectJupiter12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSaturn12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSaturn12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSaturn12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectUranus12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectUranus12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectUranus12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectNeptune12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectNeptune12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectNeptune12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectPluto12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectPluto12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectPluto12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectDh12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectDh12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectDh12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectChiron12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectChiron12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectChiron12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectAsc12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectAsc12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectAsc12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMc12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMc12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMc12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectEarth12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectEarth12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectEarth12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectLilith12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectLilith12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectLilith12End, with: "")
+                setting.dispAspectPlanet[3][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSun13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSun13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSun13End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispAspectPlanet.append(tmpDic)
+            } else if (line.contains(self.aspectMoon13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMoon13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMoon13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMercury13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMercury13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMercury13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectVenus13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectVenus13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectVenus13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMars13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMars13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMars13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectJupiter13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectJupiter13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectJupiter13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSaturn13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSaturn13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSaturn13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectUranus13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectUranus13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectUranus13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectNeptune13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectNeptune13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectNeptune13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectPluto13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectPluto13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectPluto13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectDh13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectDh13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectDh13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectChiron13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectChiron13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectChiron13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectAsc13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectAsc13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectAsc13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMc13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMc13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMc13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectEarth13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectEarth13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectEarth13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectLilith13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectLilith13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectLilith13End, with: "")
+                setting.dispAspectPlanet[4][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSun23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSun23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSun23End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.ZODIAC_SUN:(Bool)(tmpLine)!]
+                setting.dispAspectPlanet.append(tmpDic)
+            } else if (line.contains(self.aspectMoon23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMoon23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMoon23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_MOON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMercury23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMercury23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMercury23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_MERCURY] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectVenus23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectVenus23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectVenus23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_VENUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMars23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMars23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMars23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_MARS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectJupiter23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectJupiter23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectJupiter23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_JUPITER] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSaturn23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSaturn23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSaturn23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_SATURN] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectUranus23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectUranus23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectUranus23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_URANUS] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectNeptune23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectNeptune23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectNeptune23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_NEPTUNE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectPluto23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectPluto23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectPluto23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_PLUTO] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectDh23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectDh23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectDh23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_DH_TRUENODE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectChiron23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectChiron23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectChiron23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_CHIRON] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectAsc23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectAsc23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectAsc23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_ASC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectMc23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectMc23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectMc23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_MC] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectEarth23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectEarth23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectEarth23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_EARTH] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectLilith23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectLilith23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectLilith23End, with: "")
+                setting.dispAspectPlanet[5][common.ZODIAC_LILITH] = (Bool)(tmpLine)!
+
+            } else if (line.contains(self.aspectConjunction11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectConjunction11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectConjunction11End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.CONJUNCTION:(Bool)(tmpLine)!]
+                setting.dispAspectCategory.append(tmpDic)
+            } else if (line.contains(self.aspectOpposition11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectOpposition11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectOpposition11End, with: "")
+                setting.dispAspectCategory[0][common.OPPOSITION] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectInconjunct11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectInconjunct11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectInconjunct11End, with: "")
+                setting.dispAspectCategory[0][common.INCONJUNCT] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSesquiquadrate11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSesquiquadrate11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSesquiquadrate11End, with: "")
+                setting.dispAspectCategory[0][common.SESQUIQUADRATE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectTrine11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectTrine11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectTrine11End, with: "")
+                setting.dispAspectCategory[0][common.TRINE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSquare11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSquare11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSquare11End, with: "")
+                setting.dispAspectCategory[0][common.SQUARE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSextile11Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSextile11Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSextile11End, with: "")
+                setting.dispAspectCategory[0][common.SEXTILE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectConjunction22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectConjunction22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectConjunction22End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.CONJUNCTION:(Bool)(tmpLine)!]
+                setting.dispAspectCategory.append(tmpDic)
+            } else if (line.contains(self.aspectOpposition22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectOpposition22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectOpposition22End, with: "")
+                setting.dispAspectCategory[1][common.OPPOSITION] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectInconjunct22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectInconjunct22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectInconjunct22End, with: "")
+                setting.dispAspectCategory[1][common.INCONJUNCT] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSesquiquadrate22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSesquiquadrate22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSesquiquadrate22End, with: "")
+                setting.dispAspectCategory[1][common.SESQUIQUADRATE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectTrine22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectTrine22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectTrine22End, with: "")
+                setting.dispAspectCategory[1][common.TRINE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSquare22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSquare22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSquare22End, with: "")
+                setting.dispAspectCategory[1][common.SQUARE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSextile22Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSextile22Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSextile22End, with: "")
+                setting.dispAspectCategory[1][common.SEXTILE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectConjunction33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectConjunction33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectConjunction33End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.CONJUNCTION:(Bool)(tmpLine)!]
+                setting.dispAspectCategory.append(tmpDic)
+            } else if (line.contains(self.aspectOpposition33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectOpposition33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectOpposition33End, with: "")
+                setting.dispAspectCategory[2][common.OPPOSITION] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectInconjunct33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectInconjunct33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectInconjunct33End, with: "")
+                setting.dispAspectCategory[2][common.INCONJUNCT] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSesquiquadrate33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSesquiquadrate33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSesquiquadrate33End, with: "")
+                setting.dispAspectCategory[2][common.SESQUIQUADRATE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectTrine33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectTrine33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectTrine33End, with: "")
+                setting.dispAspectCategory[2][common.TRINE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSquare33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSquare33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSquare33End, with: "")
+                setting.dispAspectCategory[2][common.SQUARE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSextile33Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSextile33Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSextile33End, with: "")
+                setting.dispAspectCategory[2][common.SEXTILE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectConjunction12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectConjunction12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectConjunction12End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.CONJUNCTION:(Bool)(tmpLine)!]
+                setting.dispAspectCategory.append(tmpDic)
+            } else if (line.contains(self.aspectOpposition12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectOpposition12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectOpposition12End, with: "")
+                setting.dispAspectCategory[3][common.OPPOSITION] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectInconjunct12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectInconjunct12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectInconjunct12End, with: "")
+                setting.dispAspectCategory[3][common.INCONJUNCT] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSesquiquadrate12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSesquiquadrate12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSesquiquadrate12End, with: "")
+                setting.dispAspectCategory[3][common.SESQUIQUADRATE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectTrine12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectTrine12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectTrine12End, with: "")
+                setting.dispAspectCategory[3][common.TRINE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSquare12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSquare12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSquare12End, with: "")
+                setting.dispAspectCategory[3][common.SQUARE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSextile12Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSextile12Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSextile12End, with: "")
+                setting.dispAspectCategory[3][common.SEXTILE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectConjunction13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectConjunction13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectConjunction13End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.CONJUNCTION:(Bool)(tmpLine)!]
+                setting.dispAspectCategory.append(tmpDic)
+            } else if (line.contains(self.aspectOpposition13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectOpposition13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectOpposition13End, with: "")
+                setting.dispAspectCategory[4][common.OPPOSITION] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectInconjunct13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectInconjunct13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectInconjunct13End, with: "")
+                setting.dispAspectCategory[4][common.INCONJUNCT] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSesquiquadrate13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSesquiquadrate13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSesquiquadrate13End, with: "")
+                setting.dispAspectCategory[4][common.SESQUIQUADRATE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectTrine13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectTrine13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectTrine13End, with: "")
+                setting.dispAspectCategory[4][common.TRINE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSquare13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSquare13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSquare13End, with: "")
+                setting.dispAspectCategory[4][common.SQUARE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSextile13Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSextile13Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSextile13End, with: "")
+                setting.dispAspectCategory[4][common.SEXTILE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectConjunction23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectConjunction23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectConjunction23End, with: "")
+                let tmpDic: Dictionary<Int, Bool> = [common.CONJUNCTION:(Bool)(tmpLine)!]
+                setting.dispAspectCategory.append(tmpDic)
+            } else if (line.contains(self.aspectOpposition23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectOpposition23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectOpposition23End, with: "")
+                setting.dispAspectCategory[5][common.OPPOSITION] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectInconjunct23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectInconjunct23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectInconjunct23End, with: "")
+                setting.dispAspectCategory[5][common.INCONJUNCT] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSesquiquadrate23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSesquiquadrate23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSesquiquadrate23End, with: "")
+                setting.dispAspectCategory[5][common.SESQUIQUADRATE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectTrine23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectTrine23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectTrine23End, with: "")
+                setting.dispAspectCategory[5][common.TRINE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSquare23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSquare23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSquare23End, with: "")
+                setting.dispAspectCategory[5][common.SQUARE] = (Bool)(tmpLine)!
+            } else if (line.contains(self.aspectSextile23Start)) {
+                tmpLine = line.replacingOccurrences(of: self.aspectSextile23Start, with: "")
+                tmpLine = tmpLine.replacingOccurrences(of: self.aspectSextile23End, with: "")
+                setting.dispAspectCategory[5][common.SEXTILE] = (Bool)(tmpLine)!
+                
             }
         }
         
         return setting
+    }
+
+    func FileToSetting(_ no: Int) -> SettingData {
+        let documents = NSSearchPathForDirectoriesInDomains(
+            .documentDirectory,
+            .userDomainMask, true)[0]
+        let fileManager = FileManager.default
+        let directoryName = "microcosm"
+        let createPath = documents + "/" + directoryName + "/system"
+        let filePath = createPath + "/setting" + (String)(no) + ".csm"
+        var isDir: ObjCBool = false
+
+        if (!fileManager.fileExists(atPath: filePath, isDirectory: &isDir)) {
+            let str: NSString = NewSetting()
+            FileManager.default.createFile(atPath: filePath, contents: str.data(using: String.Encoding.utf8.rawValue))
+        }
+
+        let url: NSURL = NSURL(fileURLWithPath: filePath)
+        var text: NSString
+        do {
+            text = try NSString(contentsOf: url as URL, encoding: String.Encoding.utf8.rawValue)
+        } catch let error as NSError {
+            NSLog(error.localizedDescription)
+            text = "" as NSString
+        }
+
+        return XmlToSetting(text, no: no)
+    }
+
+    func NewSetting() -> NSString {
+        var text: String
+
+        text = xmlhead
+        text += xmltop
+        text += xmlend
+
+        return text as NSString
     }
 }
