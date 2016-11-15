@@ -56,16 +56,136 @@ class EditUserViewController: NSViewController {
         let newudata: UserData = UserData()
         newudata.name = username.stringValue
         newudata.furigana = furigana.stringValue
-        newudata.birth_year = (Int)(birth_year.stringValue)!
-        newudata.birth_month = (Int)(birth_month.stringValue)!
-        newudata.birth_day = (Int)(birth_day.stringValue)!
-        newudata.birth_hour = (Int)(birth_hour.stringValue)!
-        newudata.birth_minute = (Int)(birth_minute.stringValue)!
-        newudata.birth_second = (Double)(birth_second.stringValue)!
+        if let _:Int = (Int)(birth_year.stringValue) {
+            newudata.birth_year = (Int)(birth_year.stringValue)!
+            if (newudata.birth_year < 1900 || 2100 < newudata.birth_year) {
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "正しい時刻を入力してください。";
+                alert.runModal();
+                return
+            }
+        } else {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "正しい時刻を入力してください。";
+            alert.runModal();
+            return
+        }
+        if let _:Int = (Int)(birth_month.stringValue) {
+            newudata.birth_month = (Int)(birth_month.stringValue)!
+            if (newudata.birth_month < 1 || 12 < newudata.birth_month) {
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "正しい時刻を入力してください。";
+                alert.runModal();
+                return
+            }
+        } else {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "正しい時刻を入力してください。";
+            alert.runModal();
+            return
+        }
+        if let _:Int = (Int)(birth_day.stringValue) {
+            newudata.birth_day = (Int)(birth_day.stringValue)!
+            if (newudata.birth_day < 1 || 31 < newudata.birth_day) {
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "正しい時刻を入力してください。";
+                alert.runModal();
+                return
+            }
+        } else {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "正しい時刻を入力してください。";
+            alert.runModal();
+            return
+        }
+        if let _:Int = (Int)(birth_hour.stringValue) {
+            newudata.birth_hour = (Int)(birth_hour.stringValue)!
+            if (newudata.birth_hour < 0 || 23 < newudata.birth_hour) {
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "正しい時刻を入力してください。";
+                alert.runModal();
+                return
+            }
+        } else {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "正しい時刻を入力してください。";
+            alert.runModal();
+            return
+        }
+        if let _:Int = (Int)(birth_minute.stringValue) {
+            newudata.birth_minute = (Int)(birth_minute.stringValue)!
+            if (newudata.birth_minute < 0 || 59 < newudata.birth_minute) {
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "正しい時刻を入力してください。";
+                alert.runModal();
+                return
+            }
+        } else {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "正しい時刻を入力してください。";
+            alert.runModal();
+            return
+        }
+        if let _:Double = (Double)(birth_second.stringValue) {
+            newudata.birth_second = (Double)(birth_second.stringValue)!
+            if (newudata.birth_second < 0 || 59 < newudata.birth_second) {
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "正しい時刻を入力してください。";
+                alert.runModal();
+                return
+            }
+        } else {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "正しい時刻を入力してください。";
+            alert.runModal();
+            return
+        }
         newudata.timezone = timezone.stringValue
         newudata.birth_place = birth_place.stringValue
-        newudata.lat = (Double)(lat.stringValue)!
-        newudata.lng = (Double)(lng.stringValue)!
+        if let _:Double = (Double)(lat.stringValue) {
+            newudata.lat = (Double)(lat.stringValue)!
+            if (newudata.lat < -90 || 90 < newudata.lat) {
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "正しい時刻を入力してください。";
+                alert.runModal();
+                return
+            }
+        } else {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "正しい時刻を入力してください。";
+            alert.runModal();
+            return
+        }
+        if let _:Double = (Double)(lng.stringValue) {
+            newudata.lng = (Double)(lng.stringValue)!
+            if (newudata.lng < -180 || 180 < newudata.lng) {
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "正しい時刻を入力してください。";
+                alert.runModal();
+                return
+            }
+        } else {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "正しい時刻を入力してください。";
+            alert.runModal();
+            return
+        }
         newudata.memo = memo.stringValue
         let str: String = xmlParser.UserToXml(newudata)
             

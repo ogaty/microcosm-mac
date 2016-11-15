@@ -650,4 +650,40 @@ class CommonData: NSObject {
     }
  */
 
+    func match(_ target: String, pattern: String) -> Bool {
+        let regex: NSRegularExpression
+        do {
+            regex = try NSRegularExpression(pattern: pattern, options: [])
+        } catch let error as NSError {
+            return false
+        }
+        let results: [NSTextCheckingResult] = regex.matches(in: target, options: [], range: NSMakeRange(0, target.characters.count))
+
+        for (idx, result) in results.enumerated() {
+            let range = result.rangeAt(idx)
+            if range.location != NSNotFound {
+                return true
+            }
+        }
+        
+        return false
+    }
+
+    func isNumericString(str: String) -> Bool {
+        let charSet = NSCharacterSet.decimalDigits
+        for char in str.unicodeScalars {
+            if charSet.contains(char) != true {
+                return false
+            }
+        }
+        return true
+    }
+
+    func isDoubleString(str: String) -> Bool {
+        if let _: Double = (Double)(str) {
+            return true
+        }
+        return false
+    }
+
 }

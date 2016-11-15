@@ -68,11 +68,50 @@ class ViewController: NSViewController {
             .userDomainMask, true)[0]
 //        let fileManager = FileManager.default
         let directoryName = "microcosm"  // 作成するディレクトリ名
-        let createPath = documents + "/" + directoryName + "/system"    // 作成するディレクトリ名を含んだフルパス
-        let configName: String = "config.csm"
-        
         let fileManager = FileManager.default
         var isDir : ObjCBool = false
+        if (!fileManager.fileExists(atPath: documents + "/" + directoryName, isDirectory:&isDir)) {
+            do {
+                try FileManager.default.createDirectory(atPath: documents + "/" + directoryName, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                // Faild to wite folder
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = documents + "/" + directoryName + "の作成に失敗しました。";
+                alert.runModal();
+                return
+            }
+        }
+
+        let createPath = documents + "/" + directoryName + "/system"
+        if (!fileManager.fileExists(atPath: createPath, isDirectory:&isDir)) {
+            do {
+                try FileManager.default.createDirectory(atPath: createPath, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                // Faild to wite folder
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = createPath + "の作成に失敗しました。";
+                alert.runModal();
+                return
+            }
+        }
+        let dataPath = documents + "/" + directoryName + "/data"
+        if (!fileManager.fileExists(atPath: dataPath, isDirectory:&isDir)) {
+            do {
+                try FileManager.default.createDirectory(atPath: dataPath, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                // Faild to wite folder
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = dataPath + "の作成に失敗しました。";
+                alert.runModal();
+                return
+            }
+        }
+
+        let configName: String = "config.csm"
+        
         if fileManager.fileExists(atPath: createPath, isDirectory:&isDir) {
             if isDir.boolValue {
                 // configファイル
