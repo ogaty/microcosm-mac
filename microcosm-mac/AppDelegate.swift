@@ -74,5 +74,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    @IBAction func OpenOfficialSite(_ sender: AnyObject) {
+        let url = NSURL(string: "http://microcosm.ogatism.com")
+        NSWorkspace.shared().open(url as! URL)
+    }
 }
 

@@ -38,6 +38,7 @@ class UserDirView: NSView {
 
                 } else {
                     detail.string = ""
+                    selectedUser = nil
                 }
             break
             default:
@@ -71,6 +72,12 @@ class UserDirView: NSView {
             editUserVC.vc = window?.contentViewController as? DatabaseViewController
             editUserVC.udata = udata
             window?.contentViewController?.presentViewControllerAsModalWindow(editUserVC)
+        } else {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "ディレクトリの編集はFinderから行ってください。";
+            alert.runModal();
+            return
         }
     }
     
@@ -83,6 +90,12 @@ class UserDirView: NSView {
             } catch let error as NSError {
                 NSLog(error.localizedDescription)
             }
+        } else {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "ディレクトリの削除はFinderから行ってください。";
+            alert.runModal();
+            return
         }
     }
 }

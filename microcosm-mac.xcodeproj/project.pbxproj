@@ -10,13 +10,11 @@
 		C600AB221DCD93750049B6F2 /* UserXmlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600AB211DCD93750049B6F2 /* UserXmlParser.swift */; };
 		C600AB241DCDA9C20049B6F2 /* FileUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600AB231DCDA9C20049B6F2 /* FileUtil.swift */; };
 		C600AB281DD3730D0049B6F2 /* EditUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600AB271DD3730D0049B6F2 /* EditUserViewController.swift */; };
-		C600AB2C1DD827310049B6F2 /* SettingXmlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600AB2B1DD827310049B6F2 /* SettingXmlParser.swift */; };
-		C600AB2E1DDA16270049B6F2 /* SettingXmlParserNewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600AB2D1DDA16270049B6F2 /* SettingXmlParserNewSetting.swift */; };
+		C600AB301DDCB7A40049B6F2 /* SettingXmlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600AB2F1DDCB7A40049B6F2 /* SettingXmlParser.swift */; };
+		C600AB321DDCB7ED0049B6F2 /* SettingXmlParserNewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600AB311DDCB7ED0049B6F2 /* SettingXmlParserNewSetting.swift */; };
 		C60997521D8840CD00D0FA1C /* Houses.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60997511D8840CD00D0FA1C /* Houses.swift */; };
-		C60A11D91DA7E59500C65F68 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C60A11D71DA7C24700C65F68 /* libxml2.tbd */; };
 		C60A11DB1DA7E61D00C65F68 /* ConfigXmlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60A11DA1DA7E61D00C65F68 /* ConfigXmlParser.swift */; };
 		C60A11DD1DA7EB9600C65F68 /* SwissHCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */; };
-		C616D6AF1DAA5684001FB557 /* SettingParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6AE1DAA5684001FB557 /* SettingParse.swift */; };
 		C616D6B11DAA569A001FB557 /* SettingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6B01DAA569A001FB557 /* SettingData.swift */; };
 		C616D6B31DAA68BC001FB557 /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6B21DAA68BC001FB557 /* ConfigViewController.swift */; };
 		C616D6B71DAB425E001FB557 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6B61DAB425E001FB557 /* UserData.swift */; };
@@ -63,13 +61,11 @@
 		C600AB211DCD93750049B6F2 /* UserXmlParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserXmlParser.swift; sourceTree = "<group>"; };
 		C600AB231DCDA9C20049B6F2 /* FileUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileUtil.swift; sourceTree = "<group>"; };
 		C600AB271DD3730D0049B6F2 /* EditUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserViewController.swift; sourceTree = "<group>"; };
-		C600AB2B1DD827310049B6F2 /* SettingXmlParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingXmlParser.swift; sourceTree = "<group>"; };
-		C600AB2D1DDA16270049B6F2 /* SettingXmlParserNewSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingXmlParserNewSetting.swift; sourceTree = "<group>"; };
+		C600AB2F1DDCB7A40049B6F2 /* SettingXmlParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingXmlParser.swift; path = Config/SettingXmlParser.swift; sourceTree = "<group>"; };
+		C600AB311DDCB7ED0049B6F2 /* SettingXmlParserNewSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingXmlParserNewSetting.swift; path = Config/SettingXmlParserNewSetting.swift; sourceTree = "<group>"; };
 		C60997511D8840CD00D0FA1C /* Houses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Houses.swift; path = SwissEph/Houses.swift; sourceTree = "<group>"; };
-		C60A11D71DA7C24700C65F68 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		C60A11DA1DA7E61D00C65F68 /* ConfigXmlParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigXmlParser.swift; path = Config/ConfigXmlParser.swift; sourceTree = "<group>"; };
 		C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissHCalc.swift; path = SwissEph/SwissHCalc.swift; sourceTree = "<group>"; };
-		C616D6AE1DAA5684001FB557 /* SettingParse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingParse.swift; path = Config/SettingParse.swift; sourceTree = "<group>"; };
 		C616D6B01DAA569A001FB557 /* SettingData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingData.swift; path = Config/SettingData.swift; sourceTree = "<group>"; };
 		C616D6B21DAA68BC001FB557 /* ConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
 		C616D6B61DAB425E001FB557 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserData.swift; path = Db/UserData.swift; sourceTree = "<group>"; };
@@ -100,7 +96,6 @@
 		C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6EAB17F1D30C2FB0038C772 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C6EAB1811D30C2FB0038C772 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C6EAB1921D30E8990038C772 /* microcosm-mac-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microcosm-mac-Bridging-Header.h"; sourceTree = "<group>"; };
 		C6EAB1971D3150D00038C772 /* SwissEph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissEph.swift; path = SwissEph/SwissEph.swift; sourceTree = "<group>"; };
 		C6F4C2EE1D5B808800108545 /* SweSunb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweSunb.swift; path = SwissEph/SweSunb.swift; sourceTree = "<group>"; };
 		C6F4C2F01D5C0C5A00108545 /* SwissHLib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissHLib.swift; path = SwissEph/SwissHLib.swift; sourceTree = "<group>"; };
@@ -120,29 +115,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C60A11D91DA7E59500C65F68 /* libxml2.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C60A11D61DA7C24700C65F68 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C60A11D71DA7C24700C65F68 /* libxml2.tbd */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		C6EAB16C1D30C2FB0038C772 = {
 			isa = PBXGroup;
 			children = (
 				C696536F1DB9D4270015118A /* readme.md */,
 				C6EAB1771D30C2FB0038C772 /* microcosm-mac */,
 				C6EAB1761D30C2FB0038C772 /* Products */,
-				C6EAB1921D30E8990038C772 /* microcosm-mac-Bridging-Header.h */,
-				C60A11D61DA7C24700C65F68 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -194,7 +178,6 @@
 				C616D6C21DAFCF98001FB557 /* NewUserViewController.swift */,
 				C600AB271DD3730D0049B6F2 /* EditUserViewController.swift */,
 				C63674541D818A6800B26AA5 /* PlanetData.swift */,
-				C616D6AE1DAA5684001FB557 /* SettingParse.swift */,
 				C616D6B01DAA569A001FB557 /* SettingData.swift */,
 				C616D6BE1DAE76DA001FB557 /* TempSetting.swift */,
 				C616D6C01DAE77CC001FB557 /* Point.swift */,
@@ -202,10 +185,10 @@
 				C63AFB921DBF9B6700A80178 /* UserDbDirs.swift */,
 				C67FA7B21DC78496001E293B /* UserDirView.swift */,
 				C60A11DA1DA7E61D00C65F68 /* ConfigXmlParser.swift */,
-				C600AB2B1DD827310049B6F2 /* SettingXmlParser.swift */,
+				C600AB2F1DDCB7A40049B6F2 /* SettingXmlParser.swift */,
+				C600AB311DDCB7ED0049B6F2 /* SettingXmlParserNewSetting.swift */,
 				C600AB211DCD93750049B6F2 /* UserXmlParser.swift */,
 				C600AB231DCDA9C20049B6F2 /* FileUtil.swift */,
-				C600AB2D1DDA16270049B6F2 /* SettingXmlParserNewSetting.swift */,
 			);
 			path = "microcosm-mac";
 			sourceTree = "<group>";
@@ -289,7 +272,6 @@
 				C6EAB1981D3150D00038C772 /* SwissEph.swift in Sources */,
 				C600AB221DCD93750049B6F2 /* UserXmlParser.swift in Sources */,
 				C616D6B71DAB425E001FB557 /* UserData.swift in Sources */,
-				C616D6AF1DAA5684001FB557 /* SettingParse.swift in Sources */,
 				C616D6B11DAA569A001FB557 /* SettingData.swift in Sources */,
 				C63674571D818B4F00B26AA5 /* AstroCalc.swift in Sources */,
 				C6F4C3161D60AEA900108545 /* SweEpsilon.swift in Sources */,
@@ -301,6 +283,7 @@
 				C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */,
 				C6F4C3141D60ABE100108545 /* SideData.swift in Sources */,
 				C6EAB17B1D30C2FB0038C772 /* ViewController.swift in Sources */,
+				C600AB321DDCB7ED0049B6F2 /* SettingXmlParserNewSetting.swift in Sources */,
 				C69653701DB9D4270015118A /* readme.md in Sources */,
 				C6FA05C61D4C64E6002F5BA3 /* FileData.swift in Sources */,
 				C63674531D7DAE4F00B26AA5 /* CommonData.swift in Sources */,
@@ -311,14 +294,13 @@
 				C62735F71D99711100A5C017 /* DatabaseViewController.swift in Sources */,
 				C6FA05C21D48F7A6002F5BA3 /* PlanData.swift in Sources */,
 				C6FA05C01D48F068002F5BA3 /* SweRet.swift in Sources */,
-				C600AB2C1DD827310049B6F2 /* SettingXmlParser.swift in Sources */,
 				C6FA05C41D4A56AA002F5BA3 /* SweDate.swift in Sources */,
+				C600AB301DDCB7A40049B6F2 /* SettingXmlParser.swift in Sources */,
 				C6F4C2EF1D5B808800108545 /* SweSunb.swift in Sources */,
 				C67FA7B31DC78496001E293B /* UserDirView.swift in Sources */,
 				C63AFB931DBF9B6700A80178 /* UserDbDirs.swift in Sources */,
 				C616D6BF1DAE76DA001FB557 /* TempSetting.swift in Sources */,
 				C63674551D818A6900B26AA5 /* PlanetData.swift in Sources */,
-				C600AB2E1DDA16270049B6F2 /* SettingXmlParserNewSetting.swift in Sources */,
 				C600AB281DD3730D0049B6F2 /* EditUserViewController.swift in Sources */,
 				C6FA05BC1D48F047002F5BA3 /* SavePositions.swift in Sources */,
 				C6F4C2F11D5C0C5A00108545 /* SwissHLib.swift in Sources */,

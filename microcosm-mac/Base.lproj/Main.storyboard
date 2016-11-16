@@ -65,7 +65,7 @@
                                     <items>
                                         <menuItem title="公式サイトへ" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
-                                                <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
+                                                <action selector="OpenOfficialSite:" target="Voe-Tx-rLC" id="sad-i8-NBT"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -860,7 +860,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6dQ-LC-LLH">
                                 <rect key="frame" x="241" y="287" width="59" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title=".mcsm" id="OW3-g5-ZcI">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title=".csm" id="OW3-g5-ZcI">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

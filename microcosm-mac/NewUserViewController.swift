@@ -46,10 +46,10 @@ class NewUserViewController: NSViewController {
         
         if let _:Int = (Int)(Year.stringValue) {
             udata.birth_year = (Int)(Year.stringValue)!
-            if (udata.birth_year < 1900 || 2100 < udata.birth_year) {
+            if (udata.birth_year < 1800 || 2399 < udata.birth_year) {
                 let alert:NSAlert = NSAlert();
                 alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
+                alert.informativeText = "当ソフトで計算できるのは1800年〜2399年までです。";
                 alert.runModal();
                 return
             }
