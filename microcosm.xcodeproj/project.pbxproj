@@ -23,6 +23,7 @@
 		C616D6BF1DAE76DA001FB557 /* TempSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6BE1DAE76DA001FB557 /* TempSetting.swift */; };
 		C616D6C11DAE77CC001FB557 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6C01DAE77CC001FB557 /* Point.swift */; };
 		C616D6C31DAFCF98001FB557 /* NewUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616D6C21DAFCF98001FB557 /* NewUserViewController.swift */; };
+		C618F25B1DF9A4BA009C9806 /* CustomWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618F25A1DF9A4BA009C9806 /* CustomWindowManager.swift */; };
 		C62735F71D99711100A5C017 /* DatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62735F61D99711100A5C017 /* DatabaseViewController.swift */; };
 		C62D35F51D9AB34200BAB3CE /* MenuClick.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62D35F41D9AB34200BAB3CE /* MenuClick.swift */; };
 		C63674431D71455000B26AA5 /* SweTimeRet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63674421D71455000B26AA5 /* SweTimeRet.swift */; };
@@ -63,6 +64,7 @@
 		C600AB271DD3730D0049B6F2 /* EditUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserViewController.swift; sourceTree = "<group>"; };
 		C600AB2F1DDCB7A40049B6F2 /* SettingXmlParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingXmlParser.swift; path = Config/SettingXmlParser.swift; sourceTree = "<group>"; };
 		C600AB311DDCB7ED0049B6F2 /* SettingXmlParserNewSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingXmlParserNewSetting.swift; path = Config/SettingXmlParserNewSetting.swift; sourceTree = "<group>"; };
+		C600AB331DF701080049B6F2 /* microcosm-mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "microcosm-mac.entitlements"; sourceTree = "<group>"; };
 		C60997511D8840CD00D0FA1C /* Houses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Houses.swift; path = SwissEph/Houses.swift; sourceTree = "<group>"; };
 		C60A11DA1DA7E61D00C65F68 /* ConfigXmlParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigXmlParser.swift; path = Config/ConfigXmlParser.swift; sourceTree = "<group>"; };
 		C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwissHCalc.swift; path = SwissEph/SwissHCalc.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 		C616D6BE1DAE76DA001FB557 /* TempSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TempSetting.swift; path = Config/TempSetting.swift; sourceTree = "<group>"; };
 		C616D6C01DAE77CC001FB557 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Point.swift; path = Config/Point.swift; sourceTree = "<group>"; };
 		C616D6C21DAFCF98001FB557 /* NewUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUserViewController.swift; sourceTree = "<group>"; };
+		C618F25A1DF9A4BA009C9806 /* CustomWindowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomWindowManager.swift; sourceTree = "<group>"; };
 		C62735F61D99711100A5C017 /* DatabaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseViewController.swift; sourceTree = "<group>"; };
 		C62D35F41D9AB34200BAB3CE /* MenuClick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuClick.swift; sourceTree = "<group>"; };
 		C63674421D71455000B26AA5 /* SweTimeRet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweTimeRet.swift; path = SwissEph/SweTimeRet.swift; sourceTree = "<group>"; };
@@ -90,7 +93,7 @@
 		C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = seas_18.se1; sourceTree = "<group>"; };
 		C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = semo_18.se1; sourceTree = "<group>"; };
 		C6E9FDBC1D538A23008FDE6B /* sepl_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sepl_18.se1; sourceTree = "<group>"; };
-		C6EAB1751D30C2FB0038C772 /* microcosm-mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "microcosm-mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6EAB1751D30C2FB0038C772 /* microcosm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = microcosm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6EAB17A1D30C2FB0038C772 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -125,7 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				C696536F1DB9D4270015118A /* readme.md */,
-				C6EAB1771D30C2FB0038C772 /* microcosm-mac */,
+				C6EAB1771D30C2FB0038C772 /* microcosm */,
 				C6EAB1761D30C2FB0038C772 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -133,14 +136,15 @@
 		C6EAB1761D30C2FB0038C772 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C6EAB1751D30C2FB0038C772 /* microcosm-mac.app */,
+				C6EAB1751D30C2FB0038C772 /* microcosm.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C6EAB1771D30C2FB0038C772 /* microcosm-mac */ = {
+		C6EAB1771D30C2FB0038C772 /* microcosm */ = {
 			isa = PBXGroup;
 			children = (
+				C600AB331DF701080049B6F2 /* microcosm-mac.entitlements */,
 				C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */,
 				C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */,
 				C6E9FDBC1D538A23008FDE6B /* sepl_18.se1 */,
@@ -189,16 +193,18 @@
 				C600AB311DDCB7ED0049B6F2 /* SettingXmlParserNewSetting.swift */,
 				C600AB211DCD93750049B6F2 /* UserXmlParser.swift */,
 				C600AB231DCDA9C20049B6F2 /* FileUtil.swift */,
+				C618F25A1DF9A4BA009C9806 /* CustomWindowManager.swift */,
 			);
+			name = microcosm;
 			path = "microcosm-mac";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C6EAB1741D30C2FB0038C772 /* microcosm-mac */ = {
+		C6EAB1741D30C2FB0038C772 /* microcosm */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C6EAB1841D30C2FB0038C772 /* Build configuration list for PBXNativeTarget "microcosm-mac" */;
+			buildConfigurationList = C6EAB1841D30C2FB0038C772 /* Build configuration list for PBXNativeTarget "microcosm" */;
 			buildPhases = (
 				C6EAB1711D30C2FB0038C772 /* Sources */,
 				C6EAB1721D30C2FB0038C772 /* Frameworks */,
@@ -208,9 +214,9 @@
 			);
 			dependencies = (
 			);
-			name = "microcosm-mac";
+			name = microcosm;
 			productName = "microcosm-mac";
-			productReference = C6EAB1751D30C2FB0038C772 /* microcosm-mac.app */;
+			productReference = C6EAB1751D30C2FB0038C772 /* microcosm.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -226,10 +232,15 @@
 					C6EAB1741D30C2FB0038C772 = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
-			buildConfigurationList = C6EAB1701D30C2FB0038C772 /* Build configuration list for PBXProject "microcosm-mac" */;
+			buildConfigurationList = C6EAB1701D30C2FB0038C772 /* Build configuration list for PBXProject "microcosm" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -242,7 +253,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C6EAB1741D30C2FB0038C772 /* microcosm-mac */,
+				C6EAB1741D30C2FB0038C772 /* microcosm */,
 			);
 		};
 /* End PBXProject section */
@@ -297,6 +308,7 @@
 				C6FA05C41D4A56AA002F5BA3 /* SweDate.swift in Sources */,
 				C600AB301DDCB7A40049B6F2 /* SettingXmlParser.swift in Sources */,
 				C6F4C2EF1D5B808800108545 /* SweSunb.swift in Sources */,
+				C618F25B1DF9A4BA009C9806 /* CustomWindowManager.swift in Sources */,
 				C67FA7B31DC78496001E293B /* UserDirView.swift in Sources */,
 				C63AFB931DBF9B6700A80178 /* UserDbDirs.swift in Sources */,
 				C616D6BF1DAE76DA001FB557 /* TempSetting.swift in Sources */,
@@ -419,12 +431,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "microcosm-mac/microcosm-mac.entitlements";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "microcosm-mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				NEW_SETTING = "";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
-				PRODUCT_BUNDLE_IDENTIFIER = "ogatism.microcosm-mac";
+				PRODUCT_BUNDLE_IDENTIFIER = jp.ogatism.microcosm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "microcosm-mac-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -437,11 +450,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "microcosm-mac/microcosm-mac.entitlements";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "microcosm-mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				NEW_SETTING = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "ogatism.microcosm-mac";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.ogatism.microcosm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "microcosm-mac-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -451,7 +466,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C6EAB1701D30C2FB0038C772 /* Build configuration list for PBXProject "microcosm-mac" */ = {
+		C6EAB1701D30C2FB0038C772 /* Build configuration list for PBXProject "microcosm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C6EAB1821D30C2FB0038C772 /* Debug */,
@@ -460,7 +475,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C6EAB1841D30C2FB0038C772 /* Build configuration list for PBXNativeTarget "microcosm-mac" */ = {
+		C6EAB1841D30C2FB0038C772 /* Build configuration list for PBXNativeTarget "microcosm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C6EAB1851D30C2FB0038C772 /* Debug */,

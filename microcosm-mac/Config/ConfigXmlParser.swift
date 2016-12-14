@@ -196,6 +196,26 @@ class ConfigXmlParser: NSObject {
         ret += xmlend
         ret += "\n"
         
+        let regex: NSRegularExpression
+        do {
+            let pattern = ""
+            regex = try NSRegularExpression(pattern: pattern, options: [])
+            let string = ""
+            let results: [NSTextCheckingResult] = regex.matches(in: string, options: [], range: NSMakeRange(0, string.characters.count))
+            
+            var matchStrings = [String]()
+            for (idx, result) in results.enumerated() {
+                let range = result.rangeAt(idx)
+                if range.location != NSNotFound {
+                    let matchString = (string as NSString).substring(with: range) as String
+                    if !matchString.isEmpty {
+                        matchStrings.append(matchString)
+                    }
+                }
+            }
+        } catch let error as NSError {
+            // エラー処理
+        }
         return ret as NSString
     }
 

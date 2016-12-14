@@ -133,6 +133,19 @@ class DatabaseViewController: NSViewController, NSOutlineViewDataSource, NSOutli
     @IBAction func submitClick(_ sender: AnyObject) {
         if (udirView.selectedUser != nil) {
             let xmlParse: UserXmlParser = UserXmlParser()
+            let datafileManager = FileManager.default
+            let documents = NSSearchPathForDirectoriesInDomains(
+                .documentDirectory,
+                .userDomainMask, true)[0]
+            let directoryName = "microcosm"  // 作成するディレクトリ名
+            let createPath = documents + "/" + directoryName + "/data"
+            var isDir : ObjCBool = false
+
+            if (!datafileManager.fileExists(atPath: (udirView.selectedUser?.filePath)!, isDirectory: &isDir)) {
+                dismissViewController(self)
+                return
+            }
+
             let udata: UserData = xmlParse.FileToUser((udirView.selectedUser?.filePath)!)!
             udata.fullPath = (udirView.selectedUser?.filePath)!
             let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)

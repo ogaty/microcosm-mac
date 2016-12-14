@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C6EAB1741D30C2FB0038C772"
-               BuildableName = "microcosm-mac.app"
-               BlueprintName = "microcosm-mac"
-               ReferencedContainer = "container:microcosm-mac.xcodeproj">
+               BuildableName = "microcosm.app"
+               BlueprintName = "microcosm"
+               ReferencedContainer = "container:microcosm.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C6EAB1741D30C2FB0038C772"
-            BuildableName = "microcosm-mac.app"
-            BlueprintName = "microcosm-mac"
-            ReferencedContainer = "container:microcosm-mac.xcodeproj">
+            BuildableName = "microcosm.app"
+            BlueprintName = "microcosm"
+            ReferencedContainer = "container:microcosm.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C6EAB1741D30C2FB0038C772"
-            BuildableName = "microcosm-mac.app"
-            BlueprintName = "microcosm-mac"
-            ReferencedContainer = "container:microcosm-mac.xcodeproj">
+            BuildableName = "microcosm.app"
+            BlueprintName = "microcosm"
+            ReferencedContainer = "container:microcosm.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -82,9 +82,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C6EAB1741D30C2FB0038C772"
-            BuildableName = "microcosm-mac.app"
-            BlueprintName = "microcosm-mac"
-            ReferencedContainer = "container:microcosm-mac.xcodeproj">
+            BuildableName = "microcosm.app"
+            BlueprintName = "microcosm"
+            ReferencedContainer = "container:microcosm.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

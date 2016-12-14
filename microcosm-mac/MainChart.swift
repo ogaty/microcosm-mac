@@ -40,6 +40,9 @@ class MainChart: NSView {
 
         // Drawing code here.
 //        let color = NSColor(calibratedRed: 1, green: 0, blue: 0, alpha: 1)
+        if let window = NSApplication.shared().mainWindow {
+            let mainview: ViewController = (window.contentViewController as? ViewController)!
+        }
         // 外側円
         let circleRect = NSMakeRect((CGFloat)(config.zodiacPaddingLeft), (CGFloat)(config.zodiacPaddingTop),
                                     (CGFloat)(config.zodiacOuterWidth), (CGFloat)(config.zodiacOuterWidth))
