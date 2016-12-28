@@ -102,15 +102,18 @@ class ConfigXmlParser: NSObject {
             } else if (line.contains(self.zodiacOuterWidthStart)) {
                 tmpLine = line.replacingOccurrences(of: self.zodiacOuterWidthStart, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.zodiacOuterWidthEnd, with: "")
-                config.zodiacOuterWidth = (Int)(tmpLine)!
+//                config.zodiacOuterWidth = (Int)(tmpLine)!
+                config.zodiacOuterWidth = 380
             } else if (line.contains(self.zodiacWidthStart)) {
                 tmpLine = line.replacingOccurrences(of: self.zodiacWidthStart, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.zodiacWidthEnd, with: "")
-                config.zodiacWidth = (Int)(tmpLine)!
+//                config.zodiacWidth = (Int)(tmpLine)!
+                config.zodiacWidth = 60
             } else if (line.contains(self.zodiacCenterStart)) {
                 tmpLine = line.replacingOccurrences(of: self.zodiacCenterStart, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.zodiacCenterEnd, with: "")
-                config.zodiacCenter = (Int)(tmpLine)!
+//                config.zodiacCenter = (Int)(tmpLine)!
+                config.zodiacCenter = 130
             } else if (line.contains(self.decimalDispStart)) {
                 tmpLine = line.replacingOccurrences(of: self.decimalDispStart, with: "")
                 tmpLine = tmpLine.replacingOccurrences(of: self.decimalDispEnd, with: "")
@@ -173,7 +176,7 @@ class ConfigXmlParser: NSObject {
         ret += houseEnd
         ret += "\n"
         ret += zodiacOuterWidthStart
-        ret += "340"
+        ret += "380"
         ret += zodiacOuterWidthEnd
         ret += "\n"
         ret += zodiacWidthStart
@@ -181,7 +184,7 @@ class ConfigXmlParser: NSObject {
         ret += zodiacWidthEnd
         ret += "\n"
         ret += zodiacCenterStart
-        ret += "90"
+        ret += "130"
         ret += zodiacCenterEnd
         ret += "\n"
         ret += decimalDispStart

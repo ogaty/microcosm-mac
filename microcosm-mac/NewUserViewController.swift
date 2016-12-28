@@ -11,17 +11,13 @@ import Cocoa
 class NewUserViewController: NSViewController {
     @IBOutlet weak var name: NSTextField!
     @IBOutlet weak var furigana: NSTextField!
-    @IBOutlet weak var Year: NSTextField!
-    @IBOutlet weak var Month: NSTextField!
-    @IBOutlet weak var Day: NSTextField!
-    @IBOutlet weak var Hour: NSTextField!
-    @IBOutlet weak var Minute: NSTextField!
-    @IBOutlet weak var Second: NSTextField!
     @IBOutlet weak var Lat: NSTextField!
     @IBOutlet weak var Lng: NSTextField!
     @IBOutlet weak var Memo: NSTextField!
     @IBOutlet weak var Place: NSTextField!
     @IBOutlet weak var fileName: NSTextField!
+
+    @IBOutlet weak var inputdate: NSDatePicker!
 
     var main: ViewController = ViewController()
     var vc: DatabaseViewController? = nil
@@ -36,7 +32,6 @@ class NewUserViewController: NSViewController {
             .userDomainMask, true)[0]
         let directoryName = "microcosm"
         let createPath = documents + "/" + directoryName + "/data"
-        let common: CommonData = CommonData()
 
         let udata: UserData = UserData()
         udata.fileName = fileName.stringValue
@@ -44,102 +39,29 @@ class NewUserViewController: NSViewController {
         udata.name = name.stringValue
         udata.furigana = furigana.stringValue
         
-        if let _:Int = (Int)(Year.stringValue) {
-            udata.birth_year = (Int)(Year.stringValue)!
-            if (udata.birth_year < 1800 || 2399 < udata.birth_year) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "当ソフトで計算できるのは1800年〜2399年までです。";
-                alert.runModal();
-                return
-            }
-        } else {
+        let input: NSDate = inputdate.dateValue as NSDate
+        let cal: NSCalendar = NSCalendar(identifier: NSCalendar.Identifier.gregorian)!
+        let year: Int = cal.components(.year, from: input as Date).year!
+        let month: Int = cal.components(.month, from: input as Date).month!
+        let day: Int = cal.components(.day, from: input as Date).day!
+        let hour: Int = cal.components(.hour, from: input as Date).hour!
+        let minute: Int = cal.components(.minute, from: input as Date).minute!
+        let second: Int = cal.components(.second, from: input as Date).second!
+
+        if (year < 1800 || 2399 < year) {
             let alert:NSAlert = NSAlert();
             alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
+            alert.informativeText = "当ソフトで計算できるのは1800年〜2399年までです。";
             alert.runModal();
             return
         }
-        if let _:Int = (Int)(Month.stringValue) {
-            udata.birth_month = (Int)(Month.stringValue)!
-            if (udata.birth_month < 1 || 12 < udata.birth_month) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
-            let alert:NSAlert = NSAlert();
-            alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
-            alert.runModal();
-            return
-        }
-        if let _:Int = (Int)(Day.stringValue) {
-            udata.birth_day = (Int)(Day.stringValue)!
-            if (udata.birth_day < 1 || 31 < udata.birth_day) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
-            let alert:NSAlert = NSAlert();
-            alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
-            alert.runModal();
-            return
-        }
-        if let _:Int = (Int)(Hour.stringValue) {
-            udata.birth_hour = (Int)(Hour.stringValue)!
-            if (udata.birth_hour < 0 || 23 < udata.birth_hour) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
-            let alert:NSAlert = NSAlert();
-            alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
-            alert.runModal();
-            return
-        }
-        if let _:Int = (Int)(Minute.stringValue) {
-            udata.birth_minute = (Int)(Minute.stringValue)!
-            if (udata.birth_minute < 0 || 59 < udata.birth_minute) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
-            let alert:NSAlert = NSAlert();
-            alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
-            alert.runModal();
-            return
-        }
-        if let _:Double = (Double)(Second.stringValue) {
-            udata.birth_second = (Double)(Second.stringValue)!
-            if (udata.birth_second < 0 || 59 < udata.birth_second) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
-            let alert:NSAlert = NSAlert();
-            alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
-            alert.runModal();
-            return
-        }
+        udata.birth_year = year
+        udata.birth_month = month
+        udata.birth_day = day
+        udata.birth_hour = hour
+        udata.birth_minute = minute
+        udata.birth_second = Double(second)
+        
         udata.birth_place = Place.stringValue
         if let _:Double = (Double)(Lat.stringValue) {
             udata.lat = (Double)(Lat.stringValue)!

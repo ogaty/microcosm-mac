@@ -14,35 +14,35 @@ class EditUserViewController: NSViewController {
 
     @IBOutlet weak var username: NSTextField!
     @IBOutlet weak var furigana: NSTextField!
-    @IBOutlet weak var birth_year: NSTextField!
-    @IBOutlet weak var birth_month: NSTextField!
-    @IBOutlet weak var birth_day: NSTextField!
-    @IBOutlet weak var birth_hour: NSTextField!
-    @IBOutlet weak var birth_minute: NSTextField!
-    @IBOutlet weak var birth_second: NSTextField!
     @IBOutlet weak var birth_place: NSTextField!
     @IBOutlet weak var timezone: NSComboBox!
     @IBOutlet weak var lat: NSTextField!
     @IBOutlet weak var lng: NSTextField!
     @IBOutlet weak var memo: NSTextField!
     
+    @IBOutlet weak var inputDate: NSDatePicker!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
         username.stringValue = (udata?.name)!
         furigana.stringValue = (udata?.furigana)!
-        birth_year.stringValue = (udata?.birth_year.description)!
-        birth_month.stringValue = (udata?.birth_month.description)!
-        birth_day.stringValue = (udata?.birth_day.description)!
-        birth_hour.stringValue = (udata?.birth_hour.description)!
-        birth_minute.stringValue = (udata?.birth_minute.description)!
-        birth_second.stringValue = ((Int)((udata?.birth_second)!).description)
         timezone.selectItem(at: 0)
         birth_place.stringValue = (udata?.birth_place)!
         lat.stringValue = (udata?.lat.description)!
         lng.stringValue = (udata?.lng.description)!
         memo.stringValue = (udata?.memo)!
         
+        let components = NSDateComponents()
+        components.year = (udata?.birth_year)!
+        components.month = (udata?.birth_month)!
+        components.day = (udata?.birth_day)!
+        components.hour = (udata?.birth_hour)!
+        components.minute = (udata?.birth_minute)!
+        components.second = (Int)((udata?.birth_second)!)
+        
+        let date: Date? = NSCalendar.current.date(from: components as DateComponents)
+        inputDate.dateValue = date!
     }
     
     @IBAction func submitClicked(_ sender: AnyObject) {
@@ -56,102 +56,30 @@ class EditUserViewController: NSViewController {
         let newudata: UserData = UserData()
         newudata.name = username.stringValue
         newudata.furigana = furigana.stringValue
-        if let _:Int = (Int)(birth_year.stringValue) {
-            newudata.birth_year = (Int)(birth_year.stringValue)!
-            if (newudata.birth_year < 1900 || 2100 < newudata.birth_year) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
+        let input: NSDate = inputDate.dateValue as NSDate
+        let cal: NSCalendar = NSCalendar(identifier: NSCalendar.Identifier.gregorian)!
+        let year: Int = cal.components(.year, from: input as Date).year!
+        let month: Int = cal.components(.month, from: input as Date).month!
+        let day: Int = cal.components(.day, from: input as Date).day!
+        let hour: Int = cal.components(.hour, from: input as Date).hour!
+        let minute: Int = cal.components(.minute, from: input as Date).minute!
+        let second: Int = cal.components(.second, from: input as Date).second!
+        
+        if (year < 1800 || 2399 < year) {
             let alert:NSAlert = NSAlert();
             alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
+            alert.informativeText = "当ソフトで計算できるのは1800年〜2399年までです。";
             alert.runModal();
             return
         }
-        if let _:Int = (Int)(birth_month.stringValue) {
-            newudata.birth_month = (Int)(birth_month.stringValue)!
-            if (newudata.birth_month < 1 || 12 < newudata.birth_month) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
-            let alert:NSAlert = NSAlert();
-            alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
-            alert.runModal();
-            return
-        }
-        if let _:Int = (Int)(birth_day.stringValue) {
-            newudata.birth_day = (Int)(birth_day.stringValue)!
-            if (newudata.birth_day < 1 || 31 < newudata.birth_day) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
-            let alert:NSAlert = NSAlert();
-            alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
-            alert.runModal();
-            return
-        }
-        if let _:Int = (Int)(birth_hour.stringValue) {
-            newudata.birth_hour = (Int)(birth_hour.stringValue)!
-            if (newudata.birth_hour < 0 || 23 < newudata.birth_hour) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
-            let alert:NSAlert = NSAlert();
-            alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
-            alert.runModal();
-            return
-        }
-        if let _:Int = (Int)(birth_minute.stringValue) {
-            newudata.birth_minute = (Int)(birth_minute.stringValue)!
-            if (newudata.birth_minute < 0 || 59 < newudata.birth_minute) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
-            let alert:NSAlert = NSAlert();
-            alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
-            alert.runModal();
-            return
-        }
-        if let _:Double = (Double)(birth_second.stringValue) {
-            newudata.birth_second = (Double)(birth_second.stringValue)!
-            if (newudata.birth_second < 0 || 59 < newudata.birth_second) {
-                let alert:NSAlert = NSAlert();
-                alert.messageText = "エラー";
-                alert.informativeText = "正しい時刻を入力してください。";
-                alert.runModal();
-                return
-            }
-        } else {
-            let alert:NSAlert = NSAlert();
-            alert.messageText = "エラー";
-            alert.informativeText = "正しい時刻を入力してください。";
-            alert.runModal();
-            return
-        }
+        newudata.birth_year = year
+        newudata.birth_month = month
+        newudata.birth_day = day
+        newudata.birth_hour = hour
+        newudata.birth_minute = minute
+        newudata.birth_second = Double(second)
+
+        
         newudata.timezone = timezone.stringValue
         newudata.birth_place = birth_place.stringValue
         if let _:Double = (Double)(lat.stringValue) {

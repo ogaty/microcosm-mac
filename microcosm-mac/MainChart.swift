@@ -18,6 +18,8 @@ class MainChart: NSView {
     
     var myClassVar: NSColor! // the optional mark ! to be noticed.
     
+    var box = [Int](repeating: 0, count: 60)
+    
     override init(frame frameRect: NSRect) {
         super.init(frame:frameRect);
     }
@@ -40,9 +42,6 @@ class MainChart: NSView {
 
         // Drawing code here.
 //        let color = NSColor(calibratedRed: 1, green: 0, blue: 0, alpha: 1)
-        if let window = NSApplication.shared().mainWindow {
-            let mainview: ViewController = (window.contentViewController as? ViewController)!
-        }
         // 外側円
         let circleRect = NSMakeRect((CGFloat)(config.zodiacPaddingLeft), (CGFloat)(config.zodiacPaddingTop),
                                     (CGFloat)(config.zodiacOuterWidth), (CGFloat)(config.zodiacOuterWidth))
@@ -82,10 +81,36 @@ class MainChart: NSView {
         return pt
     }
 
+    // 天体関連
+    // degree: absolute_position
     func setPlanetPosition(_ ipl: Int, degree: Double, startDegree: Double) -> Void {
+        // 重ならないようにずらしを入れる
+        // 1サインに6度単位5個までデータが入る
+        var index: Int = 0
+        index = (Int)(degree / 6)
+        if (box[index] == 1)
+        {
+            while (box[index] == 1)
+            {
+                index = index + 1
+                if (index == 60)
+                {
+                    index = 0;
+                }
+            }
+            box[index] = 1;
+        }
+        else
+        {
+            box[index] = 1;
+        }
+        
         let x: Double = (Double)(config.zodiacOuterWidth - config.zodiacWidth - 50) / 2
         let y: Double = 0
-        let pt: NSPoint = rotate((CGFloat)(x), y: (CGFloat)(y), degree: (CGFloat)(degree - startDegree))
+        let pt: NSPoint = rotate((CGFloat)(x), y: (CGFloat)(y),
+                                 degree: (CGFloat)((Double)(index * 6) - startDegree))
+        let ptDeg: NSPoint = rotate((CGFloat)(x - 20.0), y: (CGFloat)(y),
+                                    degree: (CGFloat)((Double)(index * 6) - startDegree))
         
         let planets: [String] = ["☉", "☽", "☿", "♀", "♂", "♃", "♄", "♅", "♆", "♇"]
 
@@ -104,6 +129,20 @@ class MainChart: NSView {
         
         lbl.font = xfont
         self.addSubview(lbl)
+
+        let degLbl: NSTextView = NSTextView(frame: CGRect(
+            x: ptDeg.x + (CGFloat)(config.zodiacPaddingLeft) +
+                (CGFloat)(config.zodiacOuterWidth) / 2 - 20,
+            y: ptDeg.y + (CGFloat)(config.zodiacPaddingLeft) +
+                (CGFloat)(config.zodiacOuterWidth) / 2 - 20,
+            width: 30, height: 30))
+        let degree2: Int = (Int)(degree.truncatingRemainder(dividingBy: 30))
+        degLbl.textStorage!.mutableString.setString((String)(degree2))
+        degLbl.drawsBackground = false
+        degLbl.isSelectable = false
+        let xfont2 = NSFont(name: "Helvetica", size: 14)
+        degLbl.font = xfont2
+        self.addSubview(degLbl)
         
     }
     
@@ -118,6 +157,15 @@ class MainChart: NSView {
             let startPt: NSPoint = rotate((CGFloat)(startX), y: (CGFloat)(startY), degree: (CGFloat)(degree))
             let endPt: NSPoint = rotate((CGFloat)(endX), y: (CGFloat)(endY), degree: (CGFloat)(degree))
             let pathLine: NSBezierPath = NSBezierPath()
+            var color: NSColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+
+            if (i == 1 || i == 4 || i == 7 || i == 10) {
+                pathLine.lineWidth = 2.0
+            } else {
+                pathLine.lineWidth = 1.0
+                color = NSColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1.0)
+            }
+            color.set()
             pathLine.move(to: NSPoint(
                 x: startPt.x + (CGFloat)(config.zodiacPaddingLeft) +
                     (CGFloat)(config.zodiacOuterWidth) / 2,
@@ -206,6 +254,27 @@ class MainChart: NSView {
             endPoint.x += CGFloat(config.zodiacPaddingLeft + (config.zodiacOuterWidth) / 2);
             endPoint.y += CGFloat(config.zodiacPaddingTop + (config.zodiacOuterWidth) / 2);
             
+            var color: NSColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+            if (aspects[j].aspectKind == 1) {
+                // opposition, red
+                color = NSColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
+            } else if (aspects[j].aspectKind == 2) {
+                // trine, orange
+                color = NSColor(red: 255 / 255, green: 165 / 255, blue: 0 / 255, alpha: 1.0)
+            } else if (aspects[j].aspectKind == 3) {
+                // square, purple
+                color = NSColor(red: 128 / 255, green: 255 / 255, blue: 128 / 255, alpha: 1.0)
+            } else if (aspects[j].aspectKind == 4) {
+                // sextile, green
+                color = NSColor(red: 0 / 255, green: 128 / 255, blue: 0 / 255, alpha: 1.0)
+            } else if (aspects[j].aspectKind == 5) {
+                // inconjunct, gray
+                color = NSColor(red: 128 / 255, green: 128 / 255, blue: 128 / 255, alpha: 1.0)
+            } else if (aspects[j].aspectKind == 6) {
+                // sesquiquadrate, gray
+                color = NSColor(red: 0 / 255, green: 0 / 255, blue: 0 / 255, alpha: 1.0)
+            }
+            color.set()
             let aspectLine: NSBezierPath = NSBezierPath()
             aspectLine.move(to: NSPoint(
                 x: startPoint.x,

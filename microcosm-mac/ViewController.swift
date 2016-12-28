@@ -42,7 +42,10 @@ class ViewController: NSViewController {
     @IBOutlet weak var twelvethCuspLabel: NSTextField!
     
     var mainchartData: MainChart!
+    // natal
     var udata: UserData = UserData()
+    // transit
+    var edata: UserData = UserData()
     var setting: [SettingData?] = []
     var tmpSetting: TempSetting = TempSetting()
     var config: ConfigData = ConfigData()
@@ -179,6 +182,15 @@ class ViewController: NSViewController {
         udata.lat = config.lat
         udata.lng = config.lng
         udata.birth_place = "東京都"
+        edata.birth_year = year
+        edata.birth_month = month
+        edata.birth_day = day
+        edata.birth_hour = hour
+        edata.birth_minute = minute
+        edata.birth_second = (Double)(second)
+        edata.lat = config.lat
+        edata.lng = config.lng
+        edata.birth_place = "東京都"
         
         ReCalc()
         ReRender()
@@ -194,7 +206,7 @@ class ViewController: NSViewController {
         let calc: AstroCalc = AstroCalc(path: ephepath)
         self.cusps = calc.CuspCalc(udata.birth_year, month: udata.birth_month, day: udata.birth_day, hour: udata.birth_hour, min: udata.birth_minute, sec: udata.birth_second, lat: udata.lat, lng: udata.lng, houseKind: houseCalc)
 
-        self.plist = calc.PositionCalc(udata: udata)
+        self.plist = calc.PositionCalc(udata: udata, config: config)
         
         self.plist = aspect.AspectCalcSame(a_setting: setting[0]!, list: plist)
 
@@ -205,10 +217,6 @@ class ViewController: NSViewController {
     func ReRender() {
         if (mainchartData != nil) {
             mainchartData.removeFromSuperview()
-        }
-        var houseCalc: Int = 0
-        if (self.config.houseCalc == "placidus") {
-            houseCalc = 0
         }
 
         sunPositionLabel.stringValue = common.getSignText(self.plist[0].absolute_position) + (String)(NSString(format: "%.3f", self.plist[0].absolute_position.truncatingRemainder(dividingBy: 30)))
@@ -248,7 +256,7 @@ class ViewController: NSViewController {
         
         
         // メインチャート表示
-        let rect2: NSRect = NSMakeRect(340, 20, 400, 400);
+        let rect2: NSRect = NSMakeRect(330, 35, 400, 400);
         mainchartData = MainChart(frame: rect2, configinfo: config, cuspsinfo: cusps, planetList: plist, tempSetting: tmpSetting)
         self.view.addSubview(mainchartData)
 

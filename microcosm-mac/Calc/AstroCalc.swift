@@ -16,7 +16,7 @@ class AstroCalc: NSObject {
         swiss.swe_set_ephe_path(path)
     }
     
-    func PositionCalc(udata: UserData) -> [PlanetData] {
+    func PositionCalc(udata: UserData, config: ConfigData) -> [PlanetData] {
         var plist: [PlanetData] = []
         var ret: SweRet
         let iflag: Int = SEFLG_SWIEPH | SEFLG_SPEED

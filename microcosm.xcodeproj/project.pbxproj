@@ -124,6 +124,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C6A40F091E1356AF00263CC0 /* Sweph */ = {
+			isa = PBXGroup;
+			children = (
+				C6FA05BF1D48F068002F5BA3 /* SweRet.swift */,
+				C6FA05BD1D48F059002F5BA3 /* SweData.swift */,
+				C6F4C2EE1D5B808800108545 /* SweSunb.swift */,
+				C6FA05C31D4A56AA002F5BA3 /* SweDate.swift */,
+				C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */,
+				C6F4C2F01D5C0C5A00108545 /* SwissHLib.swift */,
+				C6F4C32B1D61C03D00108545 /* SweNut.swift */,
+				C6F4C3151D60AEA900108545 /* SweEpsilon.swift */,
+				C6EAB1971D3150D00038C772 /* SwissEph.swift */,
+				C63674421D71455000B26AA5 /* SweTimeRet.swift */,
+				C60997511D8840CD00D0FA1C /* Houses.swift */,
+				C6FA05C51D4C64E6002F5BA3 /* FileData.swift */,
+				C6FA05C11D48F7A6002F5BA3 /* PlanData.swift */,
+				C6E9FDB21D4C8030008FDE6B /* GenConst.swift */,
+				C6F4C3131D60ABE100108545 /* SideData.swift */,
+				C63674441D71D69600B26AA5 /* TopoData.swift */,
+				C6FA05BB1D48F047002F5BA3 /* SavePositions.swift */,
+			);
+			name = Sweph;
+			sourceTree = "<group>";
+		};
+		C6A40F0A1E1356F800263CC0 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				C63674581D81901900B26AA5 /* ConfigData.swift */,
+				C616D6B01DAA569A001FB557 /* SettingData.swift */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
 		C6EAB16C1D30C2FB0038C772 = {
 			isa = PBXGroup;
 			children = (
@@ -148,41 +181,24 @@
 				C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */,
 				C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */,
 				C6E9FDBC1D538A23008FDE6B /* sepl_18.se1 */,
-				C6FA05BF1D48F068002F5BA3 /* SweRet.swift */,
-				C6FA05BD1D48F059002F5BA3 /* SweData.swift */,
-				C6FA05C31D4A56AA002F5BA3 /* SweDate.swift */,
-				C6EAB1971D3150D00038C772 /* SwissEph.swift */,
-				C6FA05BB1D48F047002F5BA3 /* SavePositions.swift */,
+				C6A40F091E1356AF00263CC0 /* Sweph */,
 				C6EAB1781D30C2FB0038C772 /* AppDelegate.swift */,
 				C6EAB17A1D30C2FB0038C772 /* ViewController.swift */,
 				C6EAB17C1D30C2FB0038C772 /* Assets.xcassets */,
 				C6EAB17E1D30C2FB0038C772 /* Main.storyboard */,
 				C6EAB1811D30C2FB0038C772 /* Info.plist */,
-				C6FA05C11D48F7A6002F5BA3 /* PlanData.swift */,
-				C6FA05C51D4C64E6002F5BA3 /* FileData.swift */,
-				C6E9FDB21D4C8030008FDE6B /* GenConst.swift */,
-				C6F4C2EE1D5B808800108545 /* SweSunb.swift */,
-				C60A11DC1DA7EB9600C65F68 /* SwissHCalc.swift */,
-				C6F4C2F01D5C0C5A00108545 /* SwissHLib.swift */,
-				C6F4C3131D60ABE100108545 /* SideData.swift */,
-				C6F4C3151D60AEA900108545 /* SweEpsilon.swift */,
-				C6F4C32B1D61C03D00108545 /* SweNut.swift */,
-				C63674421D71455000B26AA5 /* SweTimeRet.swift */,
-				C63674441D71D69600B26AA5 /* TopoData.swift */,
+				C6A40F0A1E1356F800263CC0 /* Setting */,
 				C63674561D818B4F00B26AA5 /* AstroCalc.swift */,
 				C616D6BA1DAD1D98001FB557 /* AspectCalc.swift */,
 				C616D6BC1DAD223A001FB557 /* AspectInfo.swift */,
 				C63674521D7DAE4F00B26AA5 /* CommonData.swift */,
-				C63674581D81901900B26AA5 /* ConfigData.swift */,
 				C616D6B21DAA68BC001FB557 /* ConfigViewController.swift */,
 				C62735F61D99711100A5C017 /* DatabaseViewController.swift */,
-				C60997511D8840CD00D0FA1C /* Houses.swift */,
 				C63674461D75DB1900B26AA5 /* MainChart.swift */,
 				C62D35F41D9AB34200BAB3CE /* MenuClick.swift */,
 				C616D6C21DAFCF98001FB557 /* NewUserViewController.swift */,
 				C600AB271DD3730D0049B6F2 /* EditUserViewController.swift */,
 				C63674541D818A6800B26AA5 /* PlanetData.swift */,
-				C616D6B01DAA569A001FB557 /* SettingData.swift */,
 				C616D6BE1DAE76DA001FB557 /* TempSetting.swift */,
 				C616D6C01DAE77CC001FB557 /* Point.swift */,
 				C616D6B61DAB425E001FB557 /* UserData.swift */,
