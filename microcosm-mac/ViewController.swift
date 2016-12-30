@@ -40,7 +40,9 @@ class ViewController: NSViewController {
     @IBOutlet weak var tenthCuspLabel: NSTextField!
     @IBOutlet weak var eleventhCuspLabel: NSTextField!
     @IBOutlet weak var twelvethCuspLabel: NSTextField!
-    
+    @IBOutlet weak var inputBoxDate: NSDatePicker!
+    @IBOutlet weak var inputDay: NSTextField!
+
     var mainchartData: MainChart!
     // natal
     var udata: UserData = UserData()
@@ -192,6 +194,9 @@ class ViewController: NSViewController {
         edata.lng = config.lng
         edata.birth_place = "東京都"
         
+        // datepick
+        inputBoxDate.dateValue = NSDate() as Date
+        
         ReCalc()
         ReRender()
     }
@@ -312,18 +317,60 @@ class ViewController: NSViewController {
 
     }
     
-    @IBAction func xmlTest(_ sender: AnyObject) {
-        let parser: UserXmlParser = UserXmlParser()
-        let util: FileUtil = FileUtil()
-        let document: String = util.getDocumentDir()
-        var nstxt: NSString?
-        do {
-            nstxt = try NSString(contentsOf: URL(string:document + "/microcosm/test.csm")!, encoding: String.Encoding.utf8.rawValue)
-        } catch {
-            
-        }
-        let udata: UserData = parser.XmlToUser(nstxt!)
-        parser.UserToXml(udata)
+    @IBAction func timeNowClick(_ sender: AnyObject) {
+        inputBoxDate.dateValue = Date()
     }
+
+    @IBAction func setTimeClick(_ sender: AnyObject) {
+        let help: DatepickHelper = DatepickHelper(inputBoxDate)
+        udata.birth_year = help.getYear()
+        udata.birth_month = help.getMonth()
+        udata.birth_minute = help.getMinute()
+        udata.birth_hour = help.getHour()
+        udata.birth_minute = help.getMinute()
+        udata.birth_second = (Double)(help.getSecond())
+        ClearView()
+        ReCalc()
+        ReRender()
+    }
+
+    @IBAction func leftDayClick(_ sender: AnyObject) {
+        if let d: Int = (Int)(inputDay.stringValue) {
+            var components = DateComponents()
+            components.setValue(-1 * d, for: .day)
+            let t: Date = inputBoxDate.dateValue
+            inputBoxDate.dateValue = Calendar.current.date(byAdding: components, to: t, wrappingComponents: false)!
+            let helper: DatepickHelper = DatepickHelper(inputBoxDate)
+            udata.birth_year = helper.getYear()
+            udata.birth_month = helper.getMonth()
+            udata.birth_day = helper.getDay()
+            udata.birth_hour = helper.getHour()
+            udata.birth_minute = helper.getMinute()
+            udata.birth_second = (Double)(helper.getSecond())
+            ClearView()
+            ReCalc()
+            ReRender()
+        }
+    }
+
+    @IBAction func rightDayClick(_ sender: AnyObject) {
+        if let d: Int = (Int)(inputDay.stringValue) {
+            var components = DateComponents()
+            components.setValue(1 * d, for: .day)
+            let t: Date = inputBoxDate.dateValue
+            inputBoxDate.dateValue = Calendar.current.date(byAdding: components, to: t, wrappingComponents: false)!
+            let helper: DatepickHelper = DatepickHelper(inputBoxDate)
+            udata.birth_year = helper.getYear()
+            udata.birth_month = helper.getMonth()
+            udata.birth_day = helper.getDay()
+            udata.birth_hour = helper.getHour()
+            udata.birth_minute = helper.getMinute()
+            udata.birth_second = (Double)(helper.getSecond())
+            ClearView()
+            ReCalc()
+            ReRender()
+        }
+    }
+
 }
 

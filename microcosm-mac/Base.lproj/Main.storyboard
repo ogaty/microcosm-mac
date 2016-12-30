@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
@@ -107,7 +107,7 @@
             <objects>
                 <viewController storyboardIdentifier="mainview" id="XfG-lQ-9wD" customClass="ViewController" customModule="microcosm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" identifier="mainview" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="790" height="452"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1019" height="452"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G8z-Dv-XfI">
@@ -566,6 +566,87 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="color" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
+                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pDW-cE-1es">
+                                <rect key="frame" x="768" y="321" width="231" height="123"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <color key="color" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </colorWell>
+                            <datePicker verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hvt-Z1-xzG">
+                                <rect key="frame" x="791" y="409" width="187" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="vyt-sF-wWK">
+                                    <font key="font" metaFont="system"/>
+                                    <date key="date" timeIntervalSinceReferenceDate="-31611600">
+                                        <!--2000-01-01 03:00:00 +0000-->
+                                    </date>
+                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <datePickerElements key="datePickerElements" year="YES" month="YES" day="YES" hour="YES" minute="YES" second="YES"/>
+                                </datePickerCell>
+                            </datePicker>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q7p-d6-hfd">
+                                <rect key="frame" x="785" y="375" width="81" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="NOW" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5nY-OA-xVW">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="timeNowClick:" target="XfG-lQ-9wD" id="Onn-EO-Vnq"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ov5-yH-oZ0">
+                                <rect key="frame" x="900" y="375" width="81" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="SET" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="utP-qN-xdN">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="setTimeClick:" target="XfG-lQ-9wD" id="Xhz-RD-PoZ"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a0M-dr-tOI">
+                                <rect key="frame" x="789" y="346" width="37" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="日" id="vyR-PC-HXv">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U1g-Gs-J0t">
+                                <rect key="frame" x="808" y="337" width="52" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="←" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="K9X-aH-hYC">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="leftDayClick:" target="XfG-lQ-9wD" id="lzV-SA-ZHc"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YVV-8C-jt9">
+                                <rect key="frame" x="857" y="337" width="52" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="→" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kyJ-Dc-fo0">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="rightDayClick:" target="XfG-lQ-9wD" id="oem-Qh-W7w"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zMm-i4-b9c">
+                                <rect key="frame" x="911" y="344" width="77" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="scv-v3-fpl">
+                                    <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="dtX-El-Nmg"/>
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
@@ -574,6 +655,8 @@
                         <outlet property="fifthCuspLabel" destination="fOi-wl-eRP" id="4R8-hN-rgb"/>
                         <outlet property="firstCuspLabel" destination="Rqt-fP-bIj" id="HP8-6E-85J"/>
                         <outlet property="fourthCuspLabel" destination="NuU-Hj-gWA" id="hok-FB-PAj"/>
+                        <outlet property="inputBoxDate" destination="Hvt-Z1-xzG" id="76b-l8-c9U"/>
+                        <outlet property="inputDay" destination="zMm-i4-b9c" id="NCK-X5-mQR"/>
                         <outlet property="jupiterPositionLabel" destination="Lj9-lv-pWR" id="bTt-ed-CUt"/>
                         <outlet property="marsPositionLabel" destination="CtC-tI-GaH" id="HUH-g1-jsC"/>
                         <outlet property="mercuryPositionLabel" destination="9We-JN-ebm" id="1MU-Le-dRd"/>
@@ -600,7 +683,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="135" y="975"/>
+            <point key="canvasLocation" x="232" y="1052"/>
         </scene>
         <!--新規ユーザー-->
         <scene sceneID="dIm-dk-Rjv">
@@ -1118,18 +1201,18 @@
                 </viewController>
                 <customObject id="ANe-tE-qXO" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="850" y="840"/>
+            <point key="canvasLocation" x="1056" y="1066"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="v2A-UV-oR4">
             <objects>
                 <viewController id="1iS-Vt-cxy" sceneMemberID="viewController">
                     <view key="view" id="JtO-ov-DuI">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="354" height="137"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <datePicker verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z8J-kn-6sv">
-                                <rect key="frame" x="36" y="244" width="187" height="27"/>
+                                <rect key="frame" x="85" y="84" width="187" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="a4U-iS-8PG">
                                     <font key="font" metaFont="system"/>
@@ -1147,7 +1230,7 @@
                 </viewController>
                 <customObject id="4dp-zT-Gtz" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1324" y="839"/>
+            <point key="canvasLocation" x="932" y="720"/>
         </scene>
     </scenes>
 </document>
