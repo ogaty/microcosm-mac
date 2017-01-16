@@ -323,6 +323,14 @@ class ViewController: NSViewController {
 
     @IBAction func setTimeClick(_ sender: AnyObject) {
         let help: DatepickHelper = DatepickHelper(inputBoxDate)
+        if (help.getYear() > 2399 || help.getYear() < 1801) {
+            let alert:NSAlert = NSAlert();
+            alert.messageText = "エラー";
+            alert.informativeText = "当ソフトではその時間を読み込めません。";
+            alert.runModal();
+            return
+        }
+
         udata.birth_year = help.getYear()
         udata.birth_month = help.getMonth()
         udata.birth_minute = help.getMinute()
@@ -341,6 +349,13 @@ class ViewController: NSViewController {
             let t: Date = inputBoxDate.dateValue
             inputBoxDate.dateValue = Calendar.current.date(byAdding: components, to: t, wrappingComponents: false)!
             let helper: DatepickHelper = DatepickHelper(inputBoxDate)
+            if (helper.getYear() < 1801) {
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "当ソフトではその時間を読み込めません。";
+                alert.runModal();
+                return
+            }
             udata.birth_year = helper.getYear()
             udata.birth_month = helper.getMonth()
             udata.birth_day = helper.getDay()
@@ -360,6 +375,14 @@ class ViewController: NSViewController {
             let t: Date = inputBoxDate.dateValue
             inputBoxDate.dateValue = Calendar.current.date(byAdding: components, to: t, wrappingComponents: false)!
             let helper: DatepickHelper = DatepickHelper(inputBoxDate)
+            if (helper.getYear() > 2399) {
+                let alert:NSAlert = NSAlert();
+                alert.messageText = "エラー";
+                alert.informativeText = "当ソフトではその時間を読み込めません。";
+                alert.runModal();
+                return
+            }
+
             udata.birth_year = helper.getYear()
             udata.birth_month = helper.getMonth()
             udata.birth_day = helper.getDay()

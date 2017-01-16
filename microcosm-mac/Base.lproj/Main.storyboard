@@ -637,11 +637,10 @@
                                     <action selector="rightDayClick:" target="XfG-lQ-9wD" id="oem-Qh-W7w"/>
                                 </connections>
                             </button>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zMm-i4-b9c">
-                                <rect key="frame" x="911" y="344" width="77" height="22"/>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7fn-Bc-RVe">
+                                <rect key="frame" x="906" y="344" width="69" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="scv-v3-fpl">
-                                    <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="dtX-El-Nmg"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="1" drawsBackground="YES" id="LSd-hX-ZZB">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -656,7 +655,7 @@
                         <outlet property="firstCuspLabel" destination="Rqt-fP-bIj" id="HP8-6E-85J"/>
                         <outlet property="fourthCuspLabel" destination="NuU-Hj-gWA" id="hok-FB-PAj"/>
                         <outlet property="inputBoxDate" destination="Hvt-Z1-xzG" id="76b-l8-c9U"/>
-                        <outlet property="inputDay" destination="zMm-i4-b9c" id="NCK-X5-mQR"/>
+                        <outlet property="inputDay" destination="7fn-Bc-RVe" id="Izl-r2-clv"/>
                         <outlet property="jupiterPositionLabel" destination="Lj9-lv-pWR" id="bTt-ed-CUt"/>
                         <outlet property="marsPositionLabel" destination="CtC-tI-GaH" id="HUH-g1-jsC"/>
                         <outlet property="mercuryPositionLabel" destination="9We-JN-ebm" id="1MU-Le-dRd"/>
@@ -683,7 +682,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="232" y="1052"/>
+            <point key="canvasLocation" x="231.5" y="1052"/>
         </scene>
         <!--新規ユーザー-->
         <scene sceneID="dIm-dk-Rjv">
