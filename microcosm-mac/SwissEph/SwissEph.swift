@@ -66,6 +66,7 @@ let NOT_AVAILABLE: Int = -2
 
 let MOON_SPEED_INTV: Double = 0.00005
 let PLAN_SPEED_INTV: Double = 0.0001
+let NUT_SPEED_INTV: Double = 0.0001
 let NODE_CALC_INTV_MOSH: Double = 0.1
 
 let SE_SUN: Int = 0
@@ -2305,7 +2306,6 @@ class SwissEph: NSObject {
                 }
             } else {
                 retc = sweph(tjd, ipli: SEI_SUNBARY, ifno: SEI_FILE_PLANET, xsunb: sunb, iflag: iflag, do_save: do_save)/**/
-                //todo xpsを戻す
                 if (retc.iflag != OK) {
                     return(retc)
                 }
@@ -2655,7 +2655,7 @@ class SwissEph: NSObject {
                 swed.pldat[ipli].x[i] = retc.xx[i] - swed.pldat[ipli].x[i]
             }
             if (need_speed) {
-                for i in 3..<5 {
+                for i in 3..<6 {
                     swed.pldat[ipli].x[i] = retc.xx[i] - swed.pldat[ipli].x[i]
                 }
             }
@@ -2817,7 +2817,7 @@ class SwissEph: NSObject {
                         if ((iflag & SEFLG_HELCTR) > 0 || (iflag & SEFLG_BARYCTR) > 0) {
                             retc = sweplan(t, ipli: SEI_EARTH, ifno: SEI_FILE_PLANET, iflag: iflag, do_save: NO_SAVE)
                             for i in 0..<6 {
-                                xearth[i] = retc.tmpDbl6[i]
+                                xearth[i] = swed.pldat[SEI_EARTH].xperet[i]
                             }
                         } else {
                             retc = sweph(t, ipli: SEI_SUNBARY, ifno: SEI_FILE_PLANET, xsunb: sunb, iflag: iflag, do_save: NO_SAVE)
@@ -2890,6 +2890,7 @@ class SwissEph: NSObject {
             }
 
             if ((iflag & SEFLG_SPEED) > 0) {
+                // todo xx置き換え
                 swi_precess_speed(xx, t: swed.pldat[SEI_EARTH].teval, iflag: iflag, direction: J2000_TO_J);/**/
             }
             oe_flag = 0
@@ -3078,7 +3079,11 @@ class SwissEph: NSObject {
             case SEFLG_SWIEPH:
                 if (ibody == IS_PLANET) {
                     retc = sweplan(t, ipli: ipli, ifno: ifno, iflag: iflag, do_save: NO_SAVE)
+                    for i in 0..<6 {
+                        xearth[i] = swed.pldat[SEI_EARTH].xperet[i]
+                    }
                 } else {                /*asteroid*/
+                    // todo ここもxearthが要りそう
                     retc = sweplan(t, ipli: SEI_EARTH, ifno: SEI_FILE_PLANET, iflag: iflag, do_save: NO_SAVE)
                     if (retc.iflag == OK) {
                         let sunb: SweSunb = SweSunb()
@@ -3195,7 +3200,10 @@ class SwissEph: NSObject {
                 xx[i] = retc.tmpDbl6[i]
             }
             if ((iflag & SEFLG_SPEED) > 0) {
-                swi_precess_speed(xx, t: swed.pldat[pdp_idx].teval, iflag: iflag, direction: J2000_TO_J);
+                retc = swi_precess_speed(xx, t: swed.pldat[pdp_idx].teval, iflag: iflag, direction: J2000_TO_J);
+                for i in 0..<6 {
+                    xx[i] = retc.tmpDbl6[i]
+                }
             }
             oe_flag = 0
         } else {
@@ -3306,6 +3314,10 @@ class SwissEph: NSObject {
             retc = swi_coortrf2(xobs, sineps: -swed.nut.snut, coseps: swed.nut.cnut)
             NSLog(retc.serr)
             retc = swi_nutate(xobs, iflag: iflag | SEFLG_SPEED, backward: true)
+            for i in 0..<6 {
+                xobs[i] = retc.tmpDbl6[i]
+            }
+
             NSLog(retc.serr)
         }
         /* precess to J2000 */
@@ -3334,9 +3346,57 @@ class SwissEph: NSObject {
     
     func swi_nutate(_ xx: [Double], iflag: Int, backward: Bool) -> SweRet {
         let ret: SweRet = SweRet()
+        var x: [Double] = [0, 0, 0, 0, 0, 0]
+        var xv: [Double] = [0, 0, 0, 0, 0, 0]
+
+        for i in 0..<3 {
+            if (backward) {
+                x[i] = xx[0] * swed.nut.matrix[i][0]
+                x[i] += xx[1] * swed.nut.matrix[i][1]
+                x[i] += xx[2] * swed.nut.matrix[i][2];
+            } else {
+                x[i] = xx[0] * swed.nut.matrix[0][i]
+                x[i] += xx[1] * swed.nut.matrix[1][i]
+                x[i] += xx[2] * swed.nut.matrix[2][i];
+            }
+        }
+        if ((iflag & SEFLG_SPEED) > 0) {
+            /* correct speed:
+             * first correct rotation */
+            for i in 0..<3 {
+                if (backward) {
+                    x[i+3] = xx[3] * swed.nut.matrix[i][0]
+                    x[i+3] += xx[4] * swed.nut.matrix[i][1]
+                    x[i+3] += xx[5] * swed.nut.matrix[i][2];
+                } else {
+                    x[i+3] = xx[3] * swed.nut.matrix[0][i]
+                    x[i+3] += xx[4] * swed.nut.matrix[1][i]
+                    x[i+3] += xx[5] * swed.nut.matrix[2][i];
+                }
+            }
+            /* then apparent motion due to change of nutation during day.
+             * this makes a difference of 0.01" */
+            for i in 0..<3 {
+                if (backward) {
+                    xv[i] = xx[0] * swed.nutv.matrix[i][0]
+                    xv[i] += xx[1] * swed.nutv.matrix[i][1]
+                    xv[i] += xx[2] * swed.nutv.matrix[i][2];
+                } else {
+                    xv[i] = xx[0] * swed.nutv.matrix[0][i]
+                    xv[i] += xx[1] * swed.nutv.matrix[1][i]
+                    xv[i] += xx[2] * swed.nutv.matrix[2][i];
+                }
+                /* new speed */
+                ret.tmpDbl6[3+i] = x[3+i] + (x[i] - xv[i]) / NUT_SPEED_INTV;
+            }
+        }
+        /* new position */
+        for i in 0..<3 {
+            ret.tmpDbl6[i] = x[i];
+        }
         return ret
     }
-    
+
     func swi_deflect_light(_ xx: [Double], dtsave_for_defl: Double, iflag: Int) -> Void {
         
     }
@@ -5175,7 +5235,11 @@ class SwissEph: NSObject {
          * nutation                                     *
          ************************************************/
         if ((iflag & SEFLG_NONUT) == 0) {
-            swi_nutate(xx, iflag: iflag, backward: false)
+            retc = swi_nutate(xx, iflag: iflag, backward: false)
+            for i in 0..<6 {
+                // todo truenode時に
+//                xxx[i] = retc.tmpDbl6[i]
+            }
         }
         /* now we have equatorial cartesian coordinates; save them */
         for i in 0..<6 {
