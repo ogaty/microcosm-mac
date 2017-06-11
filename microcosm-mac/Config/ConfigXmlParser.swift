@@ -216,7 +216,7 @@ class ConfigXmlParser: NSObject {
                     }
                 }
             }
-        } catch let error as NSError {
+        } catch let _ as NSError {
             // エラー処理
         }
         return ret as NSString

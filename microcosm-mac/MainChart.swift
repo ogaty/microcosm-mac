@@ -64,6 +64,7 @@ class MainChart: NSView {
         path3.stroke()
         
 //        var housepath : NSBezierPath = NSBezierPath(rect: dirtyRect)
+        signCuspRender(cusps[1])
         houseCuspRender(cusps: cusps)
 
         aspectRender(startDegree: cusps[1], list: plist, startPosition: 1, endPosition: 1, aspectKind: 1, aspectRing: 1)
@@ -83,11 +84,11 @@ class MainChart: NSView {
 
     // 天体関連
     // degree: absolute_position
-    func setPlanetPosition(_ ipl: Int, degree: Double, startDegree: Double) -> Void {
+    func setPlanetPosition(_ ipl: Int, pdata: PlanetData, startDegree: Double) -> Void {
         // 重ならないようにずらしを入れる
         // 1サインに6度単位5個までデータが入る
         var index: Int = 0
-        index = (Int)(degree / 6)
+        index = (Int)(pdata.absolute_position / 6)
         if (box[index] == 1)
         {
             while (box[index] == 1)
@@ -105,11 +106,15 @@ class MainChart: NSView {
             box[index] = 1;
         }
         
-        let x: Double = (Double)(config.zodiacOuterWidth - config.zodiacWidth - 50) / 2
+        let x: Double = (Double)(config.zodiacOuterWidth - config.zodiacWidth - 42) / 2
         let y: Double = 0
         let pt: NSPoint = rotate((CGFloat)(x), y: (CGFloat)(y),
                                  degree: (CGFloat)((Double)(index * 6) - startDegree))
-        let ptDeg: NSPoint = rotate((CGFloat)(x - 20.0), y: (CGFloat)(y),
+        let ptSymbol: NSPoint = rotate((CGFloat)(x - 18.0), y: (CGFloat)(y),
+                                    degree: (CGFloat)((Double)(index * 6) - startDegree))
+        let ptDeg: NSPoint = rotate((CGFloat)(x - 36.0), y: (CGFloat)(y),
+                                    degree: (CGFloat)((Double)(index * 6) - startDegree))
+        let ptRetro: NSPoint = rotate((CGFloat)(x - 54.0), y: (CGFloat)(y),
                                     degree: (CGFloat)((Double)(index * 6) - startDegree))
         
         let planets: [String] = ["☉", "☽", "☿", "♀", "♂", "♃", "♄", "♅", "♆", "♇"]
@@ -130,20 +135,80 @@ class MainChart: NSView {
         lbl.font = xfont
         self.addSubview(lbl)
 
+        let symbolLbl: NSTextView = NSTextView(frame: CGRect(
+            x: ptSymbol.x + (CGFloat)(config.zodiacPaddingLeft) +
+                (CGFloat)(config.zodiacOuterWidth) / 2 - 20,
+            y: ptSymbol.y + (CGFloat)(config.zodiacPaddingLeft) +
+                (CGFloat)(config.zodiacOuterWidth) / 2 - 20,
+            width: 30, height: 30))
+        let symbolStr: String = common.getSignText(pdata.absolute_position)
+        symbolLbl.textStorage!.mutableString.setString(symbolStr)
+        symbolLbl.drawsBackground = false
+        symbolLbl.isSelectable = false
+        let xfonts = NSFont(name: "Helvetica", size: 14)
+        symbolLbl.font = xfonts
+        self.addSubview(symbolLbl)
+        
         let degLbl: NSTextView = NSTextView(frame: CGRect(
             x: ptDeg.x + (CGFloat)(config.zodiacPaddingLeft) +
                 (CGFloat)(config.zodiacOuterWidth) / 2 - 20,
             y: ptDeg.y + (CGFloat)(config.zodiacPaddingLeft) +
                 (CGFloat)(config.zodiacOuterWidth) / 2 - 20,
             width: 30, height: 30))
-        let degree2: Int = (Int)(degree.truncatingRemainder(dividingBy: 30))
+        let degree2: Int = (Int)(pdata.absolute_position.truncatingRemainder(dividingBy: 30))
         degLbl.textStorage!.mutableString.setString((String)(degree2))
         degLbl.drawsBackground = false
         degLbl.isSelectable = false
         let xfont2 = NSFont(name: "Helvetica", size: 14)
         degLbl.font = xfont2
         self.addSubview(degLbl)
+
         
+        if (pdata.speed < 0) {
+            let xfont3 = NSFont(name: "Helvetica", size: 14)
+            let retroLbl: NSTextView = NSTextView(frame: CGRect(
+                x: ptRetro.x + (CGFloat)(config.zodiacPaddingLeft) +
+                    (CGFloat)(config.zodiacOuterWidth) / 2 - 20,
+                y: ptRetro.y + (CGFloat)(config.zodiacPaddingLeft) +
+                    (CGFloat)(config.zodiacOuterWidth) / 2 - 20,
+                width: 30, height: 30))
+            retroLbl.textStorage!.mutableString.setString("\u{211e}")
+            retroLbl.drawsBackground = false
+            retroLbl.isSelectable = false
+            retroLbl.font = xfont3
+            self.addSubview(retroLbl)
+        }
+    }
+    
+    func signCuspRender(_ degree: Double) {
+        let startX: Double = (Double)(config.zodiacOuterWidth - config.zodiacWidth) / 2
+        let startY: Double = 0
+        let endX: Double = (Double)(config.zodiacOuterWidth) / 2
+        let endY: Double = 0
+        
+        for i in 1..<13 {
+            let degree: Double = (Double)(30 * i - (Int)(degree))
+            let startPt: NSPoint = rotate((CGFloat)(startX), y: (CGFloat)(startY), degree: (CGFloat)(degree))
+            let endPt: NSPoint = rotate((CGFloat)(endX), y: (CGFloat)(endY), degree: (CGFloat)(degree))
+            let pathLine: NSBezierPath = NSBezierPath()
+            var color: NSColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+            color = NSColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1.0)
+            color.set()
+
+            pathLine.lineWidth = 1.0
+
+            pathLine.move(to: NSPoint(
+                x: startPt.x + (CGFloat)(config.zodiacPaddingLeft) +
+                    (CGFloat)(config.zodiacOuterWidth) / 2,
+                y:startPt.y + (CGFloat)(config.zodiacPaddingTop) +
+                    (CGFloat)(config.zodiacOuterWidth) / 2))
+            pathLine.line(to: NSPoint(x: endPt.x + (CGFloat)(config.zodiacPaddingLeft) +
+                (CGFloat)(config.zodiacOuterWidth) / 2,
+                                      y:endPt.y + (CGFloat)(config.zodiacPaddingTop) +
+                                        (CGFloat)(config.zodiacOuterWidth) / 2))
+            pathLine.stroke()
+            
+        }
     }
     
     func houseCuspRender(cusps: [Double]) {
@@ -187,7 +252,7 @@ class MainChart: NSView {
         for i in 0..<12 {
             let newDegree: Double = (Double)(30 * (i + 1)) - degree - 15.0
             let x: Double = (Double)(config.zodiacOuterWidth - 30) / 2
-            let y: Double = 0
+            let y: Double = 0.0
             let pt: NSPoint = rotate((CGFloat)(x), y: (CGFloat)(y), degree: (CGFloat)(newDegree))
 
             let newX = pt.x + (CGFloat)(config.zodiacPaddingLeft) +

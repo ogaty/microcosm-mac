@@ -33,10 +33,12 @@ class AstroCalc: NSObject {
         let ut: Double = ret.tmpDbl6[0]
         
         for i in 0..<10 {
+            
             ret = swiss.swe_calc_ut(ut, ipl: i, iflag: iflag)
-            //        ret = swiss.swe_calc_ut(2457605.0919465744, ipl: 0, iflag: iflag)
+//                    ret = swiss.swe_calc_ut(2457831.042456, ipl: 3, iflag: iflag)
             let p: PlanetData = PlanetData()
             p.absolute_position = ret.xx[0]
+            p.speed = ret.xx[3]
             plist.append(p)
         }
         

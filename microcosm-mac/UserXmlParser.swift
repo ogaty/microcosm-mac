@@ -42,7 +42,7 @@ class UserXmlParser: NSObject {
 
     func XmlToUser(_ xml: NSString) -> UserData {
         let udata: UserData = UserData()
-        var inUserData: Bool = false
+//        var inUserData: Bool = false
         
         xml.enumerateLines {
             line, stop in
@@ -50,10 +50,10 @@ class UserXmlParser: NSObject {
             if (line == self.xmlhead) {
                 tmpLine = line.replacingOccurrences(of: self.xmlhead, with: "")
             } else if (line.contains(self.xmltop)) {
-                inUserData = true
+//                inUserData = true
                 tmpLine = line.replacingOccurrences(of: self.xmltop, with: "")
             } else if (line.contains(self.xmlend)) {
-                inUserData = false
+//                inUserData = false
                 tmpLine = line.replacingOccurrences(of: self.xmlend, with: "")
             } else if (line.contains(self.usernameStart)) {
                 tmpLine = line.replacingOccurrences(of: self.usernameStart, with: "")
@@ -189,7 +189,7 @@ class UserXmlParser: NSObject {
 
     func FileToUser(_ filePath: String) -> UserData? {
         let udata: UserData = UserData()
-        var inUserData: Bool = false
+        // var inUserData: Bool = false
         let url: NSURL = NSURL(fileURLWithPath: filePath)
         var text: NSString
         do {
@@ -205,10 +205,10 @@ class UserXmlParser: NSObject {
             if (line == self.xmlhead) {
                 tmpLine = line.replacingOccurrences(of: self.xmlhead, with: "")
             } else if (line.contains(self.xmltop)) {
-                inUserData = true
+//                inUserData = true
                 tmpLine = line.replacingOccurrences(of: self.xmltop, with: "")
             } else if (line.contains(self.xmlend)) {
-                inUserData = false
+//                inUserData = false
                 tmpLine = line.replacingOccurrences(of: self.xmlend, with: "")
             } else if (line.contains(self.usernameStart)) {
                 tmpLine = line.replacingOccurrences(of: self.usernameStart, with: "")

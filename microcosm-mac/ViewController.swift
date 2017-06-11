@@ -270,7 +270,7 @@ class ViewController: NSViewController {
 
         // planetRender
         for i in 0..<10 {
-            mainchartData.setPlanetPosition(i, degree: plist[i].absolute_position, startDegree: cusps[1])
+            mainchartData.setPlanetPosition(i, pdata: plist[i], startDegree: cusps[1])
         }
         
     }

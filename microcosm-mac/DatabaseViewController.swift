@@ -138,7 +138,7 @@ class DatabaseViewController: NSViewController, NSOutlineViewDataSource, NSOutli
                 .documentDirectory,
                 .userDomainMask, true)[0]
             let directoryName = "microcosm"  // 作成するディレクトリ名
-            let createPath = documents + "/" + directoryName + "/data"
+            // let createPath = documents + "/" + directoryName + "/data"
             var isDir : ObjCBool = false
 
             if (!datafileManager.fileExists(atPath: (udirView.selectedUser?.filePath)!, isDirectory: &isDir)) {
@@ -148,7 +148,7 @@ class DatabaseViewController: NSViewController, NSOutlineViewDataSource, NSOutli
 
             let udata: UserData = xmlParse.FileToUser((udirView.selectedUser?.filePath)!)!
             udata.fullPath = (udirView.selectedUser?.filePath)!
-            let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
+            // let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
             main?.setUserData(udata)
             dismissViewController(self)
         }

@@ -654,7 +654,7 @@ class CommonData: NSObject {
         let regex: NSRegularExpression
         do {
             regex = try NSRegularExpression(pattern: pattern, options: [])
-        } catch let error as NSError {
+        } catch let _ as NSError {
             return false
         }
         let results: [NSTextCheckingResult] = regex.matches(in: target, options: [], range: NSMakeRange(0, target.characters.count))

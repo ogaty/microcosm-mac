@@ -728,7 +728,7 @@ class SettingXmlParser: NSObject {
     
     func XmlToSetting(_ xml: NSString, no: Int) -> SettingData {
         let setting: SettingData = SettingData(no)
-        var inUserData: Bool = false
+        // var inUserData: Bool = false
         let common: CommonData = CommonData()
         var dispcircleCnt: Int = 0
         var dispaspectCnt: Int = 0
@@ -739,10 +739,10 @@ class SettingXmlParser: NSObject {
             if (line == self.xmlhead) {
                 tmpLine = line.replacingOccurrences(of: self.xmlhead, with: "")
             } else if (line.contains(self.xmltop)) {
-                inUserData = true
+//                inUserData = true
                 tmpLine = line.replacingOccurrences(of: self.xmltop, with: "")
             } else if (line.contains(self.xmlend)) {
-                inUserData = false
+//                inUserData = false
                 tmpLine = line.replacingOccurrences(of: self.xmlend, with: "")
             } else if (line.contains(self.dispnameStart)) {
                 tmpLine = line.replacingOccurrences(of: self.dispnameStart, with: "")

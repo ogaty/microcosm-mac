@@ -38,6 +38,7 @@
 		C63AFB931DBF9B6700A80178 /* UserDbDirs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63AFB921DBF9B6700A80178 /* UserDbDirs.swift */; };
 		C67FA7B31DC78496001E293B /* UserDirView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67FA7B21DC78496001E293B /* UserDirView.swift */; };
 		C69653701DB9D4270015118A /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = C696536F1DB9D4270015118A /* readme.md */; };
+		C6ACE11E1E8E9544009A9166 /* SweDeltat.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6ACE11D1E8E9544009A9166 /* SweDeltat.swift */; };
 		C6E9FDB31D4C8030008FDE6B /* GenConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E9FDB21D4C8030008FDE6B /* GenConst.swift */; };
 		C6E9FDBD1D538A23008FDE6B /* seas_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */; };
 		C6E9FDBE1D538A23008FDE6B /* semo_18.se1 in Resources */ = {isa = PBXBuildFile; fileRef = C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */; };
@@ -93,6 +94,7 @@
 		C63AFB921DBF9B6700A80178 /* UserDbDirs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserDbDirs.swift; path = Db/UserDbDirs.swift; sourceTree = "<group>"; };
 		C67FA7B21DC78496001E293B /* UserDirView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDirView.swift; sourceTree = "<group>"; };
 		C696536F1DB9D4270015118A /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
+		C6ACE11D1E8E9544009A9166 /* SweDeltat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SweDeltat.swift; path = SwissEph/SweDeltat.swift; sourceTree = "<group>"; };
 		C6E9FDB21D4C8030008FDE6B /* GenConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenConst.swift; path = SwissEph/GenConst.swift; sourceTree = "<group>"; };
 		C6E9FDBA1D538A23008FDE6B /* seas_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = seas_18.se1; sourceTree = "<group>"; };
 		C6E9FDBB1D538A23008FDE6B /* semo_18.se1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = semo_18.se1; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				C6F4C3131D60ABE100108545 /* SideData.swift */,
 				C63674441D71D69600B26AA5 /* TopoData.swift */,
 				C6FA05BB1D48F047002F5BA3 /* SavePositions.swift */,
+				C6ACE11D1E8E9544009A9166 /* SweDeltat.swift */,
 			);
 			name = Sweph;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				C618F25B1DF9A4BA009C9806 /* CustomWindowManager.swift in Sources */,
 				C67FA7B31DC78496001E293B /* UserDirView.swift in Sources */,
 				C63AFB931DBF9B6700A80178 /* UserDbDirs.swift in Sources */,
+				C6ACE11E1E8E9544009A9166 /* SweDeltat.swift in Sources */,
 				C616D6BF1DAE76DA001FB557 /* TempSetting.swift in Sources */,
 				C63674551D818A6900B26AA5 /* PlanetData.swift in Sources */,
 				C600AB281DD3730D0049B6F2 /* EditUserViewController.swift in Sources */,

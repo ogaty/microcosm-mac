@@ -2103,7 +2103,7 @@ class SwissEph: NSObject {
         /******************************************
          * nutation                               *
          ******************************************/
-//        swi_check_nutation(tjd, iflag);
+        swi_check_nutation(tjd, iflag: iflag)
 
         /******************************************
          * select planet and ephemeris            *
@@ -3246,7 +3246,9 @@ class SwissEph: NSObject {
         } else {
 //            eps = swi_epsiln(tjd, iflag);
             if ((iflag & SEFLG_NONUT) == 0) {
-//                swi_nutation(tjd, iflag, nutlo)
+                retc = swi_nutation(tjd, iflag: iflag, nutlo: nutlo)
+                nutlo[0] = retc.tmpDbl6[0]
+                nutlo[1] = retc.tmpDbl6[1]
             }
         }
         if ((iflag & SEFLG_NONUT) > 0) {
@@ -3387,7 +3389,8 @@ class SwissEph: NSObject {
                     xv[i] += xx[2] * swed.nutv.matrix[2][i];
                 }
                 /* new speed */
-                ret.tmpDbl6[3+i] = x[3+i] + (x[i] - xv[i]) / NUT_SPEED_INTV;
+                let tmpval: Double = (x[i] - xv[i])
+                ret.tmpDbl6[3+i] = x[3+i] + tmpval / NUT_SPEED_INTV;
             }
         }
         /* new position */
@@ -4398,6 +4401,8 @@ class SwissEph: NSObject {
         var ans: Double = 0
         var iy: Int = 0
         var dd: Double = 0
+        let delt: SweDeltat = SweDeltat()
+
         
         /* with iflag == -1, we use default tid_acc */
         if (iflag == -1) {
@@ -4422,7 +4427,7 @@ class SwissEph: NSObject {
          */
         /*if (use_espenak_meeus && tjd < 2317746.13090277789) */
         if (deltat_model == SEMOD_DELTAT_ESPENAK_MEEUS_2006 && tjd < 2317746.13090277789) {
-            ret.deltat = deltat_espenak_meeus_1620(tjd, tid_acc: tid_acc);
+            ret.deltat = delt.deltat_espenak_meeus_1620(tjd, tid_acc: tid_acc);
             ret.iflag = iflag
             return ret
         }
@@ -4433,7 +4438,7 @@ class SwissEph: NSObject {
          */
         if (Y < (Double)(TABSTART)) {
             if (Y < (Double)(TAB2_END)) {
-                ret.deltat = deltat_stephenson_morrison_1600(tjd, tid_acc: tid_acc);
+                ret.deltat = delt.deltat_stephenson_morrison_1600(tjd, tid_acc: tid_acc);
                 return ret
             } else {
                 /* between 1600 and 1620:
@@ -4445,7 +4450,8 @@ class SwissEph: NSObject {
                     dd = (Y - (Double)(TAB2_END)) / B;
                     /*ans = dt2[iy] + dd * (dt[0] / 100.0 - dt2[iy]);*/
                     ans = (Double)(dt2[iy]) + dd * (dt[0] - (Double)(dt2[iy]))
-                    ans = adjust_for_tidacc(ans, Y: Ygreg, tid_acc: tid_acc);
+                    let delt: SweDeltat = SweDeltat()
+                    ans = delt.adjust_for_tidacc(ans, Y: Ygreg, tid_acc: tid_acc);
                     ret.deltat = ans / 86400.0;
                     return ret
                 }
@@ -4566,130 +4572,6 @@ class SwissEph: NSObject {
     {
         // コンストラクタですべて初期化される
         return 0
-    }
-    
-    func deltat_espenak_meeus_1620(_ tjd: Double, tid_acc: Double) -> Double {
-        var ans: Double = 0
-        var Ygreg: Double
-        var u: Double
-        
-        /* double Y = 2000.0 + (tjd - J2000)/365.25;*/
-        Ygreg = 2000.0 + (tjd - J2000)/365.2425;
-        if (Ygreg < -500) {
-            ans = deltat_longterm_morrison_stephenson(tjd)
-        } else if (Ygreg < 500) {
-            u = Ygreg / 100.0;
-            ans = (((((0.0090316521 * u + 0.022174192) * u - 0.1798452) * u - 5.952053) * u + 33.78311) * u - 1014.41) * u + 10583.6;
-        } else if (Ygreg < 1600) {
-            u = (Ygreg - 1000) / 100.0;
-            ans = (((((0.0083572073 * u - 0.005050998) * u - 0.8503463) * u + 0.319781) * u + 71.23472) * u - 556.01) * u + 1574.2;
-        } else if (Ygreg < 1700) {
-            u = Ygreg - 1600;
-            ans = 120 - 0.9808 * u - 0.01532 * u * u + u * u * u / 7129.0;
-        } else if (Ygreg < 1800) {
-            u = Ygreg - 1700;
-            ans = (((-u / 1174000.0 + 0.00013336) * u - 0.0059285) * u + 0.1603) * u + 8.83;
-        } else if (Ygreg < 1860) {
-            u = Ygreg - 1800;
-            ans = ((((((0.000000000875 * u - 0.0000001699) * u + 0.0000121272) * u - 0.00037436) * u + 0.0041116) * u + 0.0068612) * u - 0.332447) * u + 13.72;
-        } else if (Ygreg < 1900) {
-            u = Ygreg - 1860;
-            ans = ((((u / 233174.0 - 0.0004473624) * u + 0.01680668) * u - 0.251754) * u + 0.5737) * u + 7.62;
-        } else if (Ygreg < 1920) {
-            u = Ygreg - 1900;
-            ans = (((-0.000197 * u + 0.0061966) * u - 0.0598939) * u + 1.494119) * u - 2.79
-        } else if (Ygreg < 1941) {
-            u = Ygreg - 1920;
-            ans = 21.20 + 0.84493 * u - 0.076100 * u * u + 0.0020936 * u * u * u;
-        } else if (Ygreg < 1961) {
-            u = Ygreg - 1950;
-            ans = 29.07 + 0.407 * u - u * u / 233.0 + u * u * u / 2547.0;
-        } else if (Ygreg < 1986) {
-            u = Ygreg - 1975;
-            ans = 45.45 + 1.067 * u - u * u / 260.0 - u * u * u / 718.0;
-        } else if (Ygreg < 2005) {
-            u = Ygreg - 2000;
-            ans = ((((0.00002373599 * u + 0.000651814) * u + 0.0017275) * u - 0.060374) * u + 0.3345) * u + 63.86;
-        }
-        ans = adjust_for_tidacc(ans, Y: Ygreg, tid_acc: tid_acc);
-        ans /= 86400.0;
-        return ans;
-    }
-    
-    /* Astronomical Almanac table is corrected by adding the expression
-     *     -0.000091 (ndot + 26)(year-1955)^2  seconds
-     * to entries prior to 1955 (AA page K8), where ndot is the secular
-     * tidal term in the mean motion of the Moon.
-     *
-     * Entries after 1955 are referred to atomic time standards and
-     * are not affected by errors in Lunar or planetary theory.
-     */
-    func adjust_for_tidacc(_ ans: Double, Y: Double, tid_acc: Double) -> Double
-    {
-        var B: Double
-        var ans_ret : Double = ans
-        if( Y < 1955.0 ) {
-            B = (Y - 1955.0)
-            ans_ret = ans - 0.000091 * (tid_acc + 26.0) * B * B
-        }
-        return ans_ret
-    }
-    
-    func deltat_longterm_morrison_stephenson(_ tjd: Double) -> Double
-    {
-        let Ygreg: Double =  2000.0 + (tjd - J2000)/365.2425
-        let u: Double = (Ygreg  - 1820) / 100.0
-        return (-20 + 32 * u * u)
-    }
-    
-    func deltat_stephenson_morrison_1600(_ tjd: Double, tid_acc: Double) -> Double {
-        var ans: Double = 0
-        var ans2: Double = 0
-        var ans3: Double = 0
-        var dd: Double = 0
-        var B: Double = 0
-        var p: Double = 0
-        var tjd0: Double = 0
-        var iy: Int = 0
-        let Y: Double = 2000.0 + (tjd - J2000)/365.2425
-        /* double Y = 2000.0 + (tjd - J2000)/365.25;*/
-        /* before -1000:
-         * formula by Stephenson&Morrison (2004; p. 335) but adjusted to fit the
-         * starting point of table dt2. */
-        if( Y < (Double)(TAB2_START) ) {
-            /*B = (Y - LTERM_EQUATION_YSTART) * 0.01;
-             ans = -20 + LTERM_EQUATION_COEFF * B * B;*/
-            ans = deltat_longterm_morrison_stephenson(tjd)
-            ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc);
-            /* transition from formula to table over 100 years */
-            if (Y >= (Double)(TAB2_START - 100)) {
-                /* starting value of table dt2: */
-                ans2 = adjust_for_tidacc((Double)(dt2[0]), Y: (Double)(TAB2_START), tid_acc: tid_acc)
-                /* value of formula at epoch TAB2_START */
-                /* B = (TAB2_START - LTERM_EQUATION_YSTART) * 0.01;
-                 ans3 = -20 + LTERM_EQUATION_COEFF * B * B;*/
-                tjd0 = (Double)((Double)(TAB2_START - 2000) * 365.2425 + J2000)
-                ans3 = deltat_longterm_morrison_stephenson(tjd0)
-                ans3 = adjust_for_tidacc(ans3, Y: Y, tid_acc: tid_acc)
-                dd = ans3 - ans2
-                B = (Y - (Double)(TAB2_START - 100)) * 0.01;
-                /* fit to starting point of table dt2. */
-                ans = ans - dd * B
-            }
-        }
-        /* between -1000 and 1600:
-         * linear interpolation between values of table dt2 (Stephenson&Morrison 2004) */
-        if (Y >= (Double)(TAB2_START) && Y < (Double)(TAB2_END)) {
-            let Yjul: Double = 2000 + (tjd - 2451557.5) / 365.25
-            p = floor(Yjul)
-            iy = (Int)(((Int)(p) - TAB2_START) / TAB2_STEP)
-            dd = (Yjul - (Double)(TAB2_START + TAB2_STEP * iy)) / (Double)(TAB2_STEP)
-            ans = (Double)(dt2[iy]) + (Double)(dt2[iy+1] - dt2[iy]) * dd
-            /* correction for tidal acceleration used by our ephemeris */
-            ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
-        }
-        ans /= 86400.0;
-        return ans;
     }
     
     /* SWISSEPH
@@ -4819,6 +4701,8 @@ class SwissEph: NSObject {
         /*Y = 2000.0 + (tjd - J2000)/365.25;*/
 //        let Z: Double = tjd - J2000
         let Y: Double = 2000.0 + (tjd - J2000)/365.2425
+        let delt: SweDeltat = SweDeltat()
+
         if (Y <= (Double)(tabend)) {
             /* Index into the table.
              */
@@ -4829,7 +4713,7 @@ class SwissEph: NSObject {
             k = iy + 1
             if( k >= tabsize ) {
                 /* No data, can't go on. */
-                ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
+                ans = delt.adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
                 return ans / 86400.0
             }
             /* The fraction of tabulation interval */
@@ -4838,7 +4722,7 @@ class SwissEph: NSObject {
             ans += p*(dt[k] - dt[iy]);
             if( (iy-1 < 0) || (iy+2 >= tabsize) ) {
                 /* can't do second differences */
-                ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
+                ans = delt.adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
                 return ans / 86400.0
             }
             /* Make table of first differences */
@@ -4859,7 +4743,7 @@ class SwissEph: NSObject {
             B = 0.25*p*(p-1.0)
             ans += B*(d[1] + d[2])
             if( iy+2 >= tabsize ) {
-                ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
+                ans = delt.adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
                 return ans / 86400.0
             }
             /* Compute third differences */
@@ -4869,7 +4753,7 @@ class SwissEph: NSObject {
             B = 2.0*B/3.0
             ans += (p-0.5)*B*d[1]
             if( (iy-2 < 0) || (iy+3 > tabsize) ) {
-                ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
+                ans = delt.adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
                 return ans / 86400.0
             }
             /* Compute fourth differences */
@@ -4878,7 +4762,7 @@ class SwissEph: NSObject {
             }
             B = 0.125*B*(p+1.0)*(p-2.0)
             ans += B*(d[0] + d[1])
-            ans = adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
+            ans = delt.adjust_for_tidacc(ans, Y: Y, tid_acc: tid_acc)
             return ans / 86400.0
         }
         
@@ -5237,13 +5121,12 @@ class SwissEph: NSObject {
         if ((iflag & SEFLG_NONUT) == 0) {
             retc = swi_nutate(xx, iflag: iflag, backward: false)
             for i in 0..<6 {
-                // todo truenode時に
-//                xxx[i] = retc.tmpDbl6[i]
+                xxx[i] = retc.tmpDbl6[i]
             }
         }
         /* now we have equatorial cartesian coordinates; save them */
         for i in 0..<6 {
-            swed.pldat[pdp_idx].xreturn[18+i] = xx[i]
+            swed.pldat[pdp_idx].xreturn[18+i] = xxx[i]
         }
         /************************************************
          * transformation to ecliptic.                  *
@@ -5270,6 +5153,7 @@ class SwissEph: NSObject {
                 retc = swi_coortrf2(xxx, sineps: swed.nut.snut, coseps: swed.nut.cnut)
                 for i in 0..<3 {
                     tmpCoortrf2[i] = xxx[i + 3]
+                    xxx[i] = retc.tmpDbl6[i]
                 }
                 if ((iflag & SEFLG_SPEED) > 0) {
                     retc = swi_coortrf2(tmpCoortrf2, sineps: swed.nut.snut, coseps: swed.nut.cnut)
@@ -5422,6 +5306,7 @@ class SwissEph: NSObject {
         var retc: SweRet = SweRet()
         var xx1: [Double] = [0, 0, 0]
         var xx2: [Double] = [0, 0, 0]
+        var xx3: [Double] = [0, 0, 0, 0, 0, 0]
         var fac: Double = 0
         for i in 0..<3 {
             xx1[i] = xx[i]
@@ -5446,45 +5331,65 @@ class SwissEph: NSObject {
          * involve an error > 1"/day */
         var rett: SweRet = SweRet()
         rett = swi_precess(xx2, J: t, iflag: iflag, direction: direction)
+        for i in 0..<3 {
+            xx2[i] = rett.tmpDbl6[i]
+        }
         /* then add 0.137"/day */
         if (direction == J2000_TO_J) {
             rett = swi_coortrf2(xx1, sineps: swed.oec.seps, coseps: swed.oec.ceps)
             if (rett.serr != "") {
                 NSLog(rett.serr)
             }
+            for i in 0..<3 {
+                xx1[i] = rett.tmpDbl6[i]
+            }
             rett = swi_coortrf2(xx2, sineps: swed.oec.seps, coseps: swed.oec.ceps)
             if (rett.serr != "") {
                 NSLog(rett.serr)
+            }
+            for i in 0..<3 {
+                xx2[i] = rett.tmpDbl6[i]
             }
         } else {
             rett = swi_coortrf2(xx1, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
             if (rett.serr != "") {
                 NSLog(rett.serr)
             }
+            for i in 0..<3 {
+                xx1[i] = rett.tmpDbl6[i]
+            }
             rett = swi_coortrf2(xx2, sineps: swed.oec2000.seps, coseps: swed.oec2000.ceps)
             if (rett.serr != "") {
                 NSLog(rett.serr)
             }
+            for i in 0..<3 {
+                xx2[i] = rett.tmpDbl6[i]
+            }
         }
 
-        retc = swi_cartpol_sp(xx)
         for i in 0..<3 {
-            ret.tmpDbl6[i] = retc.tmpDbl6[i]
+            xx3[i] = xx1[i]
+            xx3[i+3] = xx2[i]
+        }
+        
+        retc = swi_cartpol_sp(xx3)
+        for i in 0..<6 {
+            xx3[i] = retc.tmpDbl6[i]
         }
         if (prec_model == SEMOD_PREC_VONDRAK_2011) {
 //            swi_ldp_peps(t, &dpre, NULL);
 //            swi_ldp_peps(t + 1, &dpre2, NULL);
 //            xx[3] += (dpre2 - dpre) * fac;
         } else {
-            xx1[3] = xx[3] + (50.290966 + 0.0222226 * tprec) / 3600 / 365.25 * DEG_TO_RAD * fac
+            xx3[3] = xx3[3] + (50.290966 + 0.0222226 * tprec) / 3600 / 365.25 * DEG_TO_RAD * fac
             /* formula from Montenbruck, German 1994, p. 18 */
         }
-        retc = swi_polcart_sp(xx)
+        retc = swi_polcart_sp(xx3)
         for i in 0..<3 {
             xx1[i] = retc.tmpDbl6[i]
         }
         for i in 0..<3 {
-            xx2[i] = retc.tmpDbl6[i + 3]
+            xx2[i] = retc.tmpDbl6[i+3]
         }
         if (direction == J2000_TO_J) {
             retc = swi_coortrf2(xx1, sineps: -1 * swed.oec.seps, coseps: swed.oec.ceps)
@@ -5631,6 +5536,7 @@ class SwissEph: NSObject {
     func swi_polcart_sp(_ l: [Double]) -> SweRet
     {
         let ret: SweRet = SweRet()
+        var retc: SweRet = SweRet()
         var sinlon: Double = 0
         var coslon: Double = 0
         var sinlat: Double = 0
@@ -5645,7 +5551,10 @@ class SwissEph: NSObject {
             ret.tmpDbl6[3] = 0
             ret.tmpDbl6[4] = 0
             ret.tmpDbl6[5] = 0
-            swi_polcart(l)
+            retc = swi_polcart(l)
+            ret.tmpDbl6[0] = retc.tmpDbl6[0]
+            ret.tmpDbl6[1] = retc.tmpDbl6[1]
+            ret.tmpDbl6[2] = retc.tmpDbl6[2]
             return ret
         }
         /* position */
@@ -6159,7 +6068,7 @@ class SwissEph: NSObject {
 //        }
     }
     
-    func swi_nutation(_ J: Double, iflag: Int) -> SweRet {
+    func swi_nutation(_ J: Double, iflag: Int, nutlo: [Double]) -> SweRet {
         var ret: SweRet = SweRet()
         var nut_model: Int = swed.astro_models[SE_MODEL_NUT];
         var jplhor_model: Int = swed.astro_models[SE_MODEL_JPLHOR_MODE];
@@ -6347,7 +6256,7 @@ class SwissEph: NSObject {
         let eps: Double = swi_epsiln(tjde, iflag: 0) * RAD_TO_DEG;
         var armc: Double = 0
         var nutlo: [Double] = [0, 0]
-        retc = swi_nutation(tjde, iflag: 0)
+        retc = swi_nutation(tjde, iflag: 0, nutlo: nutlo)
         
         for i in 0..<2 {
             retc.tmpDbl6[i] *= RAD_TO_DEG;
@@ -6435,7 +6344,7 @@ class SwissEph: NSObject {
         if (sidt_model == 0) {
             sidt_model = SEMOD_SIDT_DEFAULT;
         }
-        hcalc.swi_init_swed_if_start();
+        hcalc.swi_init_swed_if_start()
         if (sidt_model == SEMOD_SIDT_LONGTERM) {
             if (tjd <= SIDT_LTERM_T0 || tjd >= SIDT_LTERM_T1) {
 //                gmst = sidtime_long_term(tjd, eps, nut);
@@ -6506,5 +6415,82 @@ class SwissEph: NSObject {
         return gmst
     }
 
+    func swi_check_nutation(_ tjd: Double, iflag: Int) {
+        var retc: SweRet = SweRet()
+        var nutflag: Int = 0
+        var speedf1: Int = (nutflag & SEFLG_SPEED)
+        var speedf2: Int = (iflag & SEFLG_SPEED)
+        var t: Double
+        var data: SweData
+        if ((iflag & SEFLG_NONUT) == 0
+            && (tjd != swed.nut.tnut || tjd == 0
+                || (speedf1 == SEFLG_SPEED && speedf2 == SEFLG_SPEED))) {
+            retc = swi_nutation(tjd, iflag: iflag, nutlo: swed.nut.nutlo);
+            swed.nutv.nutlo[0] = retc.tmpDbl6[0]
+            swed.nutv.nutlo[1] = retc.tmpDbl6[1]
 
+            swed.nut.tnut = tjd;
+            swed.nut.snut = sin(swed.nut.nutlo[1]);
+            swed.nut.cnut = cos(swed.nut.nutlo[1]);
+            nutflag = iflag;
+            data = nut_matrix(swed.nut, oe: swed.oec);
+            swed.nut.matrix = data.nut.matrix
+
+            if ((iflag & SEFLG_SPEED) > 0) {
+                /* once more for 'speed' of nutation, which is needed for
+                 * planetary speeds */
+                t = tjd - NUT_SPEED_INTV;
+                retc = swi_nutation(t, iflag: iflag, nutlo: swed.nutv.nutlo);
+                swed.nutv.nutlo[0] = retc.tmpDbl6[0]
+                swed.nutv.nutlo[1] = retc.tmpDbl6[1]
+
+                swed.nutv.tnut = t;
+                swed.nutv.snut = sin(swed.nutv.nutlo[1]);
+                swed.nutv.cnut = cos(swed.nutv.nutlo[1]);
+                data = nut_matrix(swed.nutv, oe: swed.oec);
+                swed.nutv.matrix = data.nutv.matrix
+            }
+        }
+    }
+    
+    func nut_matrix(_ nut: SweNut, oe: SweEpsilon) -> SweData {
+        let retc: SweData = SweData()
+        var psi: Double
+        var eps: Double
+        var sinpsi: Double
+        var cospsi: Double
+        var sineps: Double
+        var coseps: Double
+        var sineps0: Double
+        var coseps0: Double
+        psi = nut.nutlo[0];
+        eps = oe.eps + nut.nutlo[1];
+        sinpsi = sin(psi);
+        cospsi = cos(psi);
+        sineps0 = oe.seps;
+        coseps0 = oe.ceps;
+        sineps = sin(eps);
+        coseps = cos(eps);
+        retc.nut.matrix[0][0] = cospsi;
+        retc.nut.matrix[0][1] = sinpsi * coseps;
+        retc.nut.matrix[0][2] = sinpsi * sineps;
+        retc.nut.matrix[1][0] = -sinpsi * coseps0;
+        retc.nut.matrix[1][1] = cospsi * coseps * coseps0 + sineps * sineps0;
+        retc.nut.matrix[1][2] = cospsi * sineps * coseps0 - coseps * sineps0;
+        retc.nut.matrix[2][0] = -sinpsi * sineps0;
+        retc.nut.matrix[2][1] = cospsi * coseps * sineps0 - sineps * coseps0;
+        retc.nut.matrix[2][2] = cospsi * sineps * sineps0 + coseps * coseps0;
+
+        retc.nutv.matrix[0][0] = cospsi;
+        retc.nutv.matrix[0][1] = sinpsi * coseps;
+        retc.nutv.matrix[0][2] = sinpsi * sineps;
+        retc.nutv.matrix[1][0] = -sinpsi * coseps0;
+        retc.nutv.matrix[1][1] = cospsi * coseps * coseps0 + sineps * sineps0;
+        retc.nutv.matrix[1][2] = cospsi * sineps * coseps0 - coseps * sineps0;
+        retc.nutv.matrix[2][0] = -sinpsi * sineps0;
+        retc.nutv.matrix[2][1] = cospsi * coseps * sineps0 - sineps * coseps0;
+        retc.nutv.matrix[2][2] = cospsi * sineps * sineps0 + coseps * coseps0;
+
+        return retc
+    }
 }

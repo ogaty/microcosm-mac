@@ -1082,9 +1082,8 @@ class SwissHCalc: NSObject {
     
     /* Function initialises swed structure.
      * Returns 1 if initialisation is done, otherwise 0 */
-    func swi_init_swed_if_start() -> Int
+    func swi_init_swed_if_start() -> Void
     {
-        return 0;
     }
     
     func sunshine_solution_makransky(_ ramc: Double, lat: Double, ecl: Double) -> SweRet {
@@ -1102,6 +1101,24 @@ class SwissHCalc: NSObject {
     func swe_cotrans(_ xpo: [Double], xpn: [Double], eps: Double) -> SweRet
     {
         let ret: SweRet = SweRet()
+        var i: Int
+        var x: [Double] = [0, 0, 0, 0, 0, 0]
+        var e: Double = eps * DEG_TO_RAD
+        for i in 0..<2 {
+            x[i] = xpo[i]
+        }
+        x[0] *= DEG_TO_RAD;
+        x[1] *= DEG_TO_RAD;
+        x[2] = 1;
+        for i in 3..<6 {
+            x[i] = 0
+        }
+//        swi_polcart(x, x);
+//        swi_coortrf(x, x, e);
+//        swi_cartpol(x, x);
+        ret.tmpDbl6[0] = x[0] * RAD_TO_DEG;
+        ret.tmpDbl6[1] = x[1] * RAD_TO_DEG;
+        ret.tmpDbl6[2] = xpo[2];
         return ret
     }
     
