@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, NSWindowDelegate {
     let swed: SweData = SweData()
     @IBOutlet weak var chart: MainChart!
     
@@ -60,6 +60,23 @@ class ViewController: NSViewController {
     class func loadFromNib() -> ViewController {
         let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
         return storyboard.instantiateController(withIdentifier: "mainview") as! ViewController
+    }
+    
+    override func viewDidAppear() {
+        self.view.window?.delegate = self
+    }
+    
+    func windowShouldClose(_ sender: Any) {
+        let alert: NSAlert = NSAlert()
+        alert.messageText = "確認"
+        alert.informativeText = "終了してよろしいですか？"
+        alert.alertStyle = NSAlertStyle.warning
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Cancel")
+        let res = alert.runModal()
+        if res == NSAlertFirstButtonReturn {
+            NSApplication.shared().terminate(self)
+        }
     }
     
     override func viewDidLoad() {

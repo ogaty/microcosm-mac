@@ -19,6 +19,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
+    func applicationShouldHandleReopen(sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if let firstWindow = sender.windows.first {
+            firstWindow.makeKeyAndOrderFront(sender)
+        }
+        return true
+    }
+    
+    func applicationShouldTerminate(sender: NSApplication) -> NSApplicationTerminateReply {
+        return  .terminateNow
+    }
+    
+
     @IBAction func openUser(_ sender: AnyObject) {
         var udata: UserData = UserData()
 

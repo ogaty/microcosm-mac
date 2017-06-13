@@ -45,6 +45,12 @@ class EditUserViewController: NSViewController {
         inputDate.dateValue = date!
     }
     
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        self.view.window?.styleMask.remove(.resizable)
+    }
+    
+
     @IBAction func submitClicked(_ sender: AnyObject) {
         do {
             try FileManager.default.removeItem(atPath: (udata?.fullPath)!)

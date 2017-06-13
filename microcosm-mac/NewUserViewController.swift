@@ -26,6 +26,13 @@ class NewUserViewController: NSViewController {
         // Do view setup here.
     }
     
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        self.view.window?.styleMask.remove(.resizable)
+    }
+    
+
+    
     @IBAction func SubmitClicked(_ sender: AnyObject) {
         let documents = NSSearchPathForDirectoriesInDomains(
             .documentDirectory,

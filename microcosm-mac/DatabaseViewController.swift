@@ -16,6 +16,11 @@ class DatabaseViewController: NSViewController, NSOutlineViewDataSource, NSOutli
     var dir: UserDbDirs = UserDbDirs(name: "data", icon: nil, isDir: true, filePath: "")
     var main: ViewController? = nil
     
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        self.view.window?.styleMask.remove(.resizable)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.

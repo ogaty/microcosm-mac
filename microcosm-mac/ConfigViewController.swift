@@ -15,4 +15,11 @@ class ConfigViewController: NSViewController {
         // Do view setup here.
     }
     
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        self.view.window?.styleMask.remove(.resizable)
+    }
+    
+
+    
 }
